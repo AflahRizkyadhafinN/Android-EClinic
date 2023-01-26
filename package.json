@@ -10,9 +10,19 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-navigation/drawer": "^6.5.7",
+    "@react-navigation/native": "^6.1.2",
+    "@react-navigation/native-stack": "^6.9.8",
+    "next": "^13.1.5",
     "react": "18.2.0",
+    "react-animated-progress-bar": "^1.1.2",
     "react-native": "0.71.1",
-    "react-native-bouncy-checkbox": "^3.0.6"
+    "react-native-animated-progress": "^1.0.2",
+    "react-native-bouncy-checkbox": "^3.0.6",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-router-flux": "^4.3.1",
+    "react-native-safe-area-context": "^4.5.0",
+    "react-native-screens": "^3.19.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
