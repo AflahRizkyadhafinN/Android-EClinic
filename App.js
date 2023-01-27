@@ -12,7 +12,7 @@ import {Tes} from './components/pages/Tes';
 export const App = () => {
   const Stack = createNativeStackNavigator();
   return (
-    <Tes></Tes>
+    <Dashboard />
     // <NavigationContainer>
     //   <Stack.Navigator
     //     initialRouteName="Dashboard"

@@ -3,7 +3,6 @@ import {
   TextInput,
   View,
   Text,
-  useWindowDimensions,
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
@@ -11,10 +10,8 @@ import {Icon} from '../Icon';
 import {stylesGeneral, stylesRPassword} from '../Style';
 
 export const SetPassword = ({navigation}) => {
-  const windows = useWindowDimensions();
-
   return (
-    <View style={[stylesGeneral.container, {marginTop: windows.height / 4.5}]}>
+    <View style={stylesGeneral.container}>
       <Icon />
       <TouchableWithoutFeedback onPress={() => navigation.navigate('Login')}>
         <Text style={stylesRPassword.backToLogin}>Back to login</Text>

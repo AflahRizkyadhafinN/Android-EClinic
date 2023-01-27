@@ -2,7 +2,9 @@ import {StyleSheet} from 'react-native';
 
 export const stylesGeneral = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
+    justifyContent: 'center',
+    height: '100%',
+    padding: 20,
   },
 
   buttonContainer: {
@@ -40,6 +42,7 @@ export const stylesGeneral = StyleSheet.create({
   iconContainer: {
     flexDirection: 'row',
     marginBottom: 20,
+    marginLeft: 10,
   },
 
   iconImage: {
@@ -68,13 +71,13 @@ export const stylesLogin = StyleSheet.create({
   inputNik: {
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-    width: '90%',
+    width: '100%',
   },
 
   inputPassword: {
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
-    width: '90%',
+    width: '100%',
   },
 
   loginButton: {
@@ -89,8 +92,8 @@ export const stylesLogin = StyleSheet.create({
   rememberFPasswordContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingVertical: 20,
+    justifyContent: 'space-between',
+    paddingVertical: 15,
   },
 
   flexButtonContainer: {
