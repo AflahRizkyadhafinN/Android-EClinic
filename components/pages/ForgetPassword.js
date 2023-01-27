@@ -3,7 +3,6 @@ import {
   TextInput,
   View,
   Text,
-  Image,
   useWindowDimensions,
   TouchableWithoutFeedback,
   TouchableOpacity,

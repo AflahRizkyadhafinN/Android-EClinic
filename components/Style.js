@@ -276,6 +276,8 @@ export const stylesDashboard = StyleSheet.create({
     borderRadius: 6,
     padding: 10,
     flexDirection: 'row',
+    marginRight: 12,
+    width: '50%',
   },
 
   cardImageContainer: {
@@ -284,6 +286,7 @@ export const stylesDashboard = StyleSheet.create({
     paddingVertical: 48,
     paddingHorizontal: 24,
     backgroundColor: 'black',
+    alignContent: 'space-between',
   },
 
   cardDescriptionContainer: {
@@ -303,12 +306,14 @@ export const stylesDashboard = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: 'black',
+    width: '70%',
   },
 
   buttonPendaftaran: {
     backgroundColor: 'black',
     padding: 10,
     marginTop: 15,
+    borderRadius: 7,
   },
 
   buttonTitlePendaftaran: {
@@ -322,6 +327,8 @@ export const stylesDashboard = StyleSheet.create({
     marginTop: 10,
     borderWidth: 1,
     padding: 10,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
   },
 
   statistikContainer2: {
@@ -364,7 +371,6 @@ export const stylesDashboard = StyleSheet.create({
   },
 
   statistikWeek: {
-    marginLeft: -1,
     borderTopRightRadius: 6,
     borderBottomRightRadius: 6,
   },
@@ -378,6 +384,12 @@ export const stylesDashboard = StyleSheet.create({
     color: 'black',
     fontSize: 15,
     fontWeight: '700',
+  },
+
+  statistikArrowContainer: {
+    marginTop: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 
