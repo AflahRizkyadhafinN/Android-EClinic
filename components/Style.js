@@ -71,13 +71,13 @@ export const stylesLogin = StyleSheet.create({
   inputNik: {
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-    width: '100%',
+    width: '90%',
   },
 
   inputPassword: {
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
-    width: '100%',
+    width: '90%',
   },
 
   loginButton: {
@@ -92,8 +92,8 @@ export const stylesLogin = StyleSheet.create({
   rememberFPasswordContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 15,
+    justifyContent: 'space-around',
+    paddingVertical: 20,
   },
 
   flexButtonContainer: {
@@ -280,7 +280,7 @@ export const stylesDashboard = StyleSheet.create({
     padding: 10,
     flexDirection: 'row',
     marginRight: 12,
-    width: '50%',
+    width: '100%',
   },
 
   cardImageContainer: {
@@ -309,7 +309,6 @@ export const stylesDashboard = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: 'black',
-    width: '70%',
   },
 
   buttonPendaftaran: {

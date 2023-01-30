@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
-export const MainNavbar = () => {
+export const MainNavbar = screenName => {
   return (
     <View style={stylesDashboard.header}>
       <View style={stylesDashboard.menuContainer}>
@@ -23,14 +24,14 @@ export const MainNavbar = () => {
       <View style={stylesDashboard.menuContainer}>
         <TouchableOpacity
           style={stylesDashboard.menuLoginButton}
-          onPress={() => navigation.navigate('Login')}>
+          onPress={() => navigation.navigate(screenName)}>
           <Text style={stylesDashboard.menuLoginButtonTitle}>Login</Text>
         </TouchableOpacity>
-        {/* <Text style={stylesDashboard.accountName}>Faisal Muslim</Text>
+        <Text style={stylesDashboard.accountName}>Faisal Muslim</Text>
         <Image
           style={stylesDashboard.accountImage}
           source={require('./image/PhotoProfile.png')}
-        /> */}
+        />
       </View>
     </View>
   );
