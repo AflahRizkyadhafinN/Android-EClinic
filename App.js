@@ -8,6 +8,7 @@ import {Register} from './components/pages/Register';
 import {ResetPassword} from './components/pages/ResetPassword';
 import {SetPassword} from './components/pages/SetPassword';
 import {MainNavbar} from './components/MainNavbar';
+import {Profile} from './components/pages/Profile';
 import {Tes} from './components/pages/Tes';
 
 export const App = () => {
@@ -15,7 +16,7 @@ export const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Dashboard"
+        initialRouteName="Profile"
         screenOptions={{headerShown: false, animation: 'none'}}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
@@ -24,6 +25,7 @@ export const App = () => {
         <Stack.Screen name="SetPassword" component={SetPassword} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="MainNavbar" component={MainNavbar} />
+        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

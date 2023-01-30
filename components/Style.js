@@ -455,3 +455,19 @@ export const stylesDNavbar = StyleSheet.create({
     marginTop: -5,
   },
 });
+
+export const stylesProfile = StyleSheet.create({
+  profileTitle: {
+    marginTop: 20,
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+  },
+  textInput: {
+    marginTop: 5,
+    borderWidth: 2,
+    borderRadius: 6,
+    fontSize: 20,
+    fontWeight: '700',
+  },
+});
