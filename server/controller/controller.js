@@ -44,3 +44,23 @@ exports.signup = (req, res, next) => {
         console.log('error' ,err)
     })
 }
+
+exports.login = (req, res, next) => {
+    data.findOne({where: {nik: req.body.nik}})
+    .then(nik => {
+        if(nik){
+            bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
+                if(passwordHash){
+                    res.status(200).json({alert: 'Login Berhasil'})
+                } else{
+                    res.status(404).json({alert: 'Password Salah'})
+                }
+            
+            })
+        }
+        else{
+            res.status(404).json({alert: 'Nik Tidak Terdaftar, Register Sekarang!'})
+        }
+        
+    })
+}

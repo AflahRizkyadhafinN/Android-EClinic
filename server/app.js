@@ -25,6 +25,7 @@ app.use((_, res, next) => {
 });
 app.get("/users", data.findAll)
 app.post("/signup", data.signup)
+app.post("/login", data.login)
 
 sequelize.sync(); 
 

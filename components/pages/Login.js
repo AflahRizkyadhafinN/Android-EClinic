@@ -1,4 +1,4 @@
-import react from 'react';
+import react, { useState } from 'react';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {
   Text,
@@ -9,18 +9,21 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {stylesLogin, stylesGeneral} from '../Style';
+import {stylesGeneral, stylesLogin} from '../Style';
 import {Icon} from '../Icon';
+import { login } from '../../App';
+
 
 export const Login = ({navigation}) => {
-  const {nik, setNik} = react.useState('');
-  const {pass, setPass} = react.useState('');
+  const [nik, setNik] = useState('');
+  const [pass, setPass] = useState('');
+  const [remember, setRemember] = useState(false);
   const windows = useWindowDimensions();
 
   return (
-    <ScrollView style="">
+
       <View
-        style={[stylesGeneral.container, {marginTop: windows.height / 4.5}]}>
+        style={[stylesGeneral.container]}>
         <Icon />
         <Text style={stylesGeneral.title}>E-Clinic</Text>
         <Text style={stylesLogin.welcome}>Welcome to E-Clinic</Text>
@@ -30,7 +33,7 @@ export const Login = ({navigation}) => {
           multiline
           numberOfLines={1}
           maxLength={40}
-          setNik={text => setNik(text)}
+          onChangeText={(text) => setNik(text)}
           value={nik}
           placeholder={'Nik'}
         />
@@ -38,7 +41,7 @@ export const Login = ({navigation}) => {
           style={[stylesGeneral.input, stylesLogin.inputPassword]}
           editable
           numberOfLines={1}
-          setNik={text => setPass(text)}
+          onChangeText={(text) => setPass(text)}
           value={pass}
           placeholder={'Password'}
           returnKeyType="go"
@@ -54,6 +57,7 @@ export const Login = ({navigation}) => {
             innerIconStyle={{borderRadius: 6}}
             iconStyle={{borderRadius: 6}}
             fillColor="green"
+            onPress={() => setRemember()}
           />
           <TouchableWithoutFeedback
             onPress={() => navigation.navigate('ForgetPassword')}>
@@ -64,7 +68,7 @@ export const Login = ({navigation}) => {
         <View style={stylesLogin.flexButtonContainer}>
           <TouchableOpacity
             style={[stylesGeneral.buttonContainer, stylesLogin.loginButton]}
-            onPress={() => navigation.navigate('Dashboard')}>
+            onPress={() => login(nik, pass, navigation)}>
             <Text style={[stylesLogin.buttonTitle, stylesLogin.loginTitle]}>
               Login
             </Text>
@@ -78,6 +82,6 @@ export const Login = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-    </ScrollView>
+
   );
 };
