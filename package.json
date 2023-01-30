@@ -1,5 +1,5 @@
 {
-  "name": "android",
+  "name": "TestProject",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,40 +10,43 @@
     "test": "jest"
   },
   "dependencies": {
-    "@react-navigation/drawer": "^6.5.7",
+    "@react-native-community/checkbox": "^0.5.14",
     "@react-navigation/native": "^6.1.2",
     "@react-navigation/native-stack": "^6.9.8",
-    "animateprogress": "^1.0.1",
-    "next": "^13.1.5",
-    "react": "18.2.0",
-    "react-animated-progress-bar": "^1.1.2",
-    "react-native": "0.71.1",
+    "@react-navigation/stack": "^6.3.11",
+    "@types/react-dom": "^18.0.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-native": "0.71.0",
     "react-native-animated-progress": "^1.0.2",
     "react-native-bouncy-checkbox": "^3.0.6",
-    "react-native-gesture-handler": "^1.10.3",
-    "react-native-router-flux": "^4.3.1",
+    "react-native-gesture-handler": "^2.9.0",
+    "react-native-material-design": "^0.3.7",
     "react-native-safe-area-context": "^4.5.0",
     "react-native-screens": "^3.19.0",
-    "react-native-snap-carousel": "^3.9.1",
-    "react-native-svg": "^13.7.0",
-    "react-native-vertical-progress": "^1.0.2"
+    "react-native-sqlite-storage": "^6.0.1",
+    "react-native-svg": "^13.7.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0",
-    "@babel/preset-env": "^7.20.0",
-    "@babel/runtime": "^7.20.0",
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.14.0",
+    "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^3.0.0",
     "@tsconfig/react-native": "^2.0.2",
     "@types/jest": "^29.2.1",
-    "@types/react": "^18.0.24",
+    "@types/react": "^18.0.26",
+    "@types/react-native-sqlite-storage": "^5.0.2",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",
     "eslint": "^8.19.0",
     "jest": "^29.2.1",
-    "metro-react-native-babel-preset": "0.73.7",
+    "metro-react-native-babel-preset": "0.73.5",
     "prettier": "^2.4.1",
     "react-test-renderer": "18.2.0",
-    "typescript": "4.8.4"
+    "typescript": "^4.3.4"
+  },
+  "overrides": {
+    "@types/react": "~17.0.47"
   },
   "jest": {
     "preset": "react-native"

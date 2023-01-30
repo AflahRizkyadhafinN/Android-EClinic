@@ -10,8 +10,6 @@ import {
   Dimensions,
 } from 'react-native';
 import {stylesDashboard, stylesGeneral} from '../Style';
-import {MainNavbar} from '../MainNavbar';
-import {Main} from 'next/document';
 
 export const Dashboard = ({navigation}) => {
   const {width} = Dimensions.get('window');
@@ -81,8 +79,31 @@ export const Dashboard = ({navigation}) => {
   return (
     <ScrollView
       style={stylesDashboard.mainContainer}
-      showsVerticalScrollIndicator={false}>
-      <MainNavbar />
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}>
+      <View style={stylesDashboard.header}>
+        <View style={stylesDashboard.menuContainer}>
+          <TouchableWithoutFeedback>
+            <Image
+              style={stylesDashboard.buttonBurger}
+              source={require('../image/BurgerBar.png')}
+            />
+          </TouchableWithoutFeedback>
+          <Text style={stylesDashboard.menu}>Menu</Text>
+        </View>
+        <View style={stylesDashboard.menuContainer}>
+          {/* <TouchableOpacity
+            style={stylesDashboard.menuLoginButton}
+            onPress={() => navigation.navigate('Login')}>
+            <Text style={stylesDashboard.menuLoginButtonTitle}>Login</Text>
+          </TouchableOpacity> */}
+          <Text style={stylesDashboard.accountName}>Faisal Muslim</Text>
+          <Image
+            style={stylesDashboard.accountImage}
+            source={require('../image/PhotoProfile.png')}
+          />
+        </View>
+      </View>
       <Text style={[stylesGeneral.title, stylesDashboard.title]}>
         Dashboard
       </Text>

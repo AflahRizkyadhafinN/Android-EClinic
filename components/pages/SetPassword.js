@@ -1,17 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   TextInput,
   View,
   Text,
+  useWindowDimensions,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {Icon} from '../Icon';
 import {stylesGeneral, stylesRPassword} from '../Style';
+import { useRoute } from '@react-navigation/native';
+import { insert } from '../../App';
 
 export const SetPassword = ({navigation}) => {
+  const route = useRoute()
+  const windows = useWindowDimensions();
+  const [sPassword, setPass] = useState('')
+  const [sConfirm, setConfirm] = useState('')
+
+  function CheckPass(sPassword, sConfirm){
+    
+    if(sPassword === sConfirm){
+      insert(route.params.email, sPassword, route.params.sNik, route.params.sNamaLengkap)
+    }
+    else{
+      Alert.alert('Cek password anda')
+    }
+  }
+  
   return (
-    <View style={stylesGeneral.container}>
+    <View style={[stylesGeneral.container]}>
       <Icon />
       <TouchableWithoutFeedback onPress={() => navigation.navigate('Login')}>
         <Text style={stylesRPassword.backToLogin}>Back to login</Text>
@@ -26,6 +45,8 @@ export const SetPassword = ({navigation}) => {
           stylesRPassword.input,
           stylesRPassword.inputPassword,
         ]}
+        value={sPassword}
+        onChangeText={(text) => setPass(text)}
         placeholder="New Password"
         secureTextEntry={true}
         autoCorrect={false}></TextInput>
@@ -35,14 +56,17 @@ export const SetPassword = ({navigation}) => {
           stylesRPassword.input,
           stylesRPassword.inputCPassword,
         ]}
+        value={sConfirm}
+        onChangeText={(text) => setConfirm(text)}
         placeholder="Confirm Password"
         secureTextEntry={true}
         autoCorrect={false}></TextInput>
       <TouchableOpacity
         style={[stylesGeneral.buttonContainer, stylesRPassword.button]}
-        onPress={() => navigation.navigate('Login')}>
+        onPress={() => CheckPass(sPassword, sConfirm)}>
         <Text style={stylesRPassword.buttonLogin}>Save password</Text>
       </TouchableOpacity>
     </View>
   );
 };
+

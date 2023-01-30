@@ -4,6 +4,7 @@ import {
   Text,
   View,
   TextInput,
+  ScrollView,
   useWindowDimensions,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -14,10 +15,12 @@ import {Icon} from '../Icon';
 export const Login = ({navigation}) => {
   const {nik, setNik} = react.useState('');
   const {pass, setPass} = react.useState('');
+  const windows = useWindowDimensions();
 
   return (
-    <View style={stylesGeneral.container}>
-      <View>
+    <ScrollView style="">
+      <View
+        style={[stylesGeneral.container, {marginTop: windows.height / 4.5}]}>
         <Icon />
         <Text style={stylesGeneral.title}>E-Clinic</Text>
         <Text style={stylesLogin.welcome}>Welcome to E-Clinic</Text>
@@ -75,6 +78,6 @@ export const Login = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };

@@ -2,15 +2,15 @@ import {StyleSheet} from 'react-native';
 
 export const stylesGeneral = StyleSheet.create({
   container: {
-    justifyContent: 'center',
-    height: '100%',
-    padding: 20,
+    marginHorizontal: 20,
+    flex:1,
+    justifyContent: 'center'
   },
 
   buttonContainer: {
     paddingVertical: 12,
     paddingHorizontal: 60,
-    marginHorizontal: 0,
+
     borderRadius: 6,
     backgroundColor: 'blue',
   },
@@ -42,7 +42,6 @@ export const stylesGeneral = StyleSheet.create({
   iconContainer: {
     flexDirection: 'row',
     marginBottom: 20,
-    marginLeft: 10,
   },
 
   iconImage: {
@@ -71,13 +70,13 @@ export const stylesLogin = StyleSheet.create({
   inputNik: {
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-    width: '100%',
+    width: '90%',
   },
 
   inputPassword: {
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
-    width: '100%',
+    width: '90%',
   },
 
   loginButton: {
@@ -92,8 +91,8 @@ export const stylesLogin = StyleSheet.create({
   rememberFPasswordContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 15,
+    justifyContent: 'space-around',
+    paddingVertical: 20,
   },
 
   flexButtonContainer: {
