@@ -10,8 +10,10 @@ import {
   Dimensions,
 } from 'react-native';
 import {stylesDashboard, stylesGeneral} from '../Style';
+import { useRoute } from '@react-navigation/core';
 
 export const Dashboard = ({navigation}) => {
+  const route = useRoute()
   const {width} = Dimensions.get('window');
   const jumlahPasien = 622;
   const penyakit = [
@@ -97,7 +99,7 @@ export const Dashboard = ({navigation}) => {
             onPress={() => navigation.navigate('Login')}>
             <Text style={stylesDashboard.menuLoginButtonTitle}>Login</Text>
           </TouchableOpacity> */}
-          <Text style={stylesDashboard.accountName}>Faisal Muslim</Text>
+          <Text style={stylesDashboard.accountName}>{route.params.status}</Text>
           <Image
             style={stylesDashboard.accountImage}
             source={require('../image/PhotoProfile.png')}

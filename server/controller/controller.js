@@ -1,5 +1,5 @@
 const data = require('../models/datas')
-
+const passport = require('passport')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -48,18 +48,38 @@ exports.signup = (req, res, next) => {
 exports.login = (req, res, next) => {
     data.findOne({where: {nik: req.body.nik}})
     .then(nik => {
-        if(nik){
-            bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
-                if(passwordHash){
-                    res.status(200).json({alert: 'Login Berhasil'})
-                } else{
-                    res.status(404).json({alert: 'Password Salah'})
-                }
-            
-            })
+
+        if(req.body.remember){
+            if(nik){
+                bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
+                    if(passwordHash){
+                        res.json({message: nik.namalengkap})
+                        res.status(200).json({alert: 'Login Berhasil'})
+                    } else{
+                        res.status(404).json({alert: 'Password Salah'})
+                    }
+                
+                })
+            }
+            else{
+                res.status(404).json({alert: 'Nik Tidak Terdaftar, Register Sekarang!'})
+            }
         }
         else{
-            res.status(404).json({alert: 'Nik Tidak Terdaftar, Register Sekarang!'})
+            if(nik){
+                bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
+                    if(passwordHash){
+
+                        res.status(200).json({alert: 'Login Berhasil', message: nik.namalengkap})
+                    } else{
+                        res.status(404).json({alert: 'Password Salah'})
+                    }
+                
+                })
+            }
+            else{
+                res.status(404).json({alert: 'Nik Tidak Terdaftar, Register Sekarang!'})
+            }
         }
         
     })

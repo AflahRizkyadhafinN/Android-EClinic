@@ -1,9 +1,10 @@
 const express = require("express");
 const sequelize = require('./models/connection')
-
+const passport = require('passport')
 const app = express();
 const data = require('./controller/controller.js');
 const bodyParser = require("body-parser");
+
 
 
 app.use(express.urlencoded({ extended: true }));
@@ -23,12 +24,19 @@ app.use((_, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 app.get("/users", data.findAll)
 app.post("/signup", data.signup)
 app.post("/login", data.login)
 
 sequelize.sync(); 
 
-app.listen(5000, () => {
-  console.log(`Server is running on port 5000.`);
+const PORT = 5000
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
 });

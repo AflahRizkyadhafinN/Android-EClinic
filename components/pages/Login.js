@@ -20,6 +20,7 @@ export const Login = ({navigation}) => {
   const [remember, setRemember] = useState(false);
   const windows = useWindowDimensions();
 
+
   return (
 
       <View
@@ -36,6 +37,7 @@ export const Login = ({navigation}) => {
           onChangeText={(text) => setNik(text)}
           value={nik}
           placeholder={'Nik'}
+          keyboardType={'numeric'}
         />
         <TextInput
           style={[stylesGeneral.input, stylesLogin.inputPassword]}
@@ -57,7 +59,7 @@ export const Login = ({navigation}) => {
             innerIconStyle={{borderRadius: 6}}
             iconStyle={{borderRadius: 6}}
             fillColor="green"
-            onPress={() => setRemember()}
+            onPress={() => setRemember(!remember)}
           />
           <TouchableWithoutFeedback
             onPress={() => navigation.navigate('ForgetPassword')}>
@@ -68,7 +70,7 @@ export const Login = ({navigation}) => {
         <View style={stylesLogin.flexButtonContainer}>
           <TouchableOpacity
             style={[stylesGeneral.buttonContainer, stylesLogin.loginButton]}
-            onPress={() => login(nik, pass, navigation)}>
+            onPress={() => login(nik, pass,remember, navigation)}>
             <Text style={[stylesLogin.buttonTitle, stylesLogin.loginTitle]}>
               Login
             </Text>

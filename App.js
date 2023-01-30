@@ -5,8 +5,7 @@ import React, { useState } from "react";
 import { Alert, Platform } from "react-native";
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import ShowData from "./showdata";
-import Test from "./android/test";
+
 import { Register } from "./components/pages/Register";
 import { SetPassword } from "./components/pages/SetPassword";
 import { Login } from "./components/pages/Login";
@@ -84,12 +83,12 @@ export function setpass(email, sNik, sNamaLengkap, navigation){
   }
 }
 
-export function login (nik, pass, navigation) {
+export function login (nik, pass, remember, navigation) {
     const payload = {
         nik,
-        pass
+        pass,
+        remember
     }
-
     fetch(`${API_URL}/login`, {
       method: 'POST',
       headers: {
@@ -103,7 +102,9 @@ export function login (nik, pass, navigation) {
         const jsonRes = await res.json()
         if(res.status === 200){
           Alert.alert(jsonRes.alert)
-          navigation.navigate('Dashboard')
+          const status = jsonRes.message
+          navigation.push('Dashboard', {status})
+          console.log(status)
         }else{
           Alert.alert(jsonRes.alert)
         }
@@ -116,25 +117,6 @@ export function login (nik, pass, navigation) {
 console.log(payload)
 
 }
-// export const deletedb = (navigation) =>{
-//     db.transaction(function(tx) {
-//         tx.executeSql(
-//             'DELETE FROM logindata',
-            
-//             [],
-//             (tx, results) => {
-//                 if(results.rowsAffected > 0)
-//                 {
-//                     tx.executeSql(
-//                         "UPDATE sqlite_sequence SET seq = 0 WHERE NAME='logindata'",
-//                         []
-//                     )
-//                     Alert.alert('Database Dihapus!')
-//                     navigation.push('Home')
-//                 }
-//             }
-//         )
-//     })
-// }
+
 
 export default App
