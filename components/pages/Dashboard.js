@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, useEffect } from 'react';
 import ProgressBar from 'react-native-animated-progress';
 import {
   Text,
@@ -8,11 +8,14 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Dimensions,
+  BackHandler,
+  Alert,
 } from 'react-native';
 import {stylesDashboard, stylesGeneral} from '../Style';
 import { useRoute } from '@react-navigation/core';
 
 export const Dashboard = ({navigation}) => {
+
   const route = useRoute()
   const {width} = Dimensions.get('window');
   const jumlahPasien = 622;
@@ -99,7 +102,7 @@ export const Dashboard = ({navigation}) => {
             onPress={() => navigation.navigate('Login')}>
             <Text style={stylesDashboard.menuLoginButtonTitle}>Login</Text>
           </TouchableOpacity> */}
-          <Text style={stylesDashboard.accountName}>{route.params.status}</Text>
+          <Text style={stylesDashboard.accountName}>{route.params.token.message}</Text>
           <Image
             style={stylesDashboard.accountImage}
             source={require('../image/PhotoProfile.png')}

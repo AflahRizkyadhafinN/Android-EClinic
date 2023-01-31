@@ -101,10 +101,8 @@ export function login (nik, pass, remember, navigation) {
       try {
         const jsonRes = await res.json()
         if(res.status === 200){
-          Alert.alert(jsonRes.alert)
-          const status = jsonRes.message
-          navigation.push('Dashboard', {status})
-          console.log(status)
+          authenticate(jsonRes, navigation)
+          console.log(jsonRes)
         }else{
           Alert.alert(jsonRes.alert)
         }
@@ -115,8 +113,32 @@ export function login (nik, pass, remember, navigation) {
 
     })
 console.log(payload)
-
 }
 
+function authenticate(token, navigation) {
+  fetch(`${API_URL}/auth`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': "application/json",
+      'Authorization': `Bearer ${token.token}` 
+    },
+  })
+  .then(async res => {
+    try {
+      const jsonRes = await res.json()
+      if(res.status === 200){
+        Alert.alert(jsonRes.alert)
+        navigation.navigate('Dashboard', {token})
+        console.log(token)
+      }else{
+        Alert.alert(jsonRes.alert)
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+  })
+}
 
 export default App

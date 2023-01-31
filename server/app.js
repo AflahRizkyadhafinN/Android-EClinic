@@ -32,6 +32,7 @@ app.use(passport.session());
 app.get("/users", data.findAll)
 app.post("/signup", data.signup)
 app.post("/login", data.login)
+app.get("/auth", data.auth)
 
 sequelize.sync(); 
 

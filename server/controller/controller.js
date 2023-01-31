@@ -53,8 +53,12 @@ exports.login = (req, res, next) => {
             if(nik){
                 bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
                     if(passwordHash){
-                        res.json({message: nik.namalengkap})
-                        res.status(200).json({alert: 'Login Berhasil'})
+                        data.max('id')
+                        .then(id => {
+                            const token = jwt.sign({ email: req.body.nik }, 'secret',{ algorithm: "HS256" }, { expiresIn: '1h' });
+                            res.status(200).json({alert: 'Login Berhasil',id: id, message: nik.namalengkap, token: token})
+                        })
+                        
                     } else{
                         res.status(404).json({alert: 'Password Salah'})
                     }
@@ -69,8 +73,11 @@ exports.login = (req, res, next) => {
             if(nik){
                 bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
                     if(passwordHash){
-
-                        res.status(200).json({alert: 'Login Berhasil', message: nik.namalengkap})
+                        data.max('id')
+                        .then(id => {
+                            const token = jwt.sign({ email: req.body.nik }, 'secret',{ algorithm: "HS256" }, { expiresIn: '1h' });
+                            res.status(200).json({alert: 'Login Berhasil',id: id, message: nik.namalengkap, token: token})
+                        })
                     } else{
                         res.status(404).json({alert: 'Password Salah'})
                     }
@@ -83,4 +90,25 @@ exports.login = (req, res, next) => {
         }
         
     })
+}
+
+exports.auth = (req, res, next) => {
+    const authHeader = req.get('Authorization')
+    if(!authHeader){
+        return res.status(401).json({alert: 'Authentication Gagal'})
+    } 
+    const token = authHeader.split(' ')[1]
+    let decodedToken
+    try {
+        decodedToken = jwt.verify(token, 'secret')
+    } 
+    catch(err){
+        return res.status(500).json({alert: 'Gagal Coba Lagi Nanti'})
+    }
+    if(!decodedToken){
+        res.status(401).json({alert: 'Unauthorized'})
+    }
+    else{
+        res.status(200).json({alert: 'Login Berhasil'})
+    }
 }
