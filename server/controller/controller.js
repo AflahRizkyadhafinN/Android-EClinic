@@ -5,9 +5,12 @@ const jwt = require('jsonwebtoken')
 
 exports.findAll = (req, res) => {
 
-    data.findAll()
-    .then((data) => {
-        res.json(data)
+    data.max('id')
+    .then(id => {
+        res.json({id: id})
+    })
+    .catch(err => {
+        console.log('error' ,err)
     })
 }
 
@@ -53,11 +56,8 @@ exports.login = (req, res, next) => {
             if(nik){
                 bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
                     if(passwordHash){
-                        data.max('id')
-                        .then(id => {
                             const token = jwt.sign({ email: req.body.nik }, 'secret',{ algorithm: "HS256" }, { expiresIn: '1h' });
-                            res.status(200).json({alert: 'Login Berhasil',id: id, message: nik.namalengkap, token: token})
-                        })
+                            res.status(200).json({alert: 'Login Berhasil',id: nik.id, namalengkap: nik.namalengkap,nik: nik.nik, email: nik.email, token: token})
                         
                     } else{
                         res.status(404).json({alert: 'Password Salah'})
@@ -73,11 +73,10 @@ exports.login = (req, res, next) => {
             if(nik){
                 bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
                     if(passwordHash){
-                        data.max('id')
-                        .then(id => {
+
                             const token = jwt.sign({ email: req.body.nik }, 'secret',{ algorithm: "HS256" }, { expiresIn: '1h' });
-                            res.status(200).json({alert: 'Login Berhasil',id: id, message: nik.namalengkap, token: token})
-                        })
+                            res.status(200).json({alert: 'Login Berhasil',id: nik.id, namalengkap: nik.namalengkap,nik: nik.nik, email: nik.email, token: token})
+
                     } else{
                         res.status(404).json({alert: 'Password Salah'})
                     }
@@ -111,4 +110,35 @@ exports.auth = (req, res, next) => {
     else{
         res.status(200).json({alert: 'Login Berhasil'})
     }
+}
+
+exports.update = (req, res, next) => {
+    if (!req.body.email || !req.body.namalengkap || !req.body.tanggalLahir || !req.body.pekerjaan || !req.body.golongandarah || !req.body.rw || !req.body.rt || 
+        !req.body.alamat || !req.body.jeniskelamin || !req.body.kodewilayah || !req.body.kodepos || !req.body.tempatlahir){
+        return res.status(400).json({alert: 'Tolong lengkapi data anda'})
+    } else{
+        data.update({ 
+            namalengkap: req.body.namalengkap,
+            email: req.body.email,
+            tanggallahir: req.body.tanggalLahir,
+            tempatlahir: req.body.tempatlahir,
+            pekerjaan: req.body.pekerjaan,
+            golongandarah: req.body.golongandarah,
+            rt: req.body.rt,
+            rw: req.body.rw,
+            alamat: req.body.alamat,
+            jeniskelamin: req.body.jeniskelamin,
+            kodepos: req.body.kodepos,
+            kodewilayah: req.body.kodewilayah
+    
+        }, {
+            where: {
+              id: req.body.id
+            }
+          })
+          .then(() => {
+            res.status(200).json({alert: 'Berhasil merubah data'})
+        })
+    }
+    
 }

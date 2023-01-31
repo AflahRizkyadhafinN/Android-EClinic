@@ -61,6 +61,7 @@ export const Register = ({navigation}) => {
         placeholder="NIK"
         value={sNik}
         onChangeText={(text) => setNik(text)}
+        keyboardType={'numeric'}
       />
       <TouchableOpacity
         onPress={() => setpass(email, sNik, sNamaLengkap, navigation)}

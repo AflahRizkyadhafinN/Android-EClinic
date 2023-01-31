@@ -22,7 +22,20 @@ module.exports = sequelize.define('userdata', {
         },
         namalengkap:{
             type: Sequelize.STRING
-        }
+        },
+        email: {
+            type: Sequelize.STRING
+        },
+        password: {
+            type: Sequelize.STRING
+        },
+        nik: {
+            type: Sequelize.NUMBER
+        },
+        namalengkap:{
+            type: Sequelize.STRING
+        },
+        
     },
     {
         timestamps: false

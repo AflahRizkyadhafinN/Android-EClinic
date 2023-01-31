@@ -7,7 +7,6 @@ import {Login} from './components/pages/Login';
 import {Register} from './components/pages/Register';
 import {ResetPassword} from './components/pages/ResetPassword';
 import {SetPassword} from './components/pages/SetPassword';
-import {MainNavbar} from './components/MainNavbar';
 import {Profile} from './components/pages/Profile';
 import {Tes} from './components/pages/Tes';
 import { Alert } from 'react-native';
@@ -27,7 +26,6 @@ function App ()  {
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="SetPassword" component={SetPassword} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
-        <Stack.Screen name="MainNavbar" component={MainNavbar} />
         <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
@@ -60,6 +58,7 @@ export async function insert  (email,sPassword,sNik, sNamaLengkap, navigation) {
           Alert.alert(jsonRes.alert)
         } else if(res.status === 200){
           Alert.alert(jsonRes.alert)
+          navigation.navigate('Login')
         }
       } catch(err){
         console.log(err)
@@ -100,7 +99,6 @@ export function login (nik, pass, remember, navigation) {
         const jsonRes = await res.json()
         if(res.status === 200){
           authenticate(jsonRes, navigation)
-          console.log(jsonRes)
         }else{
           Alert.alert(jsonRes.alert)
         }
@@ -127,7 +125,7 @@ function authenticate(token, navigation) {
       const jsonRes = await res.json()
       if(res.status === 200){
         Alert.alert(jsonRes.alert)
-        navigation.navigate('Dashboard', {token})
+        navigation.navigate('Profile', {token})
         console.log(token)
       }else{
         Alert.alert(jsonRes.alert)
@@ -138,5 +136,50 @@ function authenticate(token, navigation) {
     }
   })
 }
+
+export async function update  (email,namalengkap,nik, pekerjaan,alamat,rw,rt,kodepos,kodewilayah,jeniskelamin,golongandarah,tempatLahir,tanggalLahir) {
+
+  const payload = {
+    email,
+    namalengkap,
+    nik, 
+    pekerjaan,
+    alamat,
+    rw,
+    rt,
+    kodepos,
+    kodewilayah,
+    jeniskelamin,
+    golongandarah,
+    tempatLahir,
+    tanggalLahir,
+  }
+
+  fetch(`${API_URL}/update`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(async res => {
+    try{
+      const jsonRes = await res.json()
+      if(res.status !== 200){
+        Alert.alert(jsonRes.alert)
+      } else if(res.status === 200){
+        Alert.alert(jsonRes.alert)
+      }
+    } catch(err){
+      console.log(err)
+    }
+  })
+  .catch(err => {
+    console.log(err)
+  })
+
+  console.log(payload)
+} 
 
 export default App

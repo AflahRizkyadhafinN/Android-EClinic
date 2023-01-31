@@ -1,49 +1,72 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {ScrollView, View, Text, TextInput, Button} from 'react-native';
 import {stylesGeneral, stylesProfile} from '../Style';
+import { useRoute } from '@react-navigation/native';
 
 export const Profile = () => {
+  const route = useRoute()
+  const id = route.params.token.id
+  const [namalengkap, setNamaLengkap] = useState(route.params.token.namalengkap)
+  const [nik, setNik] = useState(route.params.token.nik)
+  const [email, setEmail] = useState(route.params.token.email)
+  const [tanggalLahir, setTanggalLahir] = useState(route.params.token.tanggalLahir)
+  const [tempatLahir, setTempatLahir] = useState(route.params.token.tempatLahir)
+  const [rt, setRt] = useState(route.params.token.rt)
+  const [rw, setRw] = useState(route.params.token.rw)
+  const [alamat, setAlamat] = useState(route.params.token.alamat)
+  const [pekerjaan, setPekerjaan] = useState(route.params.token.pekerjaan)
+  const [golongandarah, setGolonganDarah] = useState(route.params.token.golongandarah)
+  const [jeniskelamin, setJenisKelamin] = useState(route.params.token.jeniskelamin)
+  const [kodepos, setKodePos] = useState(route.params.token.kodewilayah)
+  const [kodewilayah, setKodeWilayah] = useState(route.params.token.kodepos)
+
   return (
     <ScrollView>
       <View style={stylesGeneral.container}>
         <Text style={stylesProfile.profileTitle}>Nama</Text>
-        <TextInput style={stylesProfile.textInput} placeholder="Nama" />
+        <TextInput style={stylesProfile.textInput}  value={namalengkap} onChangeText={(text) => setNamaLengkap(text)} placeholder="Nama" />
         <Text style={stylesProfile.profileTitle}>NIK</Text>
-        <TextInput style={stylesProfile.textInput} placeholder="NIK" />
+        <TextInput style={stylesProfile.textInput} value={nik} onChangeText={(text) => setNik(text)} placeholder="NIK" />
         <Text style={stylesProfile.profileTitle}>No. Telepon</Text>
         <TextInput style={stylesProfile.textInput} placeholder="No. Telepon" />
         <Text style={stylesProfile.profileTitle}>Email</Text>
-        <TextInput style={stylesProfile.textInput} placeholder="Email" />
+        <TextInput style={stylesProfile.textInput} value={email} onChangeText={(text) => setEmail(text)} placeholder="Email" />
         <Text style={stylesProfile.profileTitle}>Pekerjaan</Text>
-        <TextInput style={stylesProfile.textInput} placeholder="Pekerjaan" />
+        <TextInput style={stylesProfile.textInput} value={pekerjaan}  onChangeText={(text) => setPekerjaan(text)} placeholder="Pekerjaan" />
         <Text style={stylesProfile.profileTitle}>Tempat lahir</Text>
-        <TextInput style={stylesProfile.textInput} placeholder="Tempat lahir" />
+        <TextInput style={stylesProfile.textInput} value={tempatLahir}  onChangeText={(text) => setTempatLahir(text)} placeholder="Tempat lahir" />
         <Text style={stylesProfile.profileTitle}>Tanggal Lahir</Text>
         <TextInput
           style={stylesProfile.textInput}
           placeholder="Tanggal Lahir"
+          onChangeText={(text) => setTanggalLahir(text)}
+          value={tanggalLahir} 
         />
         <Text style={stylesProfile.profileTitle}>Golongan Darah</Text>
         <TextInput
           style={stylesProfile.textInput}
           placeholder="Golongan Darah"
+          onChangeText={(text) => setGolonganDarah(text)}
+          value={golongandarah} 
         />
         <Text style={stylesProfile.profileTitle}>Alamat</Text>
-        <TextInput style={stylesProfile.textInput} placeholder="Alamat" />
+        <TextInput style={stylesProfile.textInput} value={alamat}  onChangeText={(text) => setAlamat(text)} placeholder="Alamat" />
         <Text style={stylesProfile.profileTitle}>RW</Text>
-        <TextInput style={stylesProfile.textInput} placeholder="RW" />
+        <TextInput style={stylesProfile.textInput} value={rw}  onChangeText={(text) => setRw(text)} placeholder="RW" />
         <Text style={stylesProfile.profileTitle}>RT</Text>
-        <TextInput style={stylesProfile.textInput} placeholder="RT" />
+        <TextInput style={stylesProfile.textInput} value={rt}  onChangeText={(text) => setRt(text)} placeholder="RT" />
         <Text style={stylesProfile.profileTitle}>Kode Pos</Text>
-        <TextInput style={stylesProfile.textInput} placeholder="Kode Pos" />
+        <TextInput style={stylesProfile.textInput} value={kodepos}  onChangeText={(text) => setKodePos(text)} placeholder="Kode Pos" />
         <Text style={stylesProfile.profileTitle}>Kode wilayah</Text>
-        <TextInput style={stylesProfile.textInput} placeholder="Kode wilayah" />
+        <TextInput style={stylesProfile.textInput} value={kodewilayah}  onChangeText={(text) => setKodeWilayah(text)} placeholder="Kode wilayah" />
         <Text style={stylesProfile.profileTitle}>Gender</Text>
         <TextInput
           style={stylesProfile.textInput}
           placeholder="Laki-laki/Perempuan"
+          value={jeniskelamin} 
+          onChangeText={(text) => setJenisKelamin(text)}
         />
-        <Button title="Simpan" />
+        <Button title="Simpan" onPress={() => update(namalengkap, nik, email, tanggalLahir, tempatLahir, pekerjaan, golongandarah, rt, rw, alamat, kodepos, kodewilayah, jeniskelamin)} />
       </View>
     </ScrollView>
   );

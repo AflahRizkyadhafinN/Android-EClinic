@@ -22,7 +22,7 @@ export const SetPassword = ({navigation}) => {
   function CheckPass(sPassword, sConfirm){
     
     if(sPassword === sConfirm){
-      insert(route.params.email, sPassword, route.params.sNik, route.params.sNamaLengkap)
+      insert(route.params.email, sPassword, route.params.sNik, route.params.sNamaLengkap, navigation)
     }
     else{
       Alert.alert('Cek password anda')
