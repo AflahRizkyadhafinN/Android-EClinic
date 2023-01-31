@@ -1,41 +1,39 @@
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Dashboard} from './components/pages/Dashboard';
+import {ForgetPassword} from './components/pages/ForgetPassword';
+import {Login} from './components/pages/Login';
+import {Register} from './components/pages/Register';
+import {ResetPassword} from './components/pages/ResetPassword';
+import {SetPassword} from './components/pages/SetPassword';
+import {MainNavbar} from './components/MainNavbar';
+import {Profile} from './components/pages/Profile';
+import {Tes} from './components/pages/Tes';
+import { Alert } from 'react-native';
 
-
-import React, { useState } from "react";
-
-import { Alert, Platform } from "react-native";
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-
-import { Register } from "./components/pages/Register";
-import { SetPassword } from "./components/pages/SetPassword";
-import { Login } from "./components/pages/Login";
-import { ForgetPassword } from "./components/pages/ForgetPassword";
-import { ResetPassword } from "./components/pages/ResetPassword";
-import { Dashboard } from "./components/pages/Dashboard";
-
-const Stack = createStackNavigator();
 const API_URL = 'http://10.10.10.81:5000'
 
-function MyStack() {
-  return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Register" component={Register} />
-      <Stack.Screen name="SetPassword" component={SetPassword} />
-      <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
-      <Stack.Screen name="ResetPassword" component={ResetPassword} />
-      <Stack.Screen name="Dashboard" component={Dashboard} />
-    </Stack.Navigator>
-  );
-}
-
-function App() {
+function App ()  {
+  const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <MyStack />
+      <Stack.Navigator
+        initialRouteName="Login"
+        screenOptions={{headerShown: false, animation: 'none'}}>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+        <Stack.Screen name="ResetPassword" component={ResetPassword} />
+        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="SetPassword" component={SetPassword} />
+        <Stack.Screen name="Dashboard" component={Dashboard} />
+        <Stack.Screen name="MainNavbar" component={MainNavbar} />
+        <Stack.Screen name="Profile" component={Profile} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
 
 
 export async function insert  (email,sPassword,sNik, sNamaLengkap, navigation) {

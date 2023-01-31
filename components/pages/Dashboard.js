@@ -7,17 +7,13 @@ import {
   TouchableOpacity,
   ScrollView,
   TouchableWithoutFeedback,
-  Dimensions,
-  BackHandler,
-  Alert,
 } from 'react-native';
 import {stylesDashboard, stylesGeneral} from '../Style';
-import { useRoute } from '@react-navigation/core';
+import {MainNavbar} from '../MainNavbar';
+import { useRoute } from '@react-navigation/native';
 
 export const Dashboard = ({navigation}) => {
-
   const route = useRoute()
-  const {width} = Dimensions.get('window');
   const jumlahPasien = 622;
   const penyakit = [
     {
@@ -112,36 +108,20 @@ export const Dashboard = ({navigation}) => {
       <Text style={[stylesGeneral.title, stylesDashboard.title]}>
         Dashboard
       </Text>
-      <ScrollView horizontal pagingEnabled style={width}>
-        <View style={stylesDashboard.cardContainer}>
-          <View style={stylesDashboard.cardImageContainer}>
-            <Image
-              style={stylesDashboard.cardImage}
-              source={require('../image/people.png')}
-            />
-          </View>
-          <View style={stylesDashboard.cardDescriptionContainer}>
-            <Text style={stylesDashboard.cardTitle}>36</Text>
-            <Text style={stylesDashboard.cardDescription}>
-              Jumlah orang yang telah registrasi
-            </Text>
-          </View>
+      <View style={stylesDashboard.cardContainer}>
+        <View style={stylesDashboard.cardImageContainer}>
+          <Image
+            style={stylesDashboard.cardImage}
+            source={require('../image/people.png')}
+          />
         </View>
-        <View style={stylesDashboard.cardContainer}>
-          <View style={stylesDashboard.cardImageContainer}>
-            <Image
-              style={stylesDashboard.cardImage}
-              source={require('../image/people.png')}
-            />
-          </View>
-          <View style={stylesDashboard.cardDescriptionContainer}>
-            <Text style={stylesDashboard.cardTitle}>36</Text>
-            <Text style={stylesDashboard.cardDescription}>
-              Jumlah orang yang telah registrasi
-            </Text>
-          </View>
+        <View style={stylesDashboard.cardDescriptionContainer}>
+          <Text style={stylesDashboard.cardTitle}>{route.params.token.id}</Text>
+          <Text style={stylesDashboard.cardDescription}>
+            Jumlah orang yang telah registrasi
+          </Text>
         </View>
-      </ScrollView>
+      </View>
       <TouchableOpacity
         style={stylesDashboard.buttonPendaftaran}
         onPress={() => navigation.navigate('Register')}>
@@ -182,7 +162,7 @@ export const Dashboard = ({navigation}) => {
       <View style={stylesDashboard.statistikContainer2}>
         <Text style={stylesDashboard.statistikSubtitle}>Penyakit pasien</Text>
         {penyakit.map((pen, index) => (
-          <View>
+          <View key={index}>
             <View style={stylesDashboard.statistikDescriptionContainer}>
               <Text style={stylesDashboard.statistikDescription}>
                 {pen.jumlah} of {jumlahPasien}
@@ -213,7 +193,7 @@ export const Dashboard = ({navigation}) => {
           Golongan darah pasien
         </Text>
         {Gdarah.map((gd, index) => (
-          <View>
+          <View key={index}>
             <View style={stylesDashboard.statistikDescriptionContainer}>
               <Text style={stylesDashboard.statistikDescription}>
                 {gd.jumlah} of {jumlahPasien}
@@ -242,7 +222,7 @@ export const Dashboard = ({navigation}) => {
       <View style={stylesDashboard.statistikContainer2}>
         <Text style={stylesDashboard.statistikSubtitle}>Pekerjaan pasien</Text>
         {pekerjaan.map((pek, index) => (
-          <View>
+          <View key={index}>
             <View style={stylesDashboard.statistikDescriptionContainer}>
               <Text style={stylesDashboard.statistikDescription}>
                 {pek.jumlah} of {jumlahPasien}

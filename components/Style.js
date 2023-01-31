@@ -280,7 +280,7 @@ export const stylesDashboard = StyleSheet.create({
     padding: 10,
     flexDirection: 'row',
     marginRight: 12,
-    width: '50%',
+    width: '100%',
   },
 
   cardImageContainer: {
@@ -309,7 +309,6 @@ export const stylesDashboard = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     color: 'black',
-    width: '70%',
   },
 
   buttonPendaftaran: {
@@ -454,5 +453,21 @@ export const stylesDNavbar = StyleSheet.create({
     fontSize: 25,
     marginLeft: 15,
     marginTop: -5,
+  },
+});
+
+export const stylesProfile = StyleSheet.create({
+  profileTitle: {
+    marginTop: 20,
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+  },
+  textInput: {
+    marginTop: 5,
+    borderWidth: 2,
+    borderRadius: 6,
+    fontSize: 20,
+    fontWeight: '700',
   },
 });

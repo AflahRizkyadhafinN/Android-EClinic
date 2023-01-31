@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {stylesDNavbar} from '../Style';
+import {stylesDNavbar} from './Style';
 
 export const DashboardNavbar = ({navigation}) => {
   return (
