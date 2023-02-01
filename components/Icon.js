@@ -6,7 +6,7 @@ export const Icon = () => {
   return (
     <View style={stylesGeneral.iconContainer}>
       <Image
-        source={require('./image/nama&logo.png')}
+        source={require('./image/logo.png')}
         style={stylesGeneral.iconImage}
       />
       <Text style={stylesGeneral.iconTitle}>E-Clinic</Text>

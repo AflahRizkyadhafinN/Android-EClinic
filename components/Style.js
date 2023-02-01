@@ -523,10 +523,182 @@ export const stylesProfile = StyleSheet.create({
     width: '95%',
     alignSelf: 'center',
     marginTop: 20,
+    borderRadius: 10,
   },
 
   submitTitle: {
     color: 'white',
     textAlign: 'center',
+  },
+});
+
+export const stylesDokter = StyleSheet.create({
+  mainTitle: {
+    fontSize: 35,
+    fontWeight: '800',
+    color: 'black',
+    marginBottom: 15,
+    marginTop: 25,
+  },
+
+  searchDokter: {
+    borderWidth: 2,
+    borderColor: 'black',
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+    paddingHorizontal: 10,
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  searchButtonContainer: {
+    backgroundColor: 'black',
+    paddingVertical: 10,
+    borderBottomRightRadius: 6,
+    borderBottomLeftRadius: 6,
+    borderTopWidth: 3,
+    marginBottom: 20,
+  },
+
+  searchButtonTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'white',
+    textAlign: 'center',
+    borderTopColor: 'black',
+  },
+
+  cardContainer: {
+    borderColor: 'black',
+    borderWidth: 2,
+    marginTop: 5,
+    borderRadius: 6,
+    flexDirection: 'row',
+  },
+
+  cardImage: {
+    width: 100,
+    height: 100,
+  },
+
+  cardDescriptionContainer: {
+    padding: 10,
+    borderLeftWidth: 2,
+    borderColor: 'black',
+  },
+
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: 'black',
+  },
+
+  cardDescription: {
+    color: 'grey',
+  },
+});
+
+export const stylesAbout = StyleSheet.create({
+  clinicIcon: {
+    width: 120,
+    height: 120,
+    alignSelf: 'center',
+  },
+
+  clinicName: {
+    fontSize: 25,
+    fontWeight: '700',
+    textAlign: 'center',
+    color: 'black',
+  },
+
+  clinicAddress: {
+    fontSize: 15,
+    fontWeight: '600',
+    textAlign: 'center',
+    width: '60%',
+    alignSelf: 'center',
+    color: 'black',
+    marginBottom: 30,
+  },
+
+  contactContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+  },
+
+  contactDescContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    padding: 10,
+    borderTopColor: 'black',
+    borderTopWidth: 1,
+  },
+
+  contactIcon: {
+    width: 40,
+    height: 40,
+  },
+
+  contactTitle: {
+    color: 'black',
+    fontSize: 20,
+    fontWeight: '700',
+    padding: 10,
+  },
+
+  contactDescription: {
+    marginLeft: 10,
+    color: 'black',
+    fontSize: 20,
+    fontWeight: '600',
+  },
+
+  sosmedBorder: {
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: 'black',
+    marginHorizontal: -20,
+  },
+
+  sosmedContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    justifyContent: 'space-between',
+    marginRight: -10,
+  },
+
+  sosmedTitle: {
+    marginTop: 20,
+    fontSize: 20,
+    fontWeight: '800',
+    color: 'black',
+  },
+
+  sosmedNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+  },
+
+  sosmedIcon: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+  },
+
+  sosmedName: {
+    fontSize: 25,
+    fontWeight: '700',
+    color: 'black',
+    paddingRight: '60%',
+  },
+
+  sosmedArrow: {
+    marginRight: 10,
   },
 });

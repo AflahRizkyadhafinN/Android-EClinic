@@ -7,31 +7,41 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import Modal from 'react-native-modal';
+import {DashboardNavbar} from './DashboardNavbar';
+export const MainNavbar = ({navigation}) => {
+  const [open, setOpen] = React.useState(false);
 
-export const MainNavbar = screenName => {
   return (
     <View style={stylesDashboard.header}>
-      <View style={stylesDashboard.menuContainer}>
-        <TouchableWithoutFeedback>
+      <Modal
+        isVisible={open}
+        onBackdropPress={() => setOpen(false)}
+        style={{margin: 0}}
+        animationIn={'slideInLeft'}
+        animationOut={'slideOutLeft'}
+        animationInTiming={1200}
+        animationOutTiming={1200}>
+        <DashboardNavbar />
+      </Modal>
+      <TouchableWithoutFeedback onPress={() => setOpen(true)}>
+        <View style={stylesDashboard.menuContainer}>
           <Image
             style={stylesDashboard.buttonBurger}
             source={require('./image/BurgerBar.png')}
           />
-        </TouchableWithoutFeedback>
-        <Text style={stylesDashboard.menu}>Menu</Text>
-      </View>
+          <Text style={stylesDashboard.menu}>Menu</Text>
+        </View>
+      </TouchableWithoutFeedback>
       <View style={stylesDashboard.menuContainer}>
-        <TouchableOpacity
-          style={stylesDashboard.menuLoginButton}
-          onPress={() => navigation.navigate(screenName)}>
+        <TouchableOpacity style={stylesDashboard.menuLoginButton}>
           <Text style={stylesDashboard.menuLoginButtonTitle}>Login</Text>
         </TouchableOpacity>
-        <Text style={stylesDashboard.accountName}>Faisal Muslim</Text>
+        {/* <Text style={stylesDashboard.accountName}>Faisal Muslim</Text>
         <Image
           style={stylesDashboard.accountImage}
           source={require('./image/PhotoProfile.png')}
-        />
+        /> */}
       </View>
     </View>
   );

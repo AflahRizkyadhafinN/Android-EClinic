@@ -4,7 +4,6 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   Image,
   TouchableOpacity,
 } from 'react-native';
@@ -12,17 +11,14 @@ import {stylesGeneral, stylesProfile} from '../Style';
 import {SelectList} from 'react-native-dropdown-select-list';
 import DatePicker from 'react-native-modern-datepicker';
 import Modal from 'react-native-modal';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button';
+import RadioForm from 'react-native-simple-radio-button';
 
 export const Profile = () => {
   const [selected, setSelected] = React.useState('');
   const [date, setDate] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [radio, setRadio] = React.useState('');
+  const [edit, setEdit] = React.useState(false);
 
   const pekerjaan = [
     {key: '1', value: 'Guru'},
@@ -59,7 +55,11 @@ export const Profile = () => {
           />
         </TouchableOpacity>
         <Text style={stylesProfile.profileTitle}>Nama</Text>
-        <TextInput style={stylesProfile.textInput} placeholder="Nama" />
+        <TextInput
+          editable={edit}
+          style={stylesProfile.textInput}
+          placeholder="Nama"
+        />
         <Text style={stylesProfile.profileTitle}>NIK</Text>
         <TextInput style={stylesProfile.textInput} placeholder="NIK" />
         <Text style={stylesProfile.profileTitle}>No. Telepon</Text>
@@ -84,7 +84,6 @@ export const Profile = () => {
         <TouchableOpacity onPress={() => setOpen(true)}>
           <Text style={stylesProfile.date}>{date}</Text>
         </TouchableOpacity>
-        {/* Belum selesai */}
         <Modal
           isVisible={open}
           hasBackdrop
@@ -151,7 +150,14 @@ export const Profile = () => {
           }}
           labelStyle={{marginRight: 15}}
         />
-        <TouchableOpacity style={stylesProfile.submitButton}>
+        <TouchableOpacity
+          style={stylesProfile.submitButton}
+          onPress={edit => setEdit(true)}>
+          <Text style={stylesProfile.submitTitle}>Edit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={stylesProfile.submitButton}
+          onPress={edit => setEdit(false)}>
           <Text style={stylesProfile.submitTitle}>Simpan</Text>
         </TouchableOpacity>
       </View>
