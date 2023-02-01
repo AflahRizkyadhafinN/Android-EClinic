@@ -23,11 +23,8 @@ import { update } from '../../App';
 
 export const Profile = () => {
   const [selected, setSelected] = React.useState('');
-  const [date, setDate] = React.useState('');
-  const [open, setOpen] = React.useState(false);
-  const [radio, setRadio] = React.useState('');
 
-  const pekerjaan = [
+  const listpekerjaan = [
     {key: '1', value: 'Guru'},
     {key: '2', value: 'Tentara'},
     {key: '3', value: 'Pedagang'},
@@ -49,8 +46,8 @@ export const Profile = () => {
   ];
 
   const Gender = [
-    {label: 'Laki-laki', value: 0},
-    {label: 'Perempuan', value: 1},
+    {label: 'Laki-laki', value: 'Laki-laki'},
+    {label: 'Perempuan', value: 'Perempuan'},
   ];
   const route = useRoute()
   const id = route.params.token.id
@@ -89,6 +86,14 @@ export const Profile = () => {
     showMode('date');
   };  
 
+
+  function isigender() {
+    if(jeniskelamin === 'Laki-laki'){
+    return 0
+  } else if(jeniskelamin === 'Perempuan'){
+    return 1
+  }
+  }
   return (
     <ScrollView>
       <View style={stylesGeneral.container}>
@@ -101,31 +106,31 @@ export const Profile = () => {
         <Text style={stylesProfile.profileTitle}>Nama</Text>
         <TextInput style={stylesProfile.textInput}  value={namalengkap} onChangeText={(text) => setNamaLengkap(text)} placeholder="Nama" />
         <Text style={stylesProfile.profileTitle}>NIK</Text>
-        <TextInput style={stylesProfile.textInput} value={nik} onChangeText={(text) => setNik(text)} placeholder="NIK" />
+        <TextInput style={stylesProfile.textInput} editable={false} value={nik} onChangeText={(text) => setNik(text)} placeholder="NIK" />
         <Text style={stylesProfile.profileTitle}>No. Telepon</Text>
         <TextInput style={stylesProfile.textInput} placeholder="No. Telepon" />
         <Text style={stylesProfile.profileTitle}>Email</Text>
         <TextInput style={stylesProfile.textInput} value={email} onChangeText={(text) => setEmail(text)} placeholder="Email" />
         <Text style={stylesProfile.profileTitle}>Pekerjaan</Text>
         <SelectList
-          setSelected={setSelected}
-          data={pekerjaan}
+          setSelected={(value) => setPekerjaan(value)}
+          data={listpekerjaan}
           save="value"
           boxStyles={stylesProfile.textInput}
           inputStyles={stylesProfile.selectList}
           dropdownStyles={stylesProfile.dropdown}
           dropdownTextStyles={stylesProfile.dropdownText}
           notFoundText={true}
-          placeholder="Pekerjaan"
+          placeholder={pekerjaan}
         />
         <Text style={stylesProfile.profileTitle}>Tempat lahir</Text>
         <TextInput style={stylesProfile.textInput} value={tempatLahir}  onChangeText={(text) => setTempatLahir(text)} placeholder="Tempat lahir" />
         <Text style={stylesProfile.profileTitle}>Tanggal Lahir</Text>
-        <TouchableOpacity onPress={() => setOpen(true)}>
-          <Text style={stylesProfile.date}>{date}</Text>
+        <TouchableOpacity onPress={() => showDatepicker()}>
+          <Text style={stylesProfile.date}>{tanggal}</Text>
         </TouchableOpacity>
         {/* Belum selesai */}
-        <Modal
+        {/* <Modal
           isVisible={open}
           hasBackdrop
           backdropColor="black"
@@ -137,10 +142,10 @@ export const Profile = () => {
             }}
             mode="calender"
           />
-        </Modal>
+        </Modal> */}
         <Text style={stylesProfile.profileTitle}>Golongan Darah</Text>
         <SelectList
-          setSelected={setSelected}
+          setSelected={(value) => setGolonganDarah(value)}
           data={GDarah}
           save="value"
           search={false}
@@ -149,9 +154,9 @@ export const Profile = () => {
           dropdownStyles={stylesProfile.dropdown}
           dropdownTextStyles={stylesProfile.dropdownText}
           notFoundText={true}
-          placeholder="Golongan Darah"
-          onChangeText={(text) => setGolonganDarah(text)}
-          value={golongandarah} 
+          placeholder={golongandarah}
+          // onChangeText={(text) => setGolonganDarah(text)}
+          // value={golongandarah} 
 
         />
         <Text style={stylesProfile.profileTitle}>Alamat</Text>
@@ -180,8 +185,8 @@ export const Profile = () => {
         <RadioForm
           formHorizontal={true}
           radio_props={Gender}
-          initial={0}
-          onPress={value => setRadio(value)}
+          initial={isigender()}
+          onPress={value => setJenisKelamin(value)}
           buttonColor={'green'}
           selectedButtonColor={'green'}
           style={{
@@ -193,12 +198,12 @@ export const Profile = () => {
             justifyContent: 'center',
           }}
           labelStyle={{marginRight: 15}}
-          value={jeniskelamin} 
-          onChangeText={(text) => setJenisKelamin(text)}
+          // value={jeniskelamin} 
+          // onChangeText={(text) => setJenisKelamin(text)}
         />
-        <TouchableOpacity style={stylesProfile.submitButton}>
+        <TouchableOpacity style={stylesProfile.submitButton} onPress={() => update(id, email, namalengkap, nik, pekerjaan,alamat, rw, rt, kodepos, kodewilayah, jeniskelamin, golongandarah, tempatLahir, tanggal)}>
           <Text style={stylesProfile.submitTitle}>Simpan</Text>
-        onPress={() => update(id, email, namalengkap, nik, pekerjaan,alamat, rw, rt, kodepos, kodewilayah, jeniskelamin, golongandarah, tempatLahir, tanggal)} </TouchableOpacity>
+         </TouchableOpacity>
       </View>
     </ScrollView>
   );
