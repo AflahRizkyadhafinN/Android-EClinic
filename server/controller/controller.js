@@ -56,8 +56,10 @@ exports.login = (req, res, next) => {
             if(nik){
                 bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
                     if(passwordHash){
-                            const token = jwt.sign({ email: req.body.nik }, 'secret',{ algorithm: "HS256" }, { expiresIn: '1h' });
-                            res.status(200).json({alert: 'Login Berhasil',id: nik.id, namalengkap: nik.namalengkap,nik: nik.nik, email: nik.email, token: token})
+                            const token = jwt.sign({ nik: req.body.nik }, 'secret', { expiresIn: '1h' });
+                            res.status(200).json({alert: 'Login Berhasil',id: nik.id, namalengkap: nik.namalengkap,nik: nik.nik, email: nik.email,
+                            tanggalLahir: nik.tanggallahir,golongandarah: nik.golongandarah, tempatLahir: nik.tempatlahir, alamat: nik.alamat,rw: nik.rw, rt: nik.rt, 
+                            kodepos: nik.kodepos,kodewilayah: nik.kodewilayah, pekerjaan: nik.pekerjaan, jeniskelamin: nik.jeniskelamin, token: token})
                         
                     } else{
                         res.status(404).json({alert: 'Password Salah'})
@@ -74,8 +76,10 @@ exports.login = (req, res, next) => {
                 bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
                     if(passwordHash){
 
-                            const token = jwt.sign({ email: req.body.nik }, 'secret',{ algorithm: "HS256" }, { expiresIn: '1h' });
-                            res.status(200).json({alert: 'Login Berhasil',id: nik.id, namalengkap: nik.namalengkap,nik: nik.nik, email: nik.email, token: token})
+                            const token = jwt.sign({ nik: req.body.nik }, 'secret', { expiresIn: '1h' });
+                            res.status(200).json({alert: 'Login Berhasil',id: nik.id, namalengkap: nik.namalengkap,nik: nik.nik, email: nik.email,
+                            tanggalLahir: nik.tanggallahir,golongandarah: nik.golongandarah, tempatLahir: nik.tempatlahir, alamat: nik.alamat,rw: nik.rw, rt: nik.rt, 
+                            kodepos: nik.kodepos,kodewilayah: nik.kodewilayah, pekerjaan: nik.pekerjaan, jeniskelamin: nik.jeniskelamin, token: token})
 
                     } else{
                         res.status(404).json({alert: 'Password Salah'})
@@ -114,14 +118,14 @@ exports.auth = (req, res, next) => {
 
 exports.update = (req, res, next) => {
     if (!req.body.email || !req.body.namalengkap || !req.body.tanggalLahir || !req.body.pekerjaan || !req.body.golongandarah || !req.body.rw || !req.body.rt || 
-        !req.body.alamat || !req.body.jeniskelamin || !req.body.kodewilayah || !req.body.kodepos || !req.body.tempatlahir){
+        !req.body.alamat || !req.body.jeniskelamin || !req.body.kodewilayah || !req.body.kodepos || !req.body.tempatLahir){
         return res.status(400).json({alert: 'Tolong lengkapi data anda'})
     } else{
         data.update({ 
             namalengkap: req.body.namalengkap,
             email: req.body.email,
             tanggallahir: req.body.tanggalLahir,
-            tempatlahir: req.body.tempatlahir,
+            tempatlahir: req.body.tempatLahir,
             pekerjaan: req.body.pekerjaan,
             golongandarah: req.body.golongandarah,
             rt: req.body.rt,

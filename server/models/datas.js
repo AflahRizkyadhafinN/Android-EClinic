@@ -23,16 +23,34 @@ module.exports = sequelize.define('userdata', {
         namalengkap:{
             type: Sequelize.STRING
         },
-        email: {
+        golongandarah: {
             type: Sequelize.STRING
         },
-        password: {
+        tempatlahir: {
             type: Sequelize.STRING
         },
-        nik: {
+        tanggallahir: {
+            type: Sequelize.DATEONLY
+        },
+        alamat:{
+            type: Sequelize.STRING
+        },
+        rw: {
+            type: Sequelize.STRING
+        },
+        rt: {
+            type: Sequelize.STRING
+        },
+        kodepos: {
             type: Sequelize.NUMBER
         },
-        namalengkap:{
+        kodewilayah:{
+            type: Sequelize.STRING
+        },
+        jeniskelamin: {
+            type: Sequelize.STRING
+        },
+        pekerjaan:{
             type: Sequelize.STRING
         },
         

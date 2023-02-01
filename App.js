@@ -137,14 +137,15 @@ function authenticate(token, navigation) {
   })
 }
 
-export async function update  (email,namalengkap,nik, pekerjaan,alamat,rw,rt,kodepos,kodewilayah,jeniskelamin,golongandarah,tempatLahir,tanggalLahir) {
+export async function update  (id, email,namalengkap,nik, pekerjaan,alamat,rw,rt,kodepos,kodewilayah,jeniskelamin,golongandarah,tempatLahir,tanggalLahir) {
 
   const payload = {
+    alamat,
+    id,
     email,
     namalengkap,
     nik, 
     pekerjaan,
-    alamat,
     rw,
     rt,
     kodepos,
