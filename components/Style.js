@@ -459,7 +459,7 @@ export const stylesDNavbar = StyleSheet.create({
 export const stylesProfile = StyleSheet.create({
   profileTitle: {
     marginTop: 20,
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: '700',
     color: 'black',
   },
@@ -467,7 +467,66 @@ export const stylesProfile = StyleSheet.create({
     marginTop: 5,
     borderWidth: 2,
     borderRadius: 6,
-    fontSize: 20,
+    borderColor: 'black',
+    fontSize: 15,
     fontWeight: '700',
+    paddingHorizontal: 10,
+  },
+
+  selectList: {
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  dropdown: {
+    borderWidth: 2,
+    borderColor: 'black',
+  },
+
+  dropdownText: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  photoProfile: {
+    alignSelf: 'center',
+    width: 150,
+    height: 150,
+    borderRadius: 150 / 2,
+  },
+
+  date: {
+    marginTop: 5,
+    borderWidth: 2,
+    borderRadius: 6,
+    paddingVertical: 15,
+    paddingLeft: 10,
+    color: 'black',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  rt: {
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+  },
+  rw: {
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+    borderRightWidth: 0,
+  },
+
+  submitButton: {
+    backgroundColor: 'black',
+    paddingVertical: 15,
+    width: '95%',
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+
+  submitTitle: {
+    color: 'white',
+    textAlign: 'center',
   },
 });
