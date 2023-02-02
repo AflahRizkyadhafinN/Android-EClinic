@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import ProgressBar from 'react-native-animated-progress';
 import {
   Text,
@@ -7,11 +7,76 @@ import {
   TouchableOpacity,
   ScrollView,
   TouchableWithoutFeedback,
+  RefreshControl,
 } from 'react-native';
 import {stylesDashboard, stylesGeneral} from '../Style';
-import {MainNavbar} from '../MainNavbar';
-
+import { useRoute } from '@react-navigation/native';
+const API_URL = 'http://10.10.10.81:5000'
 export const Dashboard = ({navigation}) => {
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [member, setMember] = useState('0')
+
+
+  // {route.params.token.message}
+  useEffect(() => {
+    fetch(`${API_URL}/users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': "application/json"
+      },
+      body: ''
+    })
+    .then(async res => {
+      try {
+        const jsonRes = await res.json()
+        if(res.status === 200){
+          console.log(jsonRes)
+          setMember(jsonRes.id)
+        }else{
+          Alert.alert(jsonRes.alert)
+        }
+      }
+      catch(err){
+        console.log(err)
+      }
+
+    })
+  }, [])
+
+    
+  
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    fetch(`${API_URL}/users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': "application/json"
+      },
+      body: ''
+    })
+    .then(async res => {
+      try {
+        const jsonRes = await res.json()
+        if(res.status === 200){
+          console.log(jsonRes)
+          setMember(jsonRes.id)
+        }else{
+          Alert.alert(jsonRes.alert)
+        }
+      }
+      catch(err){
+        console.log(err)
+      }
+
+    })
+        setRefreshing(false)
+    
+  }, [refreshing]);
+
+  const route = useRoute()
   const jumlahPasien = 622;
   const penyakit = [
     {
@@ -78,8 +143,11 @@ export const Dashboard = ({navigation}) => {
   return (
     <ScrollView
       style={stylesDashboard.mainContainer}
-      showsVerticalScrollIndicator={false}>
-      <MainNavbar />
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+          <MainNavbar />
       <Text style={[stylesGeneral.title, stylesDashboard.title]}>
         Dashboard
       </Text>
@@ -91,7 +159,7 @@ export const Dashboard = ({navigation}) => {
           />
         </View>
         <View style={stylesDashboard.cardDescriptionContainer}>
-          <Text style={stylesDashboard.cardTitle}>36</Text>
+          <Text style={stylesDashboard.cardTitle}>{member}</Text>
           <Text style={stylesDashboard.cardDescription}>
             Jumlah orang yang telah registrasi
           </Text>

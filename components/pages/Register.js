@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -9,12 +9,20 @@ import {
 } from 'react-native';
 import {Icon} from '../Icon';
 import {stylesGeneral, stylesRegister} from '../Style';
+import { setpass } from '../../App';
 
 export const Register = ({navigation}) => {
   const windows = useWindowDimensions();
-
+  const [email, setEmail] = useState('')
+  const [sNik, setNik] = useState('')
+  const [sNamaLengkap, setNamaLengkap] = useState('')
+  // sEmail,
+  // sNik,
+  // sPassword,
+  // sNoTelp,
+  // sNamaLengkap
   return (
-    <View style={stylesGeneral.container}>
+    <View style={[stylesGeneral.container]}>
       <Icon />
       <TouchableWithoutFeedback onPress={() => navigation.navigate('Login')}>
         <Text>Back to login</Text>
@@ -29,6 +37,8 @@ export const Register = ({navigation}) => {
           stylesRegister.input,
           stylesRegister.inputName,
         ]}
+        value={sNamaLengkap}
+        onChangeText={(text) => setNamaLengkap(text)}
         placeholder="Fullname"
       />
       <TextInput
@@ -36,8 +46,11 @@ export const Register = ({navigation}) => {
           stylesGeneral.input,
           stylesRegister.input,
           stylesRegister.inputPNumber,
+          
         ]}
-        placeholder="Email/Number"
+        placeholder="Email"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
       />
       <TextInput
         style={[
@@ -46,9 +59,12 @@ export const Register = ({navigation}) => {
           stylesRegister.inputNik,
         ]}
         placeholder="NIK"
+        value={sNik}
+        onChangeText={(text) => setNik(text)}
+        keyboardType={'numeric'}
       />
       <TouchableOpacity
-        onPress={() => navigation.navigate('SetPassword')}
+        onPress={() => setpass(email, sNik, sNamaLengkap, navigation)}
         style={[stylesGeneral.buttonContainer, stylesRegister.button]}>
         <Text style={stylesRegister.buttonTitle}>Register</Text>
       </TouchableOpacity>

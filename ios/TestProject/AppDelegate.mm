@@ -6,11 +6,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  self.moduleName = @"android";
-  // You can add your custom initial props in the dictionary below.
-  // They will be passed down to the ViewController used by React Native.
-  self.initialProps = @{};
-
+  self.moduleName = @"TestProject";
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
