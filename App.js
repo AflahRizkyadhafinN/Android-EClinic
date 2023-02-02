@@ -14,7 +14,7 @@ import {About} from './components/pages/About';
 export const App = () => {
   const Stack = createNativeStackNavigator();
   return (
-    <About />
+    <ForgetPassword />
     // <NavigationContainer>
     //   <Stack.Navigator
     //     initialRouteName="About"

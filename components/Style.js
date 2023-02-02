@@ -12,7 +12,6 @@ export const stylesGeneral = StyleSheet.create({
     paddingHorizontal: 60,
     marginHorizontal: 0,
     borderRadius: 6,
-    backgroundColor: 'blue',
   },
 
   title: {
