@@ -16,6 +16,8 @@ export const Dashboard = ({navigation}) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [member, setMember] = useState('0')
 
+
+  // {route.params.token.message}
   useEffect(() => {
     fetch(`${API_URL}/users`, {
       method: 'GET',

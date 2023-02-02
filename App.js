@@ -8,7 +8,8 @@ import {Register} from './components/pages/Register';
 import {ResetPassword} from './components/pages/ResetPassword';
 import {SetPassword} from './components/pages/SetPassword';
 import {Profile} from './components/pages/Profile';
-import {Tes} from './components/pages/Tes';
+import {Dokter} from './components/pages/Dokter';
+import {About} from './components/pages/About';
 import { Alert } from 'react-native';
 import Keychain from 'react-native-keychain'
 const API_URL = 'http://10.10.10.81:5000'
@@ -16,9 +17,10 @@ const API_URL = 'http://10.10.10.81:5000'
 function App ()  {
   const Stack = createNativeStackNavigator();
   return (
+    // <About />
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="About"
         screenOptions={{headerShown: false, animation: 'none'}}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
@@ -27,6 +29,8 @@ function App ()  {
         <Stack.Screen name="SetPassword" component={SetPassword} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Dokter" component={Dokter} />
+        <Stack.Screen name="About" component={About} />
       </Stack.Navigator>
     </NavigationContainer>
   );

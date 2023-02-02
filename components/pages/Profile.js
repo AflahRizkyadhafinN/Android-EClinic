@@ -4,7 +4,6 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   Image,
   TouchableOpacity,
 } from 'react-native';
@@ -12,11 +11,7 @@ import {stylesGeneral, stylesProfile} from '../Style';
 import {SelectList} from 'react-native-dropdown-select-list';
 import DatePicker from 'react-native-modern-datepicker';
 import Modal from 'react-native-modal';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button';
+import RadioForm from 'react-native-simple-radio-button';
 import { useRoute } from '@react-navigation/native';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { update } from '../../App';
@@ -104,7 +99,11 @@ export const Profile = () => {
           />
         </TouchableOpacity>
         <Text style={stylesProfile.profileTitle}>Nama</Text>
-        <TextInput style={stylesProfile.textInput}  value={namalengkap} onChangeText={(text) => setNamaLengkap(text)} placeholder="Nama" />
+        <TextInput
+          editable={edit}
+          style={stylesProfile.textInput}  value={namalengkap} onChangeText={(text) => setNamaLengkap(text)}
+          placeholder="Nama"
+        />
         <Text style={stylesProfile.profileTitle}>NIK</Text>
         <TextInput style={stylesProfile.textInput} editable={false} value={nik} onChangeText={(text) => setNik(text)} placeholder="NIK" />
         <Text style={stylesProfile.profileTitle}>No. Telepon</Text>
@@ -201,7 +200,14 @@ export const Profile = () => {
           // value={jeniskelamin} 
           // onChangeText={(text) => setJenisKelamin(text)}
         />
-        <TouchableOpacity style={stylesProfile.submitButton} onPress={() => update(id, email, namalengkap, nik, pekerjaan,alamat, rw, rt, kodepos, kodewilayah, jeniskelamin, golongandarah, tempatLahir, tanggal)}>
+        <TouchableOpacity
+          style={stylesProfile.submitButton}
+          onPress={edit => setEdit(true)}>
+          <Text style={stylesProfile.submitTitle}>Edit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={stylesProfile.submitButton} onPress={() => update(id, email, namalengkap, nik, pekerjaan,alamat, rw, rt, kodepos, kodewilayah, jeniskelamin, golongandarah, tempatLahir, tanggal)}
+          >
           <Text style={stylesProfile.submitTitle}>Simpan</Text>
          </TouchableOpacity>
       </View>
