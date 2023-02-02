@@ -702,3 +702,27 @@ export const stylesAbout = StyleSheet.create({
     marginRight: 10,
   },
 });
+
+export const stylesLoading = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+
+  containerTop: {
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+
+  iconImage: {
+    width: 90,
+    height: 90,
+    marginBottom: 5,
+  },
+
+  iconTitle: {
+    fontSize: 40,
+    fontWeight: '800',
+    color: '#0066AB',
+  },
+});
