@@ -2,18 +2,16 @@ import {StyleSheet} from 'react-native';
 
 export const stylesGeneral = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    height: '100%',
+    padding: 20,
   },
 
   buttonContainer: {
     paddingVertical: 12,
     paddingHorizontal: 60,
-
+    marginHorizontal: 0,
     borderRadius: 6,
-    backgroundColor: 'blue',
   },
 
   title: {
@@ -43,6 +41,7 @@ export const stylesGeneral = StyleSheet.create({
   iconContainer: {
     flexDirection: 'row',
     marginBottom: 20,
+    marginLeft: 10,
   },
 
   iconImage: {

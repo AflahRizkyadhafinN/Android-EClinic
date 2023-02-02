@@ -18,7 +18,7 @@ import { update } from '../../App';
 
 export const Profile = () => {
   const [selected, setSelected] = React.useState('');
-
+  const [edit, setEdit] = React.useState(false);
   const listpekerjaan = [
     {key: '1', value: 'Guru'},
     {key: '2', value: 'Tentara'},
