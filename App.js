@@ -84,7 +84,7 @@ export function setpass(email, sNik, sNamaLengkap, navigation){
   }
 }
 
-export function login (nik, pass, remember, navigation) {
+export async function login (nik, pass, remember, navigation) {
     const payload = {
         nik,
         pass,
@@ -116,7 +116,7 @@ export function login (nik, pass, remember, navigation) {
   
       })
     }else {
-      fetch(`${API_URL}/login`, {
+      const res = fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -156,10 +156,10 @@ export async function remembermelogin(token, navigation){
   try {
     const dataRes = await res.json();
     if (res.status === 200) {
-      navigation.navigate('Profile', { dataRes });
+      navigation.navigate('Dashboard', { dataRes });
       console.log(dataRes);
     } else {
-      alert.Alert(dataRes);
+      Alert.alert(dataRes.alert);
     }
   }
   catch (err) {
@@ -181,8 +181,7 @@ function authenticate(dataRes, navigation) {
       const jsonRes = await res.json()
       if(res.status === 200){
         Alert.alert(jsonRes.alert)
-        navigation.navigate('Profile', {dataRes})
-        console.log(dataRes)
+        navigation.navigate('Dashboard', {dataRes})
       }else{
         Alert.alert(jsonRes.alert)
       }

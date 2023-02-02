@@ -36,8 +36,10 @@ export const Login = ({navigation}) => {
           }
           setToken(jwt.password)
           setRememberLogin(jwt.username)
-          console.log(jwt)
-          
+          console.log(jwt) 
+        } 
+        else{
+          setLoading(false)
         }
         return jwt
       }
@@ -52,13 +54,14 @@ export const Login = ({navigation}) => {
       if(rememberlogin === 'remember' && loggedin === false){
         remembermelogin(token, navigation).then((res) => {
           setLoading(false)
+          setLoggedIn(true)
         })
-        setLoggedIn(true)
+        
       } 
 
 
 
-console.log(loading)
+console.log(loggedin)
   if(loading) {
     return(
       <View> 
@@ -116,7 +119,9 @@ console.log(loading)
         <View style={stylesLogin.flexButtonContainer}>
           <TouchableOpacity
             style={[stylesGeneral.buttonContainer, stylesLogin.loginButton]}
-            onPress={() => login(nik, pass,remember, navigation)}>
+            onPress={() => login(nik, pass,remember, navigation).then((res) => {
+              setLoggedIn(true)
+            })}>
             <Text style={[stylesLogin.buttonTitle, stylesLogin.loginTitle]}>
               Login
             </Text>

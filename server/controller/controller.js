@@ -56,7 +56,7 @@ exports.login = (req, res, next) => {
             if(nik){
                 bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
                     if(passwordHash){
-                            const token = jwt.sign({ nik: req.body.nik }, 'secret', { expiresIn: '7d' });
+                            const token = jwt.sign({ nik: req.body.nik }, 'secret', { expiresIn: '1d' });
                             res.status(200).json({alert: 'Login Berhasil',id: nik.id, namalengkap: nik.namalengkap,nik: nik.nik, email: nik.email,
                             tanggalLahir: nik.tanggallahir,golongandarah: nik.golongandarah, tempatLahir: nik.tempatlahir, alamat: nik.alamat,rw: nik.rw, rt: nik.rt, 
                             kodepos: nik.kodepos,kodewilayah: nik.kodewilayah, pekerjaan: nik.pekerjaan, jeniskelamin: nik.jeniskelamin, token: token})
@@ -127,7 +127,7 @@ exports.rememberauth = (req, res, next) => {
         decodedToken = jwt.verify(token, 'secret')
     } 
     catch(err){
-        return res.status(500).json({alert: 'Error token expired. Tolong login ulang'})
+        return res.status(500).json({alert: 'Error token expired. Silahkan login kembali'})
     }
     if(!decodedToken){
         res.status(401).json({alert: 'Unauthorized'})

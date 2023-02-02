@@ -202,11 +202,11 @@ export const Profile = () => {
         />
         <TouchableOpacity
           style={stylesProfile.submitButton}
-          onPress={edit => setEdit(true)}>
+          onPress={() => setEdit(!edit)}>
           <Text style={stylesProfile.submitTitle}>Edit</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={stylesProfile.submitButton} onPress={() => update(id, email, namalengkap, nik, pekerjaan,alamat, rw, rt, kodepos, kodewilayah, jeniskelamin, golongandarah, tempatLahir, tanggal)}
+          style={stylesProfile.submitButton} onPress={() => {update(id, email, namalengkap, nik, pekerjaan,alamat, rw, rt, kodepos, kodewilayah, jeniskelamin, golongandarah, tempatLahir, tanggal); setEdit(false)}}
           >
           <Text style={stylesProfile.submitTitle}>Simpan</Text>
          </TouchableOpacity>
