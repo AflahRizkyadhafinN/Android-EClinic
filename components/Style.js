@@ -603,6 +603,7 @@ export const stylesAbout = StyleSheet.create({
     width: 120,
     height: 120,
     alignSelf: 'center',
+    marginTop: 20,
   },
 
   clinicName: {

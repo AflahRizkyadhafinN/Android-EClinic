@@ -79,7 +79,7 @@ export const Dashboard = ({navigation}) => {
     <ScrollView
       style={stylesDashboard.mainContainer}
       showsVerticalScrollIndicator={false}>
-      <MainNavbar screenName="Login"></MainNavbar>
+      <MainNavbar />
       <Text style={[stylesGeneral.title, stylesDashboard.title]}>
         Dashboard
       </Text>

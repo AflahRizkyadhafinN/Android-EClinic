@@ -8,7 +8,8 @@ import {
   Image,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import {DashboardNavbar} from './DashboardNavbar';
+import {SideNavbar} from './SideNavbar';
+
 export const MainNavbar = ({navigation}) => {
   const [open, setOpen] = React.useState(false);
 
@@ -22,7 +23,7 @@ export const MainNavbar = ({navigation}) => {
         animationOut={'slideOutLeft'}
         animationInTiming={1200}
         animationOutTiming={1200}>
-        <DashboardNavbar />
+        <SideNavbar />
       </Modal>
       <TouchableWithoutFeedback onPress={() => setOpen(true)}>
         <View style={stylesDashboard.menuContainer}>
@@ -34,7 +35,9 @@ export const MainNavbar = ({navigation}) => {
         </View>
       </TouchableWithoutFeedback>
       <View style={stylesDashboard.menuContainer}>
-        <TouchableOpacity style={stylesDashboard.menuLoginButton}>
+        <TouchableOpacity
+          style={stylesDashboard.menuLoginButton}
+          onPress={() => <SideNavbar />}>
           <Text style={stylesDashboard.menuLoginButtonTitle}>Login</Text>
         </TouchableOpacity>
         {/* <Text style={stylesDashboard.accountName}>Faisal Muslim</Text>
