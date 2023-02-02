@@ -147,29 +147,7 @@ export const Dashboard = ({navigation}) => {
       showsHorizontalScrollIndicator={false}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-      <View style={stylesDashboard.header}>
-        <View style={stylesDashboard.menuContainer}>
-          <TouchableWithoutFeedback>
-            <Image
-              style={stylesDashboard.buttonBurger}
-              source={require('../image/BurgerBar.png')}
-            />
-          </TouchableWithoutFeedback>
-          <Text style={stylesDashboard.menu}>Menu</Text>
-        </View>
-        <View style={stylesDashboard.menuContainer}>
-          {/* <TouchableOpacity
-            style={stylesDashboard.menuLoginButton}
-            onPress={() => navigation.navigate('Login')}>
-            <Text style={stylesDashboard.menuLoginButtonTitle}>Login</Text>
-          </TouchableOpacity> */}
-          <Text style={stylesDashboard.accountName}>{route.params.token.message}</Text>
-          <Image
-            style={stylesDashboard.accountImage}
-            source={require('../image/PhotoProfile.png')}
-          />
-        </View>
-      </View>
+          <MainNavbar />
       <Text style={[stylesGeneral.title, stylesDashboard.title]}>
         Dashboard
       </Text>
