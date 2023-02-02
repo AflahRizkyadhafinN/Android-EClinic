@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useEffect, useState } from 'react';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {
   Text,
@@ -11,15 +11,61 @@ import {
 } from 'react-native';
 import {stylesGeneral, stylesLogin} from '../Style';
 import {Icon} from '../Icon';
-import { login } from '../../App';
+import { login, remembermelogin } from '../../App'; 
+import Keychain from 'react-native-keychain'
+
 
 
 export const Login = ({navigation}) => {
+
+  const [token, setToken] = useState('')
+  const [rememberlogin, setRememberLogin] = useState('')
+  const [loggedin, setLoggedIn] = useState(false)
   const [nik, setNik] = useState('');
   const [pass, setPass] = useState('');
   const [remember, setRemember] = useState(false);
   const windows = useWindowDimensions();
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    const retrieveJwt = async () => {
+      try {
+        const jwt = await Keychain.getGenericPassword()
+        if(jwt){
+          if(jwt.username === 'forgot'){
+          setLoading(false)
+          }
+          setToken(jwt.password)
+          setRememberLogin(jwt.username)
+          console.log(jwt)
+          
+        }
+        return jwt
+      }
+      catch(err){
+        console.log(err)
+      }
+    }
+    retrieveJwt()
 
+  }, [])
+
+      if(rememberlogin === 'remember' && loggedin === false){
+        remembermelogin(token, navigation).then((res) => {
+          setLoading(false)
+        })
+        setLoggedIn(true)
+      } 
+
+
+
+console.log(loading)
+  if(loading) {
+    return(
+      <View> 
+        <Text>Loading.....</Text> 
+      </View>
+    )
+  }
 
   return (
 

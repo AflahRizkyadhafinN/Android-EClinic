@@ -34,6 +34,7 @@ app.post("/signup", data.signup)
 app.post("/login", data.login)
 app.post("/update", data.update)
 app.get("/auth", data.auth)
+app.get("/rememberauth", data.rememberauth)
 
 sequelize.sync(); 
 

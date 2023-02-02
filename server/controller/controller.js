@@ -56,7 +56,7 @@ exports.login = (req, res, next) => {
             if(nik){
                 bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
                     if(passwordHash){
-                            const token = jwt.sign({ nik: req.body.nik }, 'secret', { expiresIn: '1h' });
+                            const token = jwt.sign({ nik: req.body.nik }, 'secret', { expiresIn: '7d' });
                             res.status(200).json({alert: 'Login Berhasil',id: nik.id, namalengkap: nik.namalengkap,nik: nik.nik, email: nik.email,
                             tanggalLahir: nik.tanggallahir,golongandarah: nik.golongandarah, tempatLahir: nik.tempatlahir, alamat: nik.alamat,rw: nik.rw, rt: nik.rt, 
                             kodepos: nik.kodepos,kodewilayah: nik.kodewilayah, pekerjaan: nik.pekerjaan, jeniskelamin: nik.jeniskelamin, token: token})
@@ -106,7 +106,7 @@ exports.auth = (req, res, next) => {
         decodedToken = jwt.verify(token, 'secret')
     } 
     catch(err){
-        return res.status(500).json({alert: 'Gagal Coba Lagi Nanti'})
+        return res.status(500).json({alert: 'Error token expired'})
     }
     if(!decodedToken){
         res.status(401).json({alert: 'Unauthorized'})
@@ -114,6 +114,35 @@ exports.auth = (req, res, next) => {
     else{
         res.status(200).json({alert: 'Login Berhasil'})
     }
+}
+
+exports.rememberauth = (req, res, next) => {
+    const authHeader = req.get('Authorization')
+    if(!authHeader){
+        return res.status(401).json({alert: 'Authentication Gagal'})
+    } 
+    const token = authHeader.split(' ')[1]
+    let decodedToken
+    try {
+        decodedToken = jwt.verify(token, 'secret')
+    } 
+    catch(err){
+        return res.status(500).json({alert: 'Error token expired. Tolong login ulang'})
+    }
+    if(!decodedToken){
+        res.status(401).json({alert: 'Unauthorized'})
+    }
+    else{
+        data.findOne({where: {nik: decodedToken.nik}})
+        .then( nik => {
+            if(nik){
+                res.status(200).json({id: nik.id, namalengkap: nik.namalengkap,nik: nik.nik, email: nik.email,
+                            tanggalLahir: nik.tanggallahir,golongandarah: nik.golongandarah, tempatLahir: nik.tempatlahir, alamat: nik.alamat,rw: nik.rw, rt: nik.rt, 
+                            kodepos: nik.kodepos,kodewilayah: nik.kodewilayah, pekerjaan: nik.pekerjaan, jeniskelamin: nik.jeniskelamin, token: token})
+            }
+        })
+    }
+    console.log(decodedToken)
 }
 
 exports.update = (req, res, next) => {

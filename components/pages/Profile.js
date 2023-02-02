@@ -50,21 +50,21 @@ export const Profile = () => {
     {label: 'Perempuan', value: 'Perempuan'},
   ];
   const route = useRoute()
-  const id = route.params.token.id
-  const [namalengkap, setNamaLengkap] = useState(route.params.token.namalengkap)
-  const [nik, setNik] = useState(route.params.token.nik)
-  const [email, setEmail] = useState(route.params.token.email)
+  const id = route.params.dataRes.id
+  const [namalengkap, setNamaLengkap] = useState(route.params.dataRes.namalengkap)
+  const [nik, setNik] = useState(route.params.dataRes.nik)
+  const [email, setEmail] = useState(route.params.dataRes.email)
   const [tanggalLahir, setTanggalLahir] = useState(new Date())
-  const [tempatLahir, setTempatLahir] = useState(route.params.token.tempatLahir)
-  const [rt, setRt] = useState(route.params.token.rt)
-  const [rw, setRw] = useState(route.params.token.rw)
-  const [alamat, setAlamat] = useState(route.params.token.alamat)
-  const [pekerjaan, setPekerjaan] = useState(route.params.token.pekerjaan)
-  const [golongandarah, setGolonganDarah] = useState(route.params.token.golongandarah)
-  const [jeniskelamin, setJenisKelamin] = useState(route.params.token.jeniskelamin)
-  const [kodepos, setKodePos] = useState(route.params.token.kodewilayah)
-  const [kodewilayah, setKodeWilayah] = useState(route.params.token.kodepos)
-  const [tanggal, setTanggal] = useState(route.params.token.tanggalLahir)
+  const [tempatLahir, setTempatLahir] = useState(route.params.dataRes.tempatLahir)
+  const [rt, setRt] = useState(route.params.dataRes.rt)
+  const [rw, setRw] = useState(route.params.dataRes.rw)
+  const [alamat, setAlamat] = useState(route.params.dataRes.alamat)
+  const [pekerjaan, setPekerjaan] = useState(route.params.dataRes.pekerjaan)
+  const [golongandarah, setGolonganDarah] = useState(route.params.dataRes.golongandarah)
+  const [jeniskelamin, setJenisKelamin] = useState(route.params.dataRes.jeniskelamin)
+  const [kodepos, setKodePos] = useState(route.params.dataRes.kodewilayah)
+  const [kodewilayah, setKodeWilayah] = useState(route.params.dataRes.kodepos)
+  const [tanggal, setTanggal] = useState(route.params.dataRes.tanggalLahir)
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate
