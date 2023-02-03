@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   RefreshControl,
+  BackHandler,
 } from 'react-native';
 import {stylesDashboard, stylesGeneral} from '../Style';
 import { useRoute } from '@react-navigation/native';
@@ -78,7 +79,7 @@ export const Dashboard = ({navigation}) => {
   }, [refreshing]);
 
   const route = useRoute()
-  const jumlahPasien = 622;
+  const jumlahPasien = member;
   const penyakit = [
     {
       nama: 'Covid',

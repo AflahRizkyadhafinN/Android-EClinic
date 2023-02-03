@@ -63,8 +63,13 @@ export const Profile = () => {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate
-    setTanggalLahir(currentDate)
-    setTanggal(currentDate.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric'}))
+    if(event.type == 'set'){
+      setTanggalLahir(currentDate)
+      setTanggal(currentDate.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric'}))
+    }
+    else{
+      return null
+    }
   };
 
   const showMode = (currentMode) => {
@@ -87,6 +92,8 @@ export const Profile = () => {
     return 0
   } else if(jeniskelamin === 'Perempuan'){
     return 1
+  } else{
+    return -1
   }
   }
   return (

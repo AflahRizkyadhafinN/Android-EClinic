@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Dashboard} from './components/pages/Dashboard';
@@ -10,29 +10,43 @@ import {SetPassword} from './components/pages/SetPassword';
 import {Profile} from './components/pages/Profile';
 import {Dokter} from './components/pages/Dokter';
 import {About} from './components/pages/About';
-import {Alert} from 'react-native';
+import {Alert, BackHandler} from 'react-native';
 import Keychain from 'react-native-keychain';
 const API_URL = 'http://10.10.10.81:5000';
 const loggedin = true
-
+const Stack = createNativeStackNavigator();
 
 function App() {
-  const Stack = createNativeStackNavigator();
+  
+  const [currentScreen, setCurrentScreen] = useState('Login')
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (currentScreen === 'Dashboard'){
+        BackHandler.exitApp()
+        return true
+      }
+
+    })
+    return () => backHandler.remove()
+  }, [currentScreen])
+  console.log(currentScreen)
+
   return (
     // <About />
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Login"
         screenOptions={{headerShown: false, animation: 'none'}}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
-        <Stack.Screen name="ResetPassword" component={ResetPassword} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="SetPassword" component={SetPassword} />
-        <Stack.Screen name="Dashboard" component={Dashboard} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Dokter" component={Dokter} />
-        <Stack.Screen name="About" component={About} />
+        <Stack.Screen name="Login" component={Login} onFocus={() => setCurrentScreen('Login')}/>
+        <Stack.Screen name="ForgetPassword" component={ForgetPassword} onFocus={() => setCurrentScreen('ForgetPassword')}/>
+        <Stack.Screen name="ResetPassword" component={ResetPassword} onFocus={() => setCurrentScreen('ResetPassword')}/>
+        <Stack.Screen name="Register" component={Register} onFocus={() => setCurrentScreen('Register')}/>
+        <Stack.Screen name="SetPassword" component={SetPassword} onFocus={() => setCurrentScreen('SetPassword')}/>
+        <Stack.Screen name="Dashboard" component={Dashboard} onFocus={() => setCurrentScreen('Dashboard')}/>
+        <Stack.Screen name="Profile" component={Profile} onFocus={() => setCurrentScreen('Profile')}/>
+        <Stack.Screen name="Dokter" component={Dokter} onFocus={() => setCurrentScreen('Dokter')}/>
+        <Stack.Screen name="About" component={About} onFocus={() => setCurrentScreen('About')}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
