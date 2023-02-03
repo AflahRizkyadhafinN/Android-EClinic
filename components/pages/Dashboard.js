@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import ProgressBar from 'react-native-animated-progress';
 import {
   Text,
@@ -10,13 +10,13 @@ import {
   RefreshControl,
 } from 'react-native';
 import {stylesDashboard, stylesGeneral} from '../Style';
-import { useRoute } from '@react-navigation/native';
-import { MainNavbar } from '../MainNavbar';
-const API_URL = 'http://10.10.10.81:5000'
+import {useRoute} from '@react-navigation/native';
+import {MainNavbar} from '../MainNavbar';
+
+const API_URL = 'http://10.10.10.81:5000';
 export const Dashboard = ({navigation}) => {
   const [refreshing, setRefreshing] = React.useState(false);
-  const [member, setMember] = useState('0')
-
+  const [member, setMember] = useState('0');
 
   // {route.params.token.message}
   useEffect(() => {
@@ -24,29 +24,23 @@ export const Dashboard = ({navigation}) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': "application/json"
+        Accept: 'application/json',
       },
-      body: ''
-    })
-    .then(async res => {
+      body: '',
+    }).then(async res => {
       try {
-        const jsonRes = await res.json()
-        if(res.status === 200){
-          console.log(jsonRes)
-          setMember(jsonRes.id)
-        }else{
-          Alert.alert(jsonRes.alert)
+        const jsonRes = await res.json();
+        if (res.status === 200) {
+          console.log(jsonRes);
+          setMember(jsonRes.id);
+        } else {
+          Alert.alert(jsonRes.alert);
         }
+      } catch (err) {
+        console.log(err);
       }
-      catch(err){
-        console.log(err)
-      }
-
-    })
-  }, [])
-
-    
-  
+    });
+  }, []);
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
@@ -54,30 +48,26 @@ export const Dashboard = ({navigation}) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': "application/json"
+        Accept: 'application/json',
       },
-      body: ''
-    })
-    .then(async res => {
+      body: '',
+    }).then(async res => {
       try {
-        const jsonRes = await res.json()
-        if(res.status === 200){
-          console.log(jsonRes)
-          setMember(jsonRes.id)
-        }else{
-          Alert.alert(jsonRes.alert)
+        const jsonRes = await res.json();
+        if (res.status === 200) {
+          console.log(jsonRes);
+          setMember(jsonRes.id);
+        } else {
+          Alert.alert(jsonRes.alert);
         }
+      } catch (err) {
+        console.log(err);
       }
-      catch(err){
-        console.log(err)
-      }
-
-    })
-        setRefreshing(false)
-    
+    });
+    setRefreshing(false);
   }, [refreshing]);
 
-  const route = useRoute()
+  const route = useRoute();
   const jumlahPasien = 622;
   const penyakit = [
     {
@@ -147,8 +137,13 @@ export const Dashboard = ({navigation}) => {
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-          <MainNavbar userdata={route.params.dataRes} navigation={navigation} loginstate={route.params.loggedin}/>
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      <MainNavbar
+        userdata={route.params.userdata}
+        navigation={navigation}
+        loginstate={route.params.loggedin}
+      />
       <Text style={[stylesGeneral.title, stylesDashboard.title]}>
         Dashboard
       </Text>
@@ -162,7 +157,7 @@ export const Dashboard = ({navigation}) => {
         <View style={stylesDashboard.cardDescriptionContainer}>
           <Text style={stylesDashboard.cardTitle}>{member}</Text>
           <Text style={stylesDashboard.cardDescription}>
-          Jumlah orang yang telah registrasi
+            Jumlah orang yang telah registrasi
           </Text>
         </View>
       </View>

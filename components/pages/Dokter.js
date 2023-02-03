@@ -1,3 +1,4 @@
+import {useRoute} from '@react-navigation/native';
 import React from 'react';
 import {View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
@@ -5,8 +6,9 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {MainNavbar} from '../MainNavbar';
 import {stylesGeneral, stylesDokter} from '../Style';
 
-export const Dokter = () => {
+export const Dokter = ({navigation}) => {
   const [select, setSelected] = React.useState('');
+  const route = useRoute();
 
   const namaDokter = [
     {nama: 'Faisal', keahlian: 'Mata'},
@@ -27,7 +29,7 @@ export const Dokter = () => {
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar />
+        <MainNavbar userdata={route.params.userdata} navigation={navigation} />
         <Text style={stylesDokter.mainTitle}>Dokter</Text>
         <TextInput
           style={stylesDokter.searchDokter}

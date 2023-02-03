@@ -13,8 +13,7 @@ import {About} from './components/pages/About';
 import {Alert} from 'react-native';
 import Keychain from 'react-native-keychain';
 const API_URL = 'http://10.10.10.81:5000';
-const loggedin = true
-
+const loggedin = true;
 
 function App() {
   const Stack = createNativeStackNavigator();
@@ -82,12 +81,12 @@ export function setpass(email, sNik, sNamaLengkap, navigation) {
   }
 }
 
-export async function login (nik, pass, remember, navigation) {
-    const payload = {
-        nik,
-        pass,
-        remember,
-    }
+export async function login(nik, pass, remember, navigation) {
+  const payload = {
+    nik,
+    pass,
+    remember,
+  };
 
   if (remember === true) {
     fetch(`${API_URL}/login`, {
@@ -106,42 +105,34 @@ export async function login (nik, pass, remember, navigation) {
         } else {
           Alert.alert(jsonRes.alert);
         }
-        
-  
+      } catch (err) {
+        console.log(err);
       }
-      catch(err){
-        console.log(err)
+    });
+  } else {
+    const res = fetch(`${API_URL}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+    }).then(async res => {
+      try {
+        const jsonRes = await res.json();
+        if (res.status === 200) {
+          await Keychain.setGenericPassword('forgot', jsonRes.token);
+          authenticate(jsonRes, navigation);
+        } else {
+          Alert.alert(jsonRes.alert);
+        }
+      } catch (err) {
+        console.log(err);
       }
-    })
-    }else {
-      const res = fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': "application/json"
-        },
-        body: JSON.stringify(payload)
-      })
-      .then(async res => {
-        try {
-          const jsonRes = await res.json()
-          if(res.status === 200){
-            await Keychain.setGenericPassword('forgot', jsonRes.token)
-            authenticate(jsonRes, navigation)
-          }else{
-            Alert.alert(jsonRes.alert)
-          }
-        }
-        catch (err) {
-          console.log(err);
-        }
-      } 
-    )};
-    console.log(payload);
+    });
   }
-
-
-
+  console.log(payload);
+}
 
 export async function remembermelogin(token, navigation) {
   const res = await fetch(`${API_URL}/rememberauth`, {
@@ -155,7 +146,7 @@ export async function remembermelogin(token, navigation) {
   try {
     const dataRes = await res.json();
     if (res.status === 200) {
-      navigation.navigate('Dashboard', { dataRes, loggedin });
+      navigation.navigate('Dashboard', {dataRes, loggedin});
       console.log(dataRes);
     } else {
       Alert.alert(dataRes.alert);
@@ -163,7 +154,7 @@ export async function remembermelogin(token, navigation) {
   } catch (err) {
     console.log(err);
   }
-  return res
+  return res;
 }
 
 function authenticate(dataRes, navigation) {
@@ -176,12 +167,12 @@ function authenticate(dataRes, navigation) {
     },
   }).then(async res => {
     try {
-      const jsonRes = await res.json()
-      if(res.status === 200){
-        Alert.alert(jsonRes.alert)
-        navigation.navigate('Dashboard', {dataRes, loggedin})
-      }else{
-        Alert.alert(jsonRes.alert)
+      const jsonRes = await res.json();
+      if (res.status === 200) {
+        Alert.alert(jsonRes.alert);
+        navigation.navigate('Dashboard', {dataRes, loggedin});
+      } else {
+        Alert.alert(jsonRes.alert);
       }
     } catch (err) {
       console.log(err);
