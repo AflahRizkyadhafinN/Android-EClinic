@@ -148,7 +148,7 @@ export const Dashboard = ({navigation}) => {
       showsHorizontalScrollIndicator={false}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-          <MainNavbar />
+          <MainNavbar userdata={route.params.dataRes} navigation={navigation} loginstate={route.params.loggedin}/>
       <Text style={[stylesGeneral.title, stylesDashboard.title]}>
         Dashboard
       </Text>
@@ -162,7 +162,7 @@ export const Dashboard = ({navigation}) => {
         <View style={stylesDashboard.cardDescriptionContainer}>
           <Text style={stylesDashboard.cardTitle}>{member}</Text>
           <Text style={stylesDashboard.cardDescription}>
-            Jumlah orang yang telah registrasi
+          Jumlah orang yang telah registrasi
           </Text>
         </View>
       </View>

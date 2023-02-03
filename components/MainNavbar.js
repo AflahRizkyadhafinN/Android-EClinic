@@ -10,8 +10,12 @@ import {
 import Modal from 'react-native-modal';
 import {SideNavbar} from './SideNavbar';
 
-export const MainNavbar = ({navigation}) => {
+export const MainNavbar = (props) => {
   const [open, setOpen] = React.useState(false);
+  const {userdata, loginstate, navigation} = props
+  const dataRes = userdata
+  const loggedin = loginstate
+  
 
   return (
     <View style={stylesDashboard.header}>
@@ -35,16 +39,21 @@ export const MainNavbar = ({navigation}) => {
         </View>
       </TouchableWithoutFeedback>
       <View style={stylesDashboard.menuContainer}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={stylesDashboard.menuLoginButton}
           onPress={() => <SideNavbar />}>
           <Text style={stylesDashboard.menuLoginButtonTitle}>Login</Text>
-        </TouchableOpacity>
-        {/* <Text style={stylesDashboard.accountName}>Faisal Muslim</Text>
+        </TouchableOpacity> */}
+
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Profile', {dataRes})}>
+        <View style={{flexDirection: 'row'}}>        
+        <Text style={stylesDashboard.accountName}>{userdata.namalengkap}</Text>
         <Image
           style={stylesDashboard.accountImage}
           source={require('./image/PhotoProfile.png')}
-        /> */}
+        /></View>
+        </TouchableWithoutFeedback>
+
       </View>
     </View>
   );

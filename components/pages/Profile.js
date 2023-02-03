@@ -64,7 +64,7 @@ export const Profile = () => {
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate
     setTanggalLahir(currentDate)
-    setTanggal(tanggalLahir.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric'}))
+    setTanggal(currentDate.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric'}))
   };
 
   const showMode = (currentMode) => {
@@ -126,22 +126,8 @@ export const Profile = () => {
         <TextInput style={stylesProfile.textInput} value={tempatLahir}  onChangeText={(text) => setTempatLahir(text)} placeholder="Tempat lahir" />
         <Text style={stylesProfile.profileTitle}>Tanggal Lahir</Text>
         <TouchableOpacity onPress={() => showDatepicker()}>
-          <Text style={stylesProfile.date}>{tanggal}</Text>
+          <TextInput style={stylesProfile.date} editable={false} placeholder={tanggalLahir.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric'})}>{tanggal}</TextInput>
         </TouchableOpacity>
-        {/* Belum selesai */}
-        {/* <Modal
-          isVisible={open}
-          hasBackdrop
-          backdropColor="black"
-          backdropOpacity={0.5}
-          onBackdropPress={() => setOpen(false)}>
-          <DatePicker
-            onSelectedChange={date => {
-              setDate(date), setOpen(false);
-            }}
-            mode="calender"
-          />
-        </Modal> */}
         <Text style={stylesProfile.profileTitle}>Golongan Darah</Text>
         <SelectList
           setSelected={(value) => setGolonganDarah(value)}

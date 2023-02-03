@@ -10,11 +10,13 @@ import {SetPassword} from './components/pages/SetPassword';
 import {Profile} from './components/pages/Profile';
 import {Dokter} from './components/pages/Dokter';
 import {About} from './components/pages/About';
-import { Alert } from 'react-native';
-import Keychain from 'react-native-keychain'
-const API_URL = 'http://10.10.10.81:5000'
+import {Alert} from 'react-native';
+import Keychain from 'react-native-keychain';
+const API_URL = 'http://10.10.10.81:5000';
+const loggedin = true
 
-function App ()  {
+
+function App() {
   const Stack = createNativeStackNavigator();
   return (
     // <About />
@@ -36,51 +38,47 @@ function App ()  {
   );
 }
 
+export async function insert(email, sPassword, sNik, sNamaLengkap, navigation) {
+  const payload = {
+    email,
+    sNamaLengkap,
+    sPassword,
+    sNik,
+  };
 
-
-export async function insert  (email,sPassword,sNik, sNamaLengkap, navigation) {
-
-    const payload = {
-        email,
-        sNamaLengkap,
-        sPassword,
-        sNik,
-    }
-
-    fetch(`${API_URL}/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': "application/json"
-      },
-      body: JSON.stringify(payload)
-    })
+  fetch(`${API_URL}/signup`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
     .then(async res => {
-      try{
-        const jsonRes = await res.json()
-        if(res.status !== 200){
-          Alert.alert(jsonRes.alert)
-        } else if(res.status === 200){
-          Alert.alert(jsonRes.alert)
-          navigation.navigate('Login')
+      try {
+        const jsonRes = await res.json();
+        if (res.status !== 200) {
+          Alert.alert(jsonRes.alert);
+        } else if (res.status === 200) {
+          Alert.alert(jsonRes.alert);
+          navigation.navigate('Login');
         }
-      } catch(err){
-        console.log(err)
+      } catch (err) {
+        console.log(err);
       }
     })
     .catch(err => {
-      console.log(err)
-    })
+      console.log(err);
+    });
 
-    console.log(payload)
-  } 
+  console.log(payload);
+}
 
-export function setpass(email, sNik, sNamaLengkap, navigation){
+export function setpass(email, sNik, sNamaLengkap, navigation) {
   if (email && sNik && sNamaLengkap) {
-    navigation.navigate('SetPassword', {email, sNik, sNamaLengkap})
-  }
-  else if (email == null || sNik == null || sNamaLengkap == null){
-    Alert.alert('Lengkapi data anda')
+    navigation.navigate('SetPassword', {email, sNik, sNamaLengkap});
+  } else if (email == null || sNik == null || sNamaLengkap == null) {
+    Alert.alert('Lengkapi data anda');
   }
 }
 
@@ -88,33 +86,33 @@ export async function login (nik, pass, remember, navigation) {
     const payload = {
         nik,
         pass,
-        remember
+        remember,
     }
 
-    if(remember === true){
-      fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': "application/json"
-        },
-        body: JSON.stringify(payload)
-      })
-      .then(async res => {
-        try {
-          const jsonRes = await res.json()
-          if(res.status === 200){
-            await Keychain.setGenericPassword('remember', jsonRes.token)
-            authenticate(jsonRes, navigation)
-          }else{
-            Alert.alert(jsonRes.alert)
-          }
+  if (remember === true) {
+    fetch(`${API_URL}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+    }).then(async res => {
+      try {
+        const jsonRes = await res.json();
+        if (res.status === 200) {
+          await Keychain.setGenericPassword('remember', jsonRes.token);
+          authenticate(jsonRes, navigation);
+        } else {
+          Alert.alert(jsonRes.alert);
         }
-        catch(err){
-          console.log(err)
-        }
+        
   
-      })
+      }
+      catch(err){
+        console.log(err)
+      }
+    })
     }else {
       const res = fetch(`${API_URL}/login`, {
         method: 'POST',
@@ -134,37 +132,38 @@ export async function login (nik, pass, remember, navigation) {
             Alert.alert(jsonRes.alert)
           }
         }
-        catch(err){
-          console.log(err)
+        catch (err) {
+          console.log(err);
         }
-  
-      })
-    }
-    
-console.log(payload)
-}
+      } 
+    )};
+    console.log(payload);
+  }
 
-export async function remembermelogin(token, navigation){
+
+
+
+export async function remembermelogin(token, navigation) {
   const res = await fetch(`${API_URL}/rememberauth`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': "application/json",
-      'Authorization': `Bearer ${token}`
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
     },
   });
   try {
     const dataRes = await res.json();
     if (res.status === 200) {
-      navigation.navigate('Dashboard', { dataRes });
+      navigation.navigate('Dashboard', { dataRes, loggedin });
       console.log(dataRes);
     } else {
       Alert.alert(dataRes.alert);
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
   }
+  return res
 }
 
 function authenticate(dataRes, navigation) {
@@ -172,34 +171,46 @@ function authenticate(dataRes, navigation) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': "application/json",
-      'Authorization': `Bearer ${dataRes.token}` 
+      Accept: 'application/json',
+      Authorization: `Bearer ${dataRes.token}`,
     },
-  })
-  .then(async res => {
+  }).then(async res => {
     try {
       const jsonRes = await res.json()
       if(res.status === 200){
         Alert.alert(jsonRes.alert)
-        navigation.navigate('Dashboard', {dataRes})
+        navigation.navigate('Dashboard', {dataRes, loggedin})
       }else{
         Alert.alert(jsonRes.alert)
       }
+    } catch (err) {
+      console.log(err);
     }
-    catch(err){
-      console.log(err)
-    }
-  })
+  });
 }
 
-export async function update  (id, email,namalengkap,nik, pekerjaan,alamat,rw,rt,kodepos,kodewilayah,jeniskelamin,golongandarah,tempatLahir,tanggalLahir) {
-
+export async function update(
+  id,
+  email,
+  namalengkap,
+  nik,
+  pekerjaan,
+  alamat,
+  rw,
+  rt,
+  kodepos,
+  kodewilayah,
+  jeniskelamin,
+  golongandarah,
+  tempatLahir,
+  tanggalLahir,
+) {
   const payload = {
     alamat,
     id,
     email,
     namalengkap,
-    nik, 
+    nik,
     pekerjaan,
     rw,
     rt,
@@ -209,33 +220,33 @@ export async function update  (id, email,namalengkap,nik, pekerjaan,alamat,rw,rt
     golongandarah,
     tempatLahir,
     tanggalLahir,
-  }
+  };
 
   fetch(`${API_URL}/update`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': "application/json"
+      Accept: 'application/json',
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   })
-  .then(async res => {
-    try{
-      const jsonRes = await res.json()
-      if(res.status !== 200){
-        Alert.alert(jsonRes.alert)
-      } else if(res.status === 200){
-        Alert.alert(jsonRes.alert)
+    .then(async res => {
+      try {
+        const jsonRes = await res.json();
+        if (res.status !== 200) {
+          Alert.alert(jsonRes.alert);
+        } else if (res.status === 200) {
+          Alert.alert(jsonRes.alert);
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch(err){
-      console.log(err)
-    }
-  })
-  .catch(err => {
-    console.log(err)
-  })
+    })
+    .catch(err => {
+      console.log(err);
+    });
 
-  console.log(payload)
-} 
+  console.log(payload);
+}
 
-export default App
+export default App;
