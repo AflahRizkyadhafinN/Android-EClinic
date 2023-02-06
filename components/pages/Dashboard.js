@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useEffect, useRef, useState } from 'react';
 import ProgressBar from 'react-native-animated-progress';
 import {
   Text,
@@ -11,13 +11,12 @@ import {
   BackHandler,
 } from 'react-native';
 import {stylesDashboard, stylesGeneral} from '../Style';
-import { useRoute } from '@react-navigation/native';
+import { CommonActions, useRoute } from '@react-navigation/native';
 import { MainNavbar } from '../MainNavbar';
 const API_URL = 'http://10.10.10.81:5000'
 export const Dashboard = ({navigation}) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [member, setMember] = useState('0')
-
 
   // {route.params.token.message}
   useEffect(() => {

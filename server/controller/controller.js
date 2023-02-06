@@ -150,6 +150,8 @@ exports.update = (req, res, next) => {
         !req.body.alamat || !req.body.jeniskelamin || !req.body.kodewilayah || !req.body.kodepos || !req.body.tempatLahir){
         return res.status(400).json({alert: 'Tolong lengkapi data anda'})
     } else{
+        const token = jwt.sign({ nik: req.body.nik }, 'secret', { expiresIn: '1h' });
+        res.json({token: token})
         data.update({ 
             namalengkap: req.body.namalengkap,
             email: req.body.email,

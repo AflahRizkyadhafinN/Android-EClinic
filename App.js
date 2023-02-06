@@ -17,20 +17,7 @@ const loggedin = true
 const Stack = createNativeStackNavigator();
 
 function App() {
-  
-  const [currentScreen, setCurrentScreen] = useState('Login')
 
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (currentScreen === 'Dashboard'){
-        BackHandler.exitApp()
-        return true
-      }
-
-    })
-    return () => backHandler.remove()
-  }, [currentScreen])
-  console.log(currentScreen)
 
   return (
     // <About />
@@ -38,15 +25,15 @@ function App() {
       <Stack.Navigator
         initialRouteName="Login"
         screenOptions={{headerShown: false, animation: 'none'}}>
-        <Stack.Screen name="Login" component={Login} onFocus={() => setCurrentScreen('Login')}/>
-        <Stack.Screen name="ForgetPassword" component={ForgetPassword} onFocus={() => setCurrentScreen('ForgetPassword')}/>
-        <Stack.Screen name="ResetPassword" component={ResetPassword} onFocus={() => setCurrentScreen('ResetPassword')}/>
-        <Stack.Screen name="Register" component={Register} onFocus={() => setCurrentScreen('Register')}/>
-        <Stack.Screen name="SetPassword" component={SetPassword} onFocus={() => setCurrentScreen('SetPassword')}/>
-        <Stack.Screen name="Dashboard" component={Dashboard} onFocus={() => setCurrentScreen('Dashboard')}/>
-        <Stack.Screen name="Profile" component={Profile} onFocus={() => setCurrentScreen('Profile')}/>
-        <Stack.Screen name="Dokter" component={Dokter} onFocus={() => setCurrentScreen('Dokter')}/>
-        <Stack.Screen name="About" component={About} onFocus={() => setCurrentScreen('About')}/>
+        <Stack.Screen name="Login" component={Login}/>
+        <Stack.Screen name="ForgetPassword" component={ForgetPassword}/>
+        <Stack.Screen name="ResetPassword" component={ResetPassword}/>
+        <Stack.Screen name="Register" component={Register}/>
+        <Stack.Screen name="SetPassword" component={SetPassword}/>
+        <Stack.Screen name="Dashboard" component={Dashboard}/>
+        <Stack.Screen name="Profile" component={Profile}/>
+        <Stack.Screen name="Dokter" component={Dokter}/>
+        <Stack.Screen name="About" component={About}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -155,8 +142,6 @@ export async function login (nik, pass, remember, navigation) {
   }
 
 
-
-
 export async function remembermelogin(token, navigation) {
   const res = await fetch(`${API_URL}/rememberauth`, {
     method: 'GET',
@@ -251,6 +236,7 @@ export async function update(
           Alert.alert(jsonRes.alert);
         } else if (res.status === 200) {
           Alert.alert(jsonRes.alert);
+          ProfileRefresh(jsonRes.token)
         }
       } catch (err) {
         console.log(err);
@@ -261,6 +247,17 @@ export async function update(
     });
 
   console.log(payload);
+}
+
+function ProfileRefresh(token) {
+  fetch(`${API_URL}/rememberauth`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
 }
 
 export default App;
