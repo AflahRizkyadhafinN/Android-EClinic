@@ -2,12 +2,14 @@ import React from 'react';
 import {View, ScrollView, Text, Image, TouchableOpacity} from 'react-native';
 import {MainNavbar} from '../MainNavbar';
 import {stylesGeneral, stylesAbout} from '../Style';
+import {useRoute} from '@react-navigation/native';
 
-export const About = () => {
+export const About = ({navigation}) => {
+  const route = useRoute();
   return (
     <View>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar />
+        <MainNavbar userdata={route.params.userdata} navigation={navigation} />
         <Image
           style={stylesAbout.clinicIcon}
           source={require('../image/logo.png')}

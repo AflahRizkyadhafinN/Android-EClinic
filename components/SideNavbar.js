@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {stylesDNavbar} from './Style';
 
-export const SideNavbar = ({navigation}) => {
+export const SideNavbar = ({navigation, userdata}) => {
   return (
     <View style={stylesDNavbar.mainContainer}>
       <View>
@@ -13,18 +13,27 @@ export const SideNavbar = ({navigation}) => {
           />
           <Text style={stylesDNavbar.iconTitle}>E-Clinic</Text>
         </View>
-        <TouchableOpacity style={stylesDNavbar.buttonContainer}>
+        <TouchableOpacity
+          style={stylesDNavbar.buttonContainer}
+          onPress={() => console.log(user)}>
           <Text style={stylesDNavbar.buttonTitle}>Pendaftaran</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[stylesDNavbar.menuContainer, {marginTop: 50}]}>
+          style={[stylesDNavbar.menuContainer, {marginTop: 50}]}
+          onPress={() => {
+            navigation.navigate('Dashboard', {userdata});
+          }}>
           <Image
             style={stylesDNavbar.menuIcon}
             source={require('./image/dashboardIcon.png')}
           />
           <Text style={stylesDNavbar.menuTitle}>Dashboard</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={stylesDNavbar.menuContainer}>
+        <TouchableOpacity
+          style={stylesDNavbar.menuContainer}
+          onPress={() => {
+            navigation.navigate('Dokter', {userdata});
+          }}>
           <Image
             style={stylesDNavbar.menuIcon}
             source={require('./image/dokterIcon.png')}
@@ -45,7 +54,11 @@ export const SideNavbar = ({navigation}) => {
           />
           <Text style={stylesDNavbar.menuTitle}>Riwayat</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={stylesDNavbar.menuContainer}>
+        <TouchableOpacity
+          style={stylesDNavbar.menuContainer}
+          onPress={() => {
+            navigation.navigate('About', {userdata});
+          }}>
           <Image
             style={stylesDNavbar.menuIcon}
             source={require('./image/aboutIcon.png')}
