@@ -1,11 +1,8 @@
 const express = require("express");
 const sequelize = require('./models/connection')
-const passport = require('passport')
 const app = express();
 const data = require('./controller/controller.js');
 const bodyParser = require("body-parser");
-
-
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -25,16 +22,15 @@ app.use((_, res, next) => {
   next();
 });
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-
 app.get("/users", data.findAll)
 app.post("/signup", data.signup)
 app.post("/login", data.login)
 app.post("/update", data.update)
 app.get("/auth", data.auth)
 app.get("/rememberauth", data.rememberauth)
+app.get("/updatetoken", data.updatetoken)
+app.post("/profilerefresh", data.profilerefresh)
+
 
 sequelize.sync(); 
 

@@ -29,7 +29,7 @@ export const Dokter = ({navigation}) => {
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar userdata={route.params.userdata} navigation={navigation} />
+        <MainNavbar navigation={navigation} />
         <Text style={stylesDokter.mainTitle}>Dokter</Text>
         <TextInput
           style={stylesDokter.searchDokter}

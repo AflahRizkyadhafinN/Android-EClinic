@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {stylesDNavbar} from './Style';
 
-export const SideNavbar = ({navigation, userdata}) => {
+export const SideNavbar = ({navigation}) => {
   return (
     <View style={stylesDNavbar.mainContainer}>
       <View>
@@ -21,7 +21,7 @@ export const SideNavbar = ({navigation, userdata}) => {
         <TouchableOpacity
           style={[stylesDNavbar.menuContainer, {marginTop: 50}]}
           onPress={() => {
-            navigation.navigate('Dashboard', {userdata});
+            navigation.navigate('Dashboard');
           }}>
           <Image
             style={stylesDNavbar.menuIcon}
@@ -32,7 +32,7 @@ export const SideNavbar = ({navigation, userdata}) => {
         <TouchableOpacity
           style={stylesDNavbar.menuContainer}
           onPress={() => {
-            navigation.navigate('Dokter', {userdata});
+            navigation.navigate('Dokter');
           }}>
           <Image
             style={stylesDNavbar.menuIcon}
@@ -57,7 +57,7 @@ export const SideNavbar = ({navigation, userdata}) => {
         <TouchableOpacity
           style={stylesDNavbar.menuContainer}
           onPress={() => {
-            navigation.navigate('About', {userdata});
+            navigation.navigate('About');
           }}>
           <Image
             style={stylesDNavbar.menuIcon}

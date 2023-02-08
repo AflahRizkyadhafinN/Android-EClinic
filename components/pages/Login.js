@@ -10,9 +10,12 @@ import {
 } from 'react-native';
 import {stylesGeneral, stylesLogin} from '../Style';
 import {Icon} from '../Icon';
-import {login, remembermelogin} from '../../App';
+import { API_URL, authenticate, remembermelogin} from '../../App';
 import Keychain from 'react-native-keychain';
 import {Loading} from '../Loading';
+import { useContext } from "react";
+import { makeContext } from '../UseContext';
+
 
 export const Login = ({navigation}) => {
   const [token, setToken] = useState('');
@@ -22,6 +25,63 @@ export const Login = ({navigation}) => {
   const [pass, setPass] = useState('');
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(true);
+  const {setUserData} = useContext(makeContext)
+
+
+
+ async function login(nik, pass, remember, navigation) {
+    const payload = {
+      nik,
+      pass,
+      remember,
+    };
+
+    if (remember === true) {
+      const res = fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(payload),
+      }).then(async res => {
+        try {
+          const jsonRes = await res.json();
+          if (res.status === 200) {
+            await Keychain.setGenericPassword('remember', jsonRes.token);
+            setUserData(jsonRes)
+            authenticate(jsonRes, navigation);
+          } else {
+            Alert.alert(jsonRes.alert);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    } else {
+      const res = fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(payload),
+      }).then(async res => {
+        try {
+          const jsonRes = await res.json();
+          if (res.status === 200) {
+            await Keychain.setGenericPassword('forgot', jsonRes.token);
+            setUserData(jsonRes)
+            authenticate(jsonRes, navigation);
+          } else {
+            Alert.alert(jsonRes.alert);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    } 
+  }
 
     const retrieveJwt = async () => {
       try {
@@ -52,9 +112,20 @@ export const Login = ({navigation}) => {
 
     useEffect(() => {
       if(rememberlogin === 'remember' && !rememberloggedin){
-           remembermelogin(token, navigation).then((res) => {
-            if(res.status === 200){
-              setRememberLoggedIn(true)
+           remembermelogin(token, navigation).then(async (res) => {
+            try{
+              const userdata = await res.json();
+              if(res.status === 200){
+                setRememberLoggedIn(true)
+                setUserData(userdata)
+                navigation.navigate('Dashboard')
+              } else{
+                Alert.alert(userdata.alert)
+              }
+              console.log(userdata);
+            }
+            catch(err){
+              console.log(err);
             }
             setLoading(false)
           })

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {stylesDashboard} from './Style';
 import {
   View,
@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {SideNavbar} from './SideNavbar';
+import { makeContext } from './UseContext';
 
 export const MainNavbar = props => {
+  const {userdata} = useContext(makeContext)
   const [open, setOpen] = React.useState(false);
-  const {userdata, loginstate, navigation} = props;
-  const dataRes = userdata;
-  const loggedin = loginstate;
+  const {navigation} = props;
 
   return (
     <View style={stylesDashboard.header}>
@@ -26,7 +26,7 @@ export const MainNavbar = props => {
         animationOut={'slideOutLeft'}
         animationInTiming={1200}
         animationOutTiming={1200}>
-        <SideNavbar navigation={navigation} userdata={dataRes} />
+        <SideNavbar navigation={navigation} />
       </Modal>
       <TouchableWithoutFeedback onPress={() => setOpen(true)}>
         <View style={stylesDashboard.menuContainer}>
@@ -45,7 +45,7 @@ export const MainNavbar = props => {
         </TouchableOpacity> */}
 
         <TouchableWithoutFeedback
-          onPress={() => navigation.navigate('Profile', {userdata})}>
+          onPress={() => navigation.navigate('Profile')}>
           <View style={{flexDirection: 'row'}}>
             <Text style={stylesDashboard.accountName}>
               {userdata.namalengkap}

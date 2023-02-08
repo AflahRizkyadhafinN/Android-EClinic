@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {Component, useContext, useEffect, useState} from 'react';
 import ProgressBar from 'react-native-animated-progress';
 import {
   Text,
@@ -11,13 +11,32 @@ import {
   BackHandler,
 } from 'react-native';
 import {stylesDashboard, stylesGeneral} from '../Style';
-import {useRoute} from '@react-navigation/native';
+import {useIsFocused, useRoute} from '@react-navigation/native';
 import {MainNavbar} from '../MainNavbar';
+import { makeContext } from '../UseContext';
+import { API_URL } from '../../App';
+import DoubleTapToClose from '../CloseApp';
 
-const API_URL = 'http://10.10.10.81:5000';
-export const Dashboard = ({navigation}) => {
+export const Dashboard = ({navigation, isInitialScreen}) => {
+  const route = useRoute()
+  // const isFocused = useIsFocused()
   const [refreshing, setRefreshing] = React.useState(false);
   const [member, setMember] = useState('0');
+  console.log(isInitialScreen);
+  // useEffect(() => {
+  //   const backhandler = BackHandler.addEventListener('hardwareBackPress', ()=> {
+  //     if (isFocused) {
+  //       BackHandler.exitApp()
+  //       return true
+  //     }else{
+  //       backhandler.remove()
+  //     }
+
+  //   })
+  //   return () => {
+  //     backhandler.remove()
+  //   }
+  // }, [])
 
   // {route.params.token.message}
   useEffect(() => {
@@ -68,7 +87,6 @@ export const Dashboard = ({navigation}) => {
     setRefreshing(false);
   }, [refreshing]);
 
-  const route = useRoute()
   const jumlahPasien = member;
   const penyakit = [
     {
@@ -133,6 +151,7 @@ export const Dashboard = ({navigation}) => {
   ];
 
   return (
+    
     <ScrollView
       style={stylesDashboard.mainContainer}
       showsVerticalScrollIndicator={false}
@@ -140,10 +159,10 @@ export const Dashboard = ({navigation}) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
+          {isInitialScreen && <DoubleTapToClose/>}
+        {/* <DoubleTapToClose /> */}
       <MainNavbar
-        userdata={route.params.userdata}
         navigation={navigation}
-        loginstate={route.params.loggedin}
       />
       <Text style={[stylesGeneral.title, stylesDashboard.title]}>
         Dashboard

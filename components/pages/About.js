@@ -9,7 +9,7 @@ export const About = ({navigation}) => {
   return (
     <View>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar userdata={route.params.userdata} navigation={navigation} />
+        <MainNavbar navigation={navigation} />
         <Image
           style={stylesAbout.clinicIcon}
           source={require('../image/logo.png')}

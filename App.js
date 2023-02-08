@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Dashboard} from './components/pages/Dashboard';
@@ -10,32 +10,53 @@ import {SetPassword} from './components/pages/SetPassword';
 import {Profile} from './components/pages/Profile';
 import {Dokter} from './components/pages/Dokter';
 import {About} from './components/pages/About';
-import {Alert, BackHandler} from 'react-native';
-import Keychain from 'react-native-keychain';
-const API_URL = 'http://10.10.10.81:5000';
+import {Alert} from 'react-native';
+import { UserData } from './components/UseContext';
+
+export const API_URL = 'http://10.10.10.91:5000';
 const loggedin = true
 const Stack = createNativeStackNavigator();
 
+const isCurrentScreenInitialOne = (state) => {
+  const route = state.routes[state.index];
+  if (route.state) {
+    // Dive into nested navigators
+    return isCurrentScreenInitialOne(route.state);
+  }
+  return state.index === 1;
+};
+
 function App() {
 
+  const [isInitialScreen, setIsInitialScreen] = useState(true);
 
   return (
     // <About />
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{headerShown: false, animation: 'none'}}>
-        <Stack.Screen name="Login" component={Login}/>
-        <Stack.Screen name="ForgetPassword" component={ForgetPassword}/>
-        <Stack.Screen name="ResetPassword" component={ResetPassword}/>
-        <Stack.Screen name="Register" component={Register}/>
-        <Stack.Screen name="SetPassword" component={SetPassword}/>
-        <Stack.Screen name="Dashboard" component={Dashboard}/>
-        <Stack.Screen name="Profile" component={Profile}/>
-        <Stack.Screen name="Dokter" component={Dokter}/>
-        <Stack.Screen name="About" component={About}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <UserData>
+
+      <NavigationContainer onStateChange={(state) => {
+            setIsInitialScreen(isCurrentScreenInitialOne(state));
+          }}>
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{headerShown: false, animation: 'none'}}>
+          <Stack.Screen name="Login" component={Login}/>
+          <Stack.Screen name="ForgetPassword" component={ForgetPassword}/>
+          <Stack.Screen name="ResetPassword" component={ResetPassword}/>
+          <Stack.Screen name="Register" component={Register}/>
+          <Stack.Screen name="SetPassword" component={SetPassword}/>
+          <Stack.Screen name="Dashboard" >
+            {props => <Dashboard {...props} isInitialScreen={isInitialScreen}/>}
+          </Stack.Screen>
+          <Stack.Screen name="Profile" component={Profile}/>
+          <Stack.Screen name="Dokter" component={Dokter}/>
+          <Stack.Screen name="About" component={About}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+
+      
+    </UserData>
+
   );
 }
 
@@ -83,56 +104,7 @@ export function setpass(email, sNik, sNamaLengkap, navigation) {
   }
 }
 
-export async function login(nik, pass, remember, navigation) {
-  const payload = {
-    nik,
-    pass,
-    remember,
-  };
 
-  if (remember === true) {
-    fetch(`${API_URL}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }).then(async res => {
-      try {
-        const jsonRes = await res.json();
-        if (res.status === 200) {
-          await Keychain.setGenericPassword('remember', jsonRes.token);
-          authenticate(jsonRes, navigation);
-        } else {
-          Alert.alert(jsonRes.alert);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    });
-  } else {
-    const res = fetch(`${API_URL}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }).then(async res => {
-      try {
-        const jsonRes = await res.json();
-        if (res.status === 200) {
-          await Keychain.setGenericPassword('forgot', jsonRes.token);
-          authenticate(jsonRes, navigation);
-        } else {
-          Alert.alert(jsonRes.alert);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    });
-  }}
 
 export async function remembermelogin(token, navigation) {
   const res = await fetch(`${API_URL}/rememberauth`, {
@@ -143,34 +115,23 @@ export async function remembermelogin(token, navigation) {
       Authorization: `Bearer ${token}`,
     },
   });
-  try {
-    const dataRes = await res.json();
-    if (res.status === 200) {
-      navigation.navigate('Dashboard', {dataRes, loggedin});
-      console.log(dataRes);
-    } else {
-      Alert.alert(dataRes.alert);
-    }
-  } catch (err) {
-    console.log(err);
-  }
   return res;
 }
 
-function authenticate(dataRes, navigation) {
+export function authenticate(userdata, navigation) {
   fetch(`${API_URL}/auth`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${dataRes.token}`,
+      Authorization: `Bearer ${userdata.token}`,
     },
   }).then(async res => {
     try {
       const jsonRes = await res.json();
       if (res.status === 200) {
         Alert.alert(jsonRes.alert);
-        navigation.navigate('Dashboard', {dataRes, loggedin});
+        navigation.navigate('Dashboard');
       } else {
         Alert.alert(jsonRes.alert);
       }
@@ -178,6 +139,28 @@ function authenticate(dataRes, navigation) {
       console.log(err);
     }
   });
+}
+
+export async function getUpdateToken() {
+  const res = await fetch(`${API_URL}/updatetoken`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+  try {
+    const dataRes = await res.json();
+    const token = dataRes.token
+    if (res.status === 200) {
+      console.log(dataRes)
+      return token
+    } else {
+      Alert.alert(dataRes.alert);
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export async function update(
@@ -195,6 +178,7 @@ export async function update(
   golongandarah,
   tempatLahir,
   tanggalLahir,
+  token,
 ) {
   const payload = {
     alamat,
@@ -218,6 +202,7 @@ export async function update(
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(payload),
   })
@@ -228,7 +213,6 @@ export async function update(
           Alert.alert(jsonRes.alert);
         } else if (res.status === 200) {
           Alert.alert(jsonRes.alert);
-          ProfileRefresh(jsonRes.token)
         }
       } catch (err) {
         console.log(err);
@@ -237,19 +221,6 @@ export async function update(
     .catch(err => {
       console.log(err);
     });
-
-  console.log(payload);
-}
-
-function ProfileRefresh(token) {
-  fetch(`${API_URL}/rememberauth`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  })
 }
 
 export default App;

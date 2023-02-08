@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   ScrollView,
   View,
@@ -12,9 +12,11 @@ import {SelectList} from 'react-native-dropdown-select-list';
 import RadioForm from 'react-native-simple-radio-button';
 import {useRoute} from '@react-navigation/native';
 import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
-import {update} from '../../App';
+import {API_URL, getUpdateToken, update} from '../../App';
+import { makeContext } from '../UseContext';
 
-export const Profile = () => {
+export const Profile = ({navigation}) => {
+  const {userdata, setUserData} = useContext(makeContext)
   const [selected, setSelected] = React.useState('');
   const [edit, setEdit] = React.useState(false);
 
@@ -44,29 +46,30 @@ export const Profile = () => {
     {label: 'Perempuan', value: 'Perempuan'},
   ];
   const route = useRoute();
-  const id = route.params.dataRes.id;
+  const id = userdata.id;
   const [namalengkap, setNamaLengkap] = useState(
-    route.params.dataRes.namalengkap,
+    userdata.namalengkap,
   );
-  const [nik, setNik] = useState(route.params.dataRes.nik);
-  const [email, setEmail] = useState(route.params.dataRes.email);
+  const [nik, setNik] = useState(userdata.nik);
+  const [email, setEmail] = useState(userdata.email);
   const [tanggalLahir, setTanggalLahir] = useState(new Date());
   const [tempatLahir, setTempatLahir] = useState(
-    route.params.dataRes.tempatLahir,
+    userdata.tempatLahir,
   );
-  const [rt, setRt] = useState(route.params.dataRes.rt);
-  const [rw, setRw] = useState(route.params.dataRes.rw);
-  const [alamat, setAlamat] = useState(route.params.dataRes.alamat);
-  const [pekerjaan, setPekerjaan] = useState(route.params.dataRes.pekerjaan);
+  const [rt, setRt] = useState(userdata.rt);
+  const [rw, setRw] = useState(userdata.rw);
+  const [alamat, setAlamat] = useState(userdata.alamat);
+  const [pekerjaan, setPekerjaan] = useState(userdata.pekerjaan);
   const [golongandarah, setGolonganDarah] = useState(
-    route.params.dataRes.golongandarah,
+    userdata.golongandarah,
   );
   const [jeniskelamin, setJenisKelamin] = useState(
-    route.params.dataRes.jeniskelamin,
+    userdata.jeniskelamin,
   );
-  const [kodepos, setKodePos] = useState(route.params.dataRes.kodewilayah);
-  const [kodewilayah, setKodeWilayah] = useState(route.params.dataRes.kodepos);
-  const [tanggal, setTanggal] = useState(route.params.dataRes.tanggalLahir);
+  const [token, setToken] = useState('')
+  const [kodepos, setKodePos] = useState(userdata.kodepos);
+  const [kodewilayah, setKodeWilayah] = useState(userdata.kodewilayah);
+  const [tanggal, setTanggal] = useState(userdata.tanggalLahir);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -108,6 +111,31 @@ export const Profile = () => {
     return -1
   }
   }
+
+  async function profilerefresh(id){
+
+    fetch(`${API_URL}/profilerefresh`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: id
+    })
+    .then(async res => {
+      try{
+        const jsonRes = await res.json()
+        console.log(jsonRes);
+        if(res.status == 200){
+          setUserData(jsonRes)
+        }
+      }
+      catch(err){
+        console.log(err)
+      }
+    })
+  }
+
   return (
     <ScrollView>
       <View style={stylesGeneral.container}>
@@ -148,7 +176,7 @@ export const Profile = () => {
           editable={edit}
         />
         <Text style={stylesProfile.profileTitle}>Pekerjaan</Text>
-        <View pointerEvents={isDisabled ? 'none' : undefined}>
+        <View >
           <SelectList
             setSelected={value => setPekerjaan(value)}
             data={listpekerjaan}
@@ -268,7 +296,12 @@ export const Profile = () => {
         />
         <TouchableOpacity
           style={stylesProfile.submitButton}
-          onPress={() => setEdit(!edit)}>
+          onPress={() => getUpdateToken().then((token) => {
+            if(token) {
+              setEdit(!edit)
+              setToken(token)
+            }
+          })}>
           <Text style={stylesProfile.submitTitle}>Edit</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -289,8 +322,12 @@ export const Profile = () => {
               golongandarah,
               tempatLahir,
               tanggal,
-            );
-            setEdit(false);
+              token,
+              navigation
+            ).then(() => {
+                profilerefresh(id)
+                setEdit(false)
+            })
           }}>
           <Text style={stylesProfile.submitTitle}>Simpan</Text>
         </TouchableOpacity>
