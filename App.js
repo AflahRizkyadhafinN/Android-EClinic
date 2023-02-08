@@ -10,30 +10,37 @@ import {SetPassword} from './components/pages/SetPassword';
 import {Profile} from './components/pages/Profile';
 import {Dokter} from './components/pages/Dokter';
 import {About} from './components/pages/About';
+import {Pendaftaran} from './components/pages/Pendaftaran';
+import {Kategorisasi} from './components/pages/Kategorisasi';
+import {AmbilNomor} from './components/pages/AmbilNomor';
 import {Alert} from 'react-native';
 import Keychain from 'react-native-keychain';
+import Cek from './components/pages/Cek';
 const API_URL = 'http://10.10.10.81:5000';
 const loggedin = true;
 
 function App() {
   const Stack = createNativeStackNavigator();
   return (
-    // <About />
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{headerShown: false, animation: 'none'}}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
-        <Stack.Screen name="ResetPassword" component={ResetPassword} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="SetPassword" component={SetPassword} />
-        <Stack.Screen name="Dashboard" component={Dashboard} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Dokter" component={Dokter} />
-        <Stack.Screen name="About" component={About} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AmbilNomor />
+    // <NavigationContainer>
+    //   <Stack.Navigator
+    //     initialRouteName="AmbilNomor"
+    //     screenOptions={{headerShown: false, animation: 'none'}}>
+    //     <Stack.Screen name="Login" component={Login} />
+    //     <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+    //     <Stack.Screen name="ResetPassword" component={ResetPassword} />
+    //     <Stack.Screen name="Register" component={Register} />
+    //     <Stack.Screen name="SetPassword" component={SetPassword} />
+    //     <Stack.Screen name="Dashboard" component={Dashboard} />
+    //     <Stack.Screen name="Profile" component={Profile} />
+    //     <Stack.Screen name="Dokter" component={Dokter} />
+    //     <Stack.Screen name="About" component={About} />
+    //     <Stack.Screen name="Pendaftaran" component={Pendaftaran} />
+    //     <Stack.Screen name="Kategorisasi" component={Kategorisasi} />
+    //     <Stack.Screen name="AmbilNomor" component={AmbilNomor} />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
   );
 }
 

@@ -726,3 +726,202 @@ export const stylesLoading = StyleSheet.create({
     color: '#0066AB',
   },
 });
+
+export const stylesPendaftaran = StyleSheet.create({
+  title: {
+    fontSize: 35,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  subTitle: {
+    backgroundColor: 'black',
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '600',
+    textAlign: 'center',
+    paddingVertical: 5,
+    width: '95%',
+    alignSelf: 'center',
+    borderRadius: 6,
+    marginTop: 10,
+  },
+
+  buttonMainContainer: {
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    marginHorizontal: -20,
+    paddingLeft: 20,
+    marginTop: 20,
+  },
+
+  buttonContainer: {
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    paddingRight: 30,
+    width: '95%',
+  },
+
+  buttonTitle: {
+    width: '90%',
+    fontSize: 24,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  buttonContainerEnd: {
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    paddingRight: 30,
+    width: '95%',
+  },
+});
+
+export const stylesAmbilNomor = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  buttonHBContainer: {
+    columnGap: 2,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 15,
+  },
+
+  buttonHB: {
+    backgroundColor: 'black',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+
+  buttonHBHariIni: {
+    borderTopLeftRadius: 6,
+    borderBottomLeftRadius: 6,
+  },
+
+  buttonHBBesok: {
+    borderTopRightRadius: 6,
+    borderBottomRightRadius: 6,
+  },
+
+  buttonHBTitle: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 15,
+  },
+
+  dokterContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    padding: 15,
+    borderRadius: 6,
+    marginTop: 20,
+  },
+
+  dokterWaktuTitle: {
+    fontSize: 25,
+    fontWeight: '800',
+    color: 'black',
+  },
+
+  dokterWaktu: {
+    fontWeight: '700',
+    fontSize: 20,
+    color: '#696969',
+  },
+
+  dokterNamaTitle: {
+    backgroundColor: 'black',
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '600',
+    marginHorizontal: -15,
+    marginTop: 20,
+    paddingVertical: 5,
+    textAlign: 'center',
+  },
+
+  dokterNama: {
+    marginHorizontal: -15,
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    color: 'black',
+    fontSize: 15,
+    fontWeight: '700',
+    paddingHorizontal: 15,
+    paddingVertical: 3,
+  },
+
+  dokterNamaActive: {
+    backgroundColor: '#CDCDCD',
+  },
+
+  nomorButtonContainer: {
+    backgroundColor: '#CDCDCD',
+    marginTop: 5,
+    borderRadius: 6,
+    paddingVertical: 10,
+  },
+
+  nomorButtonContainerActive: {
+    backgroundColor: '#00096E',
+    marginTop: 5,
+    borderRadius: 6,
+    paddingVertical: 10,
+  },
+
+  nomorTitle: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+
+  ketPasienContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    padding: 10,
+    borderRadius: 6,
+    marginTop: 10,
+  },
+
+  ketPasienJumlah: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  tabelContainer: {
+    flexDirection: 'row',
+    marginHorizontal: -10,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: 'black',
+    marginTop: -1,
+  },
+
+  'tabelContainer:first-child': {
+    backgroundColor: 'green',
+  },
+
+  tabelNo: {
+    width: '10%',
+    backgroundColor: 'red',
+  },
+
+  tabelNama: {
+    width: '90%',
+    backgroundColor: 'aqua',
+  },
+});
