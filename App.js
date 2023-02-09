@@ -123,25 +123,28 @@ export async function remembermelogin(token, navigation) {
 }
 
 export function logout (navigation, id){
+
+  const payload = {
+    id
+  }
+
   Alert.alert('Konfirmasi Logout', 'Anda yakin ingin logout?', [
     {
       text: 'Logout',
       onPress: () => {
-        console.log('logot')
-        console.log(id)
         fetch(`${API_URL}/logout`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Accept: 'application/json'
+            Accept: 'application/json',
           },
-          body : id
+          body: JSON.stringify(payload)
         })
         .then(async res => {
           try{
-            console.log('masuk');
+            const jsonRes = await res.json();
             if(res.status === 200){
-              
+              Alert.alert(jsonRes.alert)
                 Keychain.resetGenericPassword().then( () => {
                 navigation.navigate('Login')
               });
