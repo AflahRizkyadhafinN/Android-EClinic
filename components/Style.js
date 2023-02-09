@@ -726,3 +726,345 @@ export const stylesLoading = StyleSheet.create({
     color: '#0066AB',
   },
 });
+
+export const stylesPendaftaran = StyleSheet.create({
+  title: {
+    fontSize: 35,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  subTitle: {
+    backgroundColor: 'black',
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '600',
+    textAlign: 'center',
+    paddingVertical: 5,
+    width: '95%',
+    alignSelf: 'center',
+    borderRadius: 6,
+    marginTop: 10,
+  },
+
+  buttonMainContainer: {
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    marginHorizontal: -20,
+    paddingLeft: 20,
+    marginTop: 20,
+  },
+
+  buttonContainer: {
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    paddingRight: 30,
+    width: '95%',
+  },
+
+  buttonTitle: {
+    width: '90%',
+    fontSize: 24,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  buttonContainerEnd: {
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    paddingRight: 30,
+    width: '95%',
+  },
+});
+
+export const stylesAmbilNomor = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  buttonHBContainer: {
+    columnGap: 2,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 15,
+  },
+
+  buttonHB: {
+    backgroundColor: 'black',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+
+  buttonHBHariIni: {
+    borderTopLeftRadius: 6,
+    borderBottomLeftRadius: 6,
+  },
+
+  buttonHBBesok: {
+    borderTopRightRadius: 6,
+    borderBottomRightRadius: 6,
+  },
+
+  buttonHBTitle: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 15,
+  },
+
+  dokterContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    padding: 15,
+    borderRadius: 6,
+    marginTop: 20,
+  },
+
+  dokterWaktuTitle: {
+    fontSize: 25,
+    fontWeight: '800',
+    color: 'black',
+  },
+
+  dokterWaktu: {
+    fontWeight: '700',
+    fontSize: 20,
+    color: '#696969',
+  },
+
+  dokterNamaTitle: {
+    backgroundColor: 'black',
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '600',
+    marginHorizontal: -15,
+    marginTop: 20,
+    paddingVertical: 5,
+    textAlign: 'center',
+  },
+
+  dokterNama: {
+    marginHorizontal: -15,
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    color: 'black',
+    fontSize: 15,
+    fontWeight: '700',
+    paddingHorizontal: 15,
+    paddingVertical: 3,
+  },
+
+  dokterNamaActive: {
+    backgroundColor: '#CDCDCD',
+  },
+
+  nomorButtonContainer: {
+    backgroundColor: '#CDCDCD',
+    marginTop: 5,
+    borderRadius: 6,
+    paddingVertical: 10,
+  },
+
+  nomorButtonContainerActive: {
+    backgroundColor: '#00096E',
+    marginTop: 5,
+    borderRadius: 6,
+    paddingVertical: 10,
+  },
+
+  nomorTitle: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+
+  ketPasienContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    padding: 10,
+    borderRadius: 6,
+    marginTop: 10,
+  },
+
+  ketPasienJumlah: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  selectListBox: {
+    marginTop: 10,
+    marginHorizontal: -10,
+    borderWidth: 2,
+    borderColor: 'black',
+  },
+
+  selectListText: {
+    fontSize: 15,
+    fontWeight: '500',
+  },
+});
+
+export const stylesNomorAntrian = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  antrianContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    padding: 20,
+    marginTop: 20,
+  },
+
+  antrianNomorContainer: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#00096E',
+    borderRadius: 200 / 2,
+    width: 200,
+    height: 200,
+  },
+
+  antrianNomor: {
+    textAlign: 'center',
+    fontWeight: '800',
+    fontSize: 60,
+    color: 'white',
+  },
+
+  antrianNama: {
+    alignSelf: 'center',
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    color: 'black',
+    fontSize: 25,
+    fontWeight: '700',
+    marginTop: 10,
+    marginBottom: 10,
+    paddingBottom: 10,
+    textAlign: 'center',
+    width: '80%',
+  },
+
+  antrianWaktu: {
+    fontSize: 25,
+    fontWeight: '700',
+    textAlign: 'center',
+    color: 'black',
+  },
+
+  arahan: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    fontSize: 25,
+    fontWeight: '700',
+    padding: 10,
+    textAlign: 'center',
+    color: 'black',
+    marginTop: 20,
+  },
+});
+
+export const stylesHasil = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    fontWeight: '600',
+    color: 'black',
+  },
+
+  identitasContainer: {
+    borderWidth: 1,
+    borderBottomColor: 'black',
+    borderRadius: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 20,
+  },
+
+  identitasText: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'center',
+  },
+
+  diagnosa: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    marginTop: 20,
+    padding: 10,
+    fontSize: 17,
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'center',
+  },
+
+  obatContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    padding: 10,
+    marginTop: 20,
+  },
+
+  obatTanggal: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+    marginBottom: 10,
+  },
+
+  pemberitahuan: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    marginTop: 20,
+    padding: 10,
+    fontSize: 20,
+    fontWeight: '700',
+    textAlign: 'center',
+    color: 'black',
+  },
+
+  tableHeader: {
+    backgroundColor: 'black',
+    borderWidth: 1,
+  },
+
+  tableHeaderText: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: 'white',
+  },
+
+  tableJumlah: {
+    backgroundColor: '#00069E',
+  },
+
+  tableJumlahText: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  centerBorder: {
+    borderLeftWidth: 1,
+    paddingLeft: 10,
+  },
+});

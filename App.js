@@ -10,9 +10,14 @@ import {SetPassword} from './components/pages/SetPassword';
 import {Profile} from './components/pages/Profile';
 import {Dokter} from './components/pages/Dokter';
 import {About} from './components/pages/About';
+import {Pendaftaran} from './components/pages/Pendaftaran';
+import {Kategorisasi} from './components/pages/Kategorisasi';
+import {AmbilNomor} from './components/pages/AmbilNomor';
+import {NomorAntrian} from './components/pages/NomorAntrian';
 import {Alert} from 'react-native';
 import { UserData } from './components/UseContext';
 import Keychain from 'react-native-keychain';
+import {Hasil} from './components/pages/Hasil';
 
 export const API_URL = 'http://10.10.10.91:5000';
 const Stack = createNativeStackNavigator();
@@ -31,7 +36,6 @@ function App() {
   const [isInitialScreen, setIsInitialScreen] = useState(true);
 
   return (
-    // <About />
     <UserData>
       <NavigationContainer onStateChange={(state) => {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
@@ -50,7 +54,10 @@ function App() {
           <Stack.Screen name="Profile" component={Profile}/>
           <Stack.Screen name="Dokter" component={Dokter}/>
           <Stack.Screen name="About" component={About}/>
-        </Stack.Navigator>
+          <Stack.Screen name="Pendaftaran" component={Pendaftaran} />
+        <Stack.Screen name="Kategorisasi" component={Kategorisasi} />
+        <Stack.Screen name="AmbilNomor" component={AmbilNomor} />
+      </Stack.Navigator>
       </NavigationContainer>
     </UserData>
 
