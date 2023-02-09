@@ -9,7 +9,6 @@ export const ExecuteOnlyOnAndroid = (props) => {
     setTimeout(() => {
       setExitApp(0);
     }, 1000);
-    console.log(exitApp)
     if (exitApp === 0) {
       setExitApp(exitApp + 1);
 

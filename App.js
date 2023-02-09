@@ -12,19 +12,19 @@ import {Dokter} from './components/pages/Dokter';
 import {About} from './components/pages/About';
 import {Alert} from 'react-native';
 import { UserData } from './components/UseContext';
+import Keychain from 'react-native-keychain';
 
 export const API_URL = 'http://10.10.10.91:5000';
-const loggedin = true
 const Stack = createNativeStackNavigator();
 
 const isCurrentScreenInitialOne = (state) => {
   const route = state.routes[state.index];
   if (route.state) {
-    // Dive into nested navigators
     return isCurrentScreenInitialOne(route.state);
   }
   return state.index === 1;
 };
+
 
 function App() {
 
@@ -33,14 +33,13 @@ function App() {
   return (
     // <About />
     <UserData>
-
       <NavigationContainer onStateChange={(state) => {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
           }}>
         <Stack.Navigator
           initialRouteName="Login"
           screenOptions={{headerShown: false, animation: 'none'}}>
-          <Stack.Screen name="Login" component={Login}/>
+          <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="ForgetPassword" component={ForgetPassword}/>
           <Stack.Screen name="ResetPassword" component={ResetPassword}/>
           <Stack.Screen name="Register" component={Register}/>
@@ -53,8 +52,6 @@ function App() {
           <Stack.Screen name="About" component={About}/>
         </Stack.Navigator>
       </NavigationContainer>
-
-      
     </UserData>
 
   );
@@ -118,6 +115,44 @@ export async function remembermelogin(token, navigation) {
   return res;
 }
 
+export function logout (navigation, id){
+  Alert.alert('Konfirmasi Logout', 'Anda yakin ingin logout?', [
+    {
+      text: 'Logout',
+      onPress: () => {
+        console.log('logot')
+        console.log(id)
+        fetch(`${API_URL}/logout`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body : id
+        })
+        .then(async res => {
+          try{
+            console.log('masuk');
+            if(res.status === 200){
+              
+                Keychain.resetGenericPassword().then( () => {
+                navigation.navigate('Login')
+              });
+            }
+          }
+          catch(err){
+            console.log(err)
+          }
+        })
+      }
+    },
+    {
+      text: 'Cancel',
+      style: 'cancel'
+    }
+  ])
+}
+
 export function authenticate(userdata, navigation) {
   fetch(`${API_URL}/auth`, {
     method: 'GET',
@@ -142,11 +177,15 @@ export function authenticate(userdata, navigation) {
 }
 
 export async function getUpdateToken() {
+  
+  const jwt = await Keychain.getGenericPassword()
+
   const res = await fetch(`${API_URL}/updatetoken`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      Authorization: `Bearer ${jwt.password}`
     },
   });
   try {

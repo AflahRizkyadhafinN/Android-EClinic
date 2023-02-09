@@ -2,8 +2,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./connection.js");
 
-console.log
-
 module.exports = sequelize.define('userdata', {
         id: {
             type: Sequelize.INTEGER,
@@ -51,6 +49,9 @@ module.exports = sequelize.define('userdata', {
             type: Sequelize.STRING
         },
         pekerjaan:{
+            type: Sequelize.STRING
+        },
+        accesstoken:{
             type: Sequelize.STRING
         },
         

@@ -1,8 +1,13 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {stylesDNavbar} from './Style';
+import { logout } from '../App';
+import { makeContext } from './UseContext';
 
 export const SideNavbar = ({navigation}) => {
+  const {userdata} = useContext(makeContext)
+  const id = userdata.id
+
   return (
     <View style={stylesDNavbar.mainContainer}>
       <View>
@@ -76,7 +81,7 @@ export const SideNavbar = ({navigation}) => {
           <Text style={stylesDNavbar.menuTitle}>Login</Text>
         </TouchableOpacity> */}
         <TouchableOpacity
-          style={[stylesDNavbar.menuContainer, stylesDNavbar.login]}>
+          style={[stylesDNavbar.menuContainer, stylesDNavbar.login]} onPress={() => logout(navigation, id)}>
           <Image
             style={stylesDNavbar.menuIcon}
             source={require('./image/logIcon.png')}

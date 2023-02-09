@@ -19,26 +19,9 @@ import DoubleTapToClose from '../CloseApp';
 
 export const Dashboard = ({navigation, isInitialScreen}) => {
   const route = useRoute()
-  // const isFocused = useIsFocused()
   const [refreshing, setRefreshing] = React.useState(false);
   const [member, setMember] = useState('0');
-  console.log(isInitialScreen);
-  // useEffect(() => {
-  //   const backhandler = BackHandler.addEventListener('hardwareBackPress', ()=> {
-  //     if (isFocused) {
-  //       BackHandler.exitApp()
-  //       return true
-  //     }else{
-  //       backhandler.remove()
-  //     }
 
-  //   })
-  //   return () => {
-  //     backhandler.remove()
-  //   }
-  // }, [])
-
-  // {route.params.token.message}
   useEffect(() => {
     fetch(`${API_URL}/users`, {
       method: 'GET',
@@ -51,7 +34,6 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       try {
         const jsonRes = await res.json();
         if (res.status === 200) {
-          console.log(jsonRes);
           setMember(jsonRes.id);
         } else {
           Alert.alert(jsonRes.alert);
@@ -75,7 +57,6 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       try {
         const jsonRes = await res.json();
         if (res.status === 200) {
-          console.log(jsonRes);
           setMember(jsonRes.id);
         } else {
           Alert.alert(jsonRes.alert);
