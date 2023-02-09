@@ -902,26 +902,169 @@ export const stylesAmbilNomor = StyleSheet.create({
     color: 'black',
   },
 
-  tabelContainer: {
-    flexDirection: 'row',
+  selectListBox: {
+    marginTop: 10,
     marginHorizontal: -10,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
+    borderWidth: 2,
     borderColor: 'black',
-    marginTop: -1,
   },
 
-  'tabelContainer:first-child': {
-    backgroundColor: 'green',
+  selectListText: {
+    fontSize: 15,
+    fontWeight: '500',
+  },
+});
+
+export const stylesNomorAntrian = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    fontWeight: '700',
+    color: 'black',
   },
 
-  tabelNo: {
-    width: '10%',
-    backgroundColor: 'red',
+  antrianContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    padding: 20,
+    marginTop: 20,
   },
 
-  tabelNama: {
-    width: '90%',
-    backgroundColor: 'aqua',
+  antrianNomorContainer: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#00096E',
+    borderRadius: 200 / 2,
+    width: 200,
+    height: 200,
+  },
+
+  antrianNomor: {
+    textAlign: 'center',
+    fontWeight: '800',
+    fontSize: 60,
+    color: 'white',
+  },
+
+  antrianNama: {
+    alignSelf: 'center',
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    color: 'black',
+    fontSize: 25,
+    fontWeight: '700',
+    marginTop: 10,
+    marginBottom: 10,
+    paddingBottom: 10,
+    textAlign: 'center',
+    width: '80%',
+  },
+
+  antrianWaktu: {
+    fontSize: 25,
+    fontWeight: '700',
+    textAlign: 'center',
+    color: 'black',
+  },
+
+  arahan: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    fontSize: 25,
+    fontWeight: '700',
+    padding: 10,
+    textAlign: 'center',
+    color: 'black',
+    marginTop: 20,
+  },
+});
+
+export const stylesHasil = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    fontWeight: '600',
+    color: 'black',
+  },
+
+  identitasContainer: {
+    borderWidth: 1,
+    borderBottomColor: 'black',
+    borderRadius: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 20,
+  },
+
+  identitasText: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'center',
+  },
+
+  diagnosa: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    marginTop: 20,
+    padding: 10,
+    fontSize: 17,
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'center',
+  },
+
+  obatContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    padding: 10,
+    marginTop: 20,
+  },
+
+  obatTanggal: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+    marginBottom: 10,
+  },
+
+  pemberitahuan: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    marginTop: 20,
+    padding: 10,
+    fontSize: 20,
+    fontWeight: '700',
+    textAlign: 'center',
+    color: 'black',
+  },
+
+  tableHeader: {
+    backgroundColor: 'black',
+    borderWidth: 1,
+  },
+
+  tableHeaderText: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: 'white',
+  },
+
+  tableJumlah: {
+    backgroundColor: '#00069E',
+  },
+
+  tableJumlahText: {
+    color: 'white',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  centerBorder: {
+    borderLeftWidth: 1,
+    paddingLeft: 10,
   },
 });

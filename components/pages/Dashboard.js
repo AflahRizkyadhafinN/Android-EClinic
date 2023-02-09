@@ -13,7 +13,7 @@ import {stylesDashboard, stylesGeneral} from '../Style';
 import {useRoute} from '@react-navigation/native';
 import {MainNavbar} from '../MainNavbar';
 
-const API_URL = 'http://10.10.10.81:5000';
+const API_URL = 'http://10.10.10.91:5000';
 export const Dashboard = ({navigation}) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [member, setMember] = useState('0');

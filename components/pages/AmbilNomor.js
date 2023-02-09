@@ -9,14 +9,61 @@ import {
 } from 'react-native';
 import {stylesGeneral, stylesAmbilNomor} from '../Style';
 import {Provider as PaperProvider, DataTable} from 'react-native-paper';
+import {SelectList} from 'react-native-dropdown-select-list';
 
 const numberOfItemsPerPageList = [5];
 
 export const AmbilNomor = () => {
   const namaDokter = [
-    'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-    'Dr. Abirianty Priandani Araminta, Sp.PD',
-    'Dr. Tjoeng Lioni Sp.PD',
+    {
+      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+    },
+    {
+      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+    },
+    {
+      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+    },
+    {
+      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+    },
+    {
+      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+    },
+    {
+      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+    },
+    {
+      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+    },
+    {
+      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+    },
+    {
+      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+    },
+    {
+      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+    },
+    {
+      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+    },
+    {
+      nama: 'Dr. Abirianty Priandani Araminta, Sp.PD',
+      value: 'Dr. Abirianty Priandani Araminta, Sp.PD',
+    },
+    {nama: 'Dr. Tjoeng Lioni Sp.PD', value: 'Dr. Tjoeng Lioni Sp.PD'},
   ];
   const namaPasien = [
     {nama: 'Faisal', key: '1'},
@@ -30,6 +77,7 @@ export const AmbilNomor = () => {
   const [hari, setHari] = useState('Selasa, 30 Januari 2023');
   const [pressNomor, setPressNomor] = useState(true);
   const [pressWaktu, setPressWaktu] = useState(false);
+  const [selected, setSelected] = useState('');
 
   const [page, setPage] = React.useState(0);
   const [numberOfItemsPerPage, onItemsPerPageChange] = React.useState(
@@ -96,26 +144,19 @@ export const AmbilNomor = () => {
             Pendaftaran 07:00 - 10:00
           </Text>
           <Text style={stylesAmbilNomor.dokterNamaTitle}>Pilih Dokter</Text>
-          {namaDokter.map((nama, index) => (
-            <Text
-              key={index}
-              style={
-                pressNomor
-                  ? stylesAmbilNomor.dokterNama
-                  : [
-                      stylesAmbilNomor.dokterNama,
-                      stylesAmbilNomor.dokterNamaActive,
-                    ]
-              }
-              onPress={() => {
-                const id = index;
-                if (index === id) {
-                  setPressNomor(false);
-                }
-              }}>
-              {nama}
-            </Text>
-          ))}
+          <SelectList
+            setSelected={value => setSelected(value)}
+            onSelect={() => setPressNomor(false)}
+            data={namaDokter}
+            save="value"
+            notFoundText={true}
+            placeholder={'Dokter'}
+            search={false}
+            boxStyles={stylesAmbilNomor.selectListBox}
+            inputStyles={stylesAmbilNomor.selectListText}
+            dropdownStyles={stylesAmbilNomor.selectListBox}
+            dropdownTextStyles={stylesAmbilNomor.selectListText}
+          />
         </View>
         <TouchableOpacity
           disabled={pressNomor}
@@ -128,9 +169,7 @@ export const AmbilNomor = () => {
           <Text style={stylesAmbilNomor.nomorTitle}>Ambil Nomor</Text>
         </TouchableOpacity>
         <View style={stylesAmbilNomor.ketPasienContainer}>
-          <Text style={stylesAmbilNomor.ketPasienJumlah}>
-            {namaPasien.length} of {namaPasien.length}
-          </Text>
+          <Text style={stylesAmbilNomor.ketPasienJumlah}>Pasien Terdaftar</Text>
           <PaperProvider>
             <DataTable>
               <DataTable.Header>
