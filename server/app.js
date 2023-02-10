@@ -3,6 +3,7 @@ const sequelize = require('./models/connection')
 const app = express();
 const data = require('./controller/controller.js');
 const bodyParser = require("body-parser");
+const datas = require('./models/datas');
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,7 +31,7 @@ app.get("/auth", data.auth)
 app.get("/rememberauth", data.rememberauth)
 app.get("/updatetoken", data.updatetoken)
 app.post("/profilerefresh", data.profilerefresh)
-
+app.post("/logout", data.logout)
 
 sequelize.sync(); 
 

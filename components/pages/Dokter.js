@@ -1,14 +1,16 @@
 import {useRoute} from '@react-navigation/native';
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {ScrollView} from 'react-native-gesture-handler';
 import {MainNavbar} from '../MainNavbar';
 import {stylesGeneral, stylesDokter} from '../Style';
+import { dokterContext } from '../DokterContext';
 
 export const Dokter = ({navigation}) => {
   const [select, setSelected] = React.useState('');
   const route = useRoute();
+  const {dokter} = useContext(dokterContext)
 
   const namaDokter = [
     {nama: 'Faisal', keahlian: 'Mata'},

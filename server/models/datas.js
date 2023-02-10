@@ -3,23 +3,26 @@ const Sequelize = require("sequelize");
 const sequelize = require("./connection.js");
 
 module.exports = sequelize.define('userdata', {
-        id: {
+        pasen_id: {
+            type: Sequelize.UUID,
+            defaultValue: Sequelize.UUIDV4
+        },
+        kode_pasen: {
             type: Sequelize.INTEGER,
-            autoIncrement: true,
-            allowNull: false,
             primaryKey: true,
+            autoIncrement: true
         },
         email: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING(30)
         },
         password: {
             type: Sequelize.STRING
         },
         nik: {
-            type: Sequelize.NUMBER
+            type: Sequelize.NUMERIC(16)
         },
         namalengkap:{
-            type: Sequelize.STRING
+            type: Sequelize.STRING(50)
         },
         golongandarah: {
             type: Sequelize.STRING
@@ -34,16 +37,16 @@ module.exports = sequelize.define('userdata', {
             type: Sequelize.STRING
         },
         rw: {
-            type: Sequelize.STRING
+            type: Sequelize.NUMERIC(5, 0)
         },
         rt: {
-            type: Sequelize.STRING
+            type: Sequelize.NUMERIC(5, 0)
         },
         kodepos: {
-            type: Sequelize.NUMBER
+            type: Sequelize.NUMERIC
         },
         kodewilayah:{
-            type: Sequelize.STRING
+            type: Sequelize.STRING(10)
         },
         jeniskelamin: {
             type: Sequelize.STRING

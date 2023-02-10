@@ -164,7 +164,7 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       </View>
       <TouchableOpacity
         style={stylesDashboard.buttonPendaftaran}
-        onPress={() => navigation.navigate('Register')}>
+        onPress={() => navigation.navigate('Dokter')}>
         <Text style={stylesDashboard.buttonTitlePendaftaran}>Pendaftaran</Text>
       </TouchableOpacity>
       <View style={stylesDashboard.statistikContainer1}>

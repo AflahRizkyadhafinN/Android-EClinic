@@ -1,10 +1,13 @@
 const data = require('../models/datas');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+require('dotenv').config()
+const crypto = require('crypto')
+const secret_key = process.env.JWT_SECRET
 
 exports.findAll = (req, res) => {
   data
-    .max('id')
+    .max('kode_pasen')
     .then(id => {
       res.json({id: id});
     })
@@ -14,7 +17,11 @@ exports.findAll = (req, res) => {
 };
 
 exports.signup = (req, res, next) => {
-  data
+  if(isNaN(req.body.sNik)){
+    return res.status(400).json({alert: 'NIK Harus Angka!'})
+  }
+  else{
+    data
     .findOne({where: {email: req.body.email}})
     .then(user => {
       if (user) {
@@ -59,84 +66,92 @@ exports.signup = (req, res, next) => {
     .catch(err => {
       console.log('error', err);
     });
+  }
+  
 };
 
 exports.login = (req, res, next) => {
-  data.findOne({where: {nik: req.body.nik}}).then(nik => {
-    if (req.body.remember) {
-      if (nik) {
-        bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
-          if (passwordHash) {
-            const token = jwt.sign({nik: req.body.nik}, 'secret', {
-              expiresIn: '1d',
-            });
-            res
-              .status(200)
-              .json({
-                alert: 'Login Berhasil',
-                id: nik.id,
-                namalengkap: nik.namalengkap,
-                nik: nik.nik,
-                email: nik.email,
-                tanggalLahir: nik.tanggallahir,
-                golongandarah: nik.golongandarah,
-                tempatLahir: nik.tempatlahir,
-                alamat: nik.alamat,
-                rw: nik.rw,
-                rt: nik.rt,
-                kodepos: nik.kodepos,
-                kodewilayah: nik.kodewilayah,
-                pekerjaan: nik.pekerjaan,
-                jeniskelamin: nik.jeniskelamin,
-                token: token,
+  if(isNaN(req.body.nik)){
+    return res.status(400).json({alert: 'NIK Harus Angka!'})
+  }
+  else{
+    data.findOne({where: {nik: req.body.nik}}).then(nik => {
+      if (req.body.remember) {
+        if (nik) {
+          bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
+            if (passwordHash) {
+              const token = jwt.sign({nik: req.body.nik}, secret_key, {
+                expiresIn: '1d',
               });
-          } else {
-            res.status(404).json({alert: 'Password Salah'});
-          }
-        });
+              res
+                .status(200)
+                .json({
+                  alert: 'Login Berhasil',
+                  pasen_id: nik.id,
+                  namalengkap: nik.namalengkap,
+                  nik: nik.nik,
+                  email: nik.email,
+                  tanggalLahir: nik.tanggallahir,
+                  golongandarah: nik.golongandarah,
+                  tempatLahir: nik.tempatlahir,
+                  alamat: nik.alamat,
+                  rw: nik.rw,
+                  rt: nik.rt,
+                  kodepos: nik.kodepos,
+                  kodewilayah: nik.kodewilayah,
+                  pekerjaan: nik.pekerjaan,
+                  jeniskelamin: nik.jeniskelamin,
+                  token: token,
+                });
+            } else {
+              res.status(404).json({alert: 'Password Salah'});
+            }
+          });
+        } else {
+          res
+            .status(404)
+            .json({alert: 'Nik Tidak Terdaftar, Register Sekarang!'});
+        }
       } else {
-        res
-          .status(404)
-          .json({alert: 'Nik Tidak Terdaftar, Register Sekarang!'});
-      }
-    } else {
-      if (nik) {
-        bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
-          if (passwordHash) {
-            const token = jwt.sign({nik: req.body.nik}, 'secret', {
-              expiresIn: '4h',
-            });
-            res
-              .status(200)
-              .json({
-                alert: 'Login Berhasil',
-                id: nik.id,
-                namalengkap: nik.namalengkap,
-                nik: nik.nik,
-                email: nik.email,
-                tanggalLahir: nik.tanggallahir,
-                golongandarah: nik.golongandarah,
-                tempatLahir: nik.tempatlahir,
-                alamat: nik.alamat,
-                rw: nik.rw,
-                rt: nik.rt,
-                kodepos: nik.kodepos,
-                kodewilayah: nik.kodewilayah,
-                pekerjaan: nik.pekerjaan,
-                jeniskelamin: nik.jeniskelamin,
-                token: token,
+        if (nik) {
+          bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
+            if (passwordHash) {
+              const token = jwt.sign({nik: req.body.nik}, secret_key, {
+                expiresIn: '4h',
               });
-          } else {
-            res.status(404).json({alert: 'Password Salah'});
-          }
-        });
-      } else {
-        res
-          .status(404)
-          .json({alert: 'Nik Tidak Terdaftar, Register Sekarang!'});
+              res
+                .status(200)
+                .json({
+                  alert: 'Login Berhasil',
+                  pasen_id: nik.id,
+                  namalengkap: nik.namalengkap,
+                  nik: nik.nik,
+                  email: nik.email,
+                  tanggalLahir: nik.tanggallahir,
+                  golongandarah: nik.golongandarah,
+                  tempatLahir: nik.tempatlahir,
+                  alamat: nik.alamat,
+                  rw: nik.rw,
+                  rt: nik.rt,
+                  kodepos: nik.kodepos,
+                  kodewilayah: nik.kodewilayah,
+                  pekerjaan: nik.pekerjaan,
+                  jeniskelamin: nik.jeniskelamin,
+                  token: token,
+                });
+            } else {
+              res.status(404).json({alert: 'Password Salah'});
+            }
+          });
+        } else {
+          res
+            .status(404)
+            .json({alert: 'Nik Tidak Terdaftar, Register Sekarang!'});
+        }
       }
-    }
-  });
+    });
+  }
+  
 };
 
 exports.auth = (req, res, next) => {
@@ -149,7 +164,7 @@ exports.auth = (req, res, next) => {
 
   let decodedToken;
   try {
-    decodedToken = jwt.verify(token, 'secret');
+    decodedToken = jwt.verify(token, secret_key);
   } catch (err) {
     return res.status(500).json({alert: 'Error token expired'});
   }
@@ -182,7 +197,7 @@ exports.rememberauth = (req, res, next) => {
   const token = authHeader.split(' ')[1];
   let decodedToken;
   try {
-    decodedToken = jwt.verify(token, 'secret');
+    decodedToken = jwt.verify(token, secret_key);
   } catch (err) {
     return res.status(500).json({alert: 'Error token expired. Silahkan login kembali'});
   }
@@ -194,7 +209,7 @@ exports.rememberauth = (req, res, next) => {
         res
           .status(200)
           .json({
-            id: nik.id,
+            pasen_id: nik.id,
             namalengkap: nik.namalengkap,
             nik: nik.nik,
             email: nik.email,
@@ -220,7 +235,9 @@ exports.rememberauth = (req, res, next) => {
                 },
               },
             );
-          
+      }
+      else{
+        res.status(404).json({alert: 'Error tolong login kembali'})
       }
     })
   }
@@ -236,7 +253,7 @@ exports.updatetoken = (req, res, next) => {
     if (data) {
       let decodedToken;
       try {
-        decodedToken = jwt.verify(gettoken, 'secret');
+        decodedToken = jwt.verify(gettoken, secret_key);
       } catch (err) {
         return res
           .status(500)
@@ -245,7 +262,7 @@ exports.updatetoken = (req, res, next) => {
       if (!decodedToken) {
         res.status(401).json({alert: 'Unauthorized'});
       } else {
-        const token = jwt.sign({nik: req.body.nik}, 'secret', {
+        const token = jwt.sign({nik: req.body.nik}, secret_key, {
           expiresIn: '30m',
         });
         if (token) {
@@ -270,7 +287,7 @@ exports.update = (req, res, next) => {
     if (data) {
       let decodedToken;
       try {
-        decodedToken = jwt.verify(token, 'secret');
+        decodedToken = jwt.verify(token, secret_key);
       } catch (err) {
         return res.status(500).json({alert: 'Error token expired.'});
       }
@@ -311,7 +328,7 @@ exports.update = (req, res, next) => {
               },
               {
                 where: {
-                  id: req.body.id,
+                  pasen_id: req.body.id,
                 },
               },
             )
@@ -327,10 +344,10 @@ exports.update = (req, res, next) => {
 };
 
 exports.profilerefresh = (req, res, next) => {
-  data.findOne({where: {id: req.body}}).then(nik => {
+  data.findOne({where: {pasen_id: req.body}}).then(nik => {
     if(nik){
       res.status(200).json({
-            id: nik.id,
+            pasen_id: nik.id,
             namalengkap: nik.namalengkap,
             nik: nik.nik,
             email: nik.email,
@@ -349,12 +366,13 @@ exports.profilerefresh = (req, res, next) => {
   })
 }
 exports.logout = (req, res, next) => {
+  console.log(req.body.id)
   data.update({accesstoken: null}, {
-    where: {id: req.body}
+    where: {pasen_id: req.body.id}
   })
   .then(id => {
     if(id){
-      res.status(200)
+     return res.status(200).json({alert : 'Logout Berhasil'})
     }
   })
   .catch(err => {

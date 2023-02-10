@@ -87,11 +87,8 @@ export const Login = ({navigation}) => {
       try {
         const jwt = await Keychain.getGenericPassword();
         if (jwt) {
-
           setToken(jwt.password)
           setRememberLogin(jwt.username)
-          console.log(jwt)
-          
         }
         // else {
         //   setLoading(false);
@@ -119,15 +116,16 @@ export const Login = ({navigation}) => {
                 setRememberLoggedIn(true)
                 setUserData(userdata)
                 navigation.navigate('Dashboard')
+                setLoading(false)
               } else{
                 Alert.alert(userdata.alert)
+                setLoading(false)
               }
-              console.log(userdata);
             }
             catch(err){
               console.log(err);
             }
-            setLoading(false)
+
           })
 
       }

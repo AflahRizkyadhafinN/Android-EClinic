@@ -8,7 +8,7 @@ export const Pendaftaran = ({navigation}) => {
       nama: 'Penyakit Dalam',
       id: 'PenyakitDalam',
       item: [
-        {nama: 'Penyakit dalam umum', id: 'penyakitDalamUmum', dokter},
+        {nama: 'Penyakit dalam umum', id: 'penyakitDalamUmum'},
         {nama: 'Infeksi', id: 'infeksi'},
         {nama: 'DOTS', id: 'dots'},
         {nama: 'Ginjal hipertensi', id: 'ginjalHipertensi'},

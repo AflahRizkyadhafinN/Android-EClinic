@@ -65,6 +65,7 @@ export const AmbilNomor = () => {
     },
     {nama: 'Dr. Tjoeng Lioni Sp.PD', value: 'Dr. Tjoeng Lioni Sp.PD'},
   ];
+  
   const namaPasien = [
     {nama: 'Faisal', key: '1'},
     {nama: 'Vicky', key: '2'},
