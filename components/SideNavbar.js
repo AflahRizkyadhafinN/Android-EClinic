@@ -20,7 +20,7 @@ export const SideNavbar = ({navigation}) => {
         </View>
         <TouchableOpacity
           style={stylesDNavbar.buttonContainer}
-          onPress={() => console.log(user)}>
+          >
           <Text style={stylesDNavbar.buttonTitle}>Pendaftaran</Text>
         </TouchableOpacity>
         <TouchableOpacity
