@@ -166,35 +166,6 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       </TouchableOpacity>
       <View style={stylesDashboard.statistikContainer1}>
         <Text style={stylesDashboard.statistikTitle}>Statistik pasien</Text>
-        <View style={stylesDashboard.statistikButtonContainer}>
-          <TouchableOpacity style={stylesDashboard.statistikButtonContainer}>
-            <Text
-              style={[
-                stylesDashboard.statistikButton,
-                stylesDashboard.statistikYear,
-              ]}>
-              Year
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={stylesDashboard.statistikButtonContainer}>
-            <Text
-              style={[
-                stylesDashboard.statistikButton,
-                stylesDashboard.statistikMonth,
-              ]}>
-              Month
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={stylesDashboard.statistikButtonContainer}>
-            <Text
-              style={[
-                stylesDashboard.statistikButton,
-                stylesDashboard.statistikWeek,
-              ]}>
-              Week
-            </Text>
-          </TouchableOpacity>
-        </View>
       </View>
       <View style={stylesDashboard.statistikContainer2}>
         <Text style={stylesDashboard.statistikSubtitle}>Penyakit pasien</Text>

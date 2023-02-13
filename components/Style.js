@@ -470,11 +470,23 @@ export const stylesProfile = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     paddingHorizontal: 10,
+    width: '100%',
   },
 
   selectList: {
     fontSize: 15,
     fontWeight: '700',
+    textAlign: 'left',
+    marginLeft: -3,
+    color: 'grey',
+  },
+
+  selectListActive: {
+    fontSize: 15,
+    fontWeight: '700',
+    textAlign: 'left',
+    marginLeft: -3,
+    Color: 'black',
   },
 
   dropdown: {
@@ -486,6 +498,7 @@ export const stylesProfile = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: 'black',
+    textAlign: 'center',
   },
 
   photoProfile: {
