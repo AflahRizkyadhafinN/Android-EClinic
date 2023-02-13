@@ -732,6 +732,7 @@ export const stylesPendaftaran = StyleSheet.create({
     fontSize: 35,
     fontWeight: '700',
     color: 'black',
+    marginTop: 20,
   },
 
   subTitle: {
@@ -790,6 +791,7 @@ export const stylesAmbilNomor = StyleSheet.create({
     fontSize: 30,
     fontWeight: '700',
     color: 'black',
+    marginTop: 20,
   },
 
   buttonHBContainer: {
@@ -920,6 +922,7 @@ export const stylesNomorAntrian = StyleSheet.create({
     fontSize: 30,
     fontWeight: '700',
     color: 'black',
+    marginTop: 20,
   },
 
   antrianContainer: {
@@ -985,6 +988,7 @@ export const stylesHasil = StyleSheet.create({
     fontSize: 30,
     fontWeight: '600',
     color: 'black',
+    marginTop: 20,
   },
 
   identitasContainer: {
@@ -1066,5 +1070,43 @@ export const stylesHasil = StyleSheet.create({
   centerBorder: {
     borderLeftWidth: 1,
     paddingLeft: 10,
+  },
+});
+
+export const stylesRiwayat = StyleSheet.create({
+  title: {
+    fontSize: 40,
+    fontWeight: '700',
+    color: 'black',
+    marginTop: 20,
+  },
+
+  bulan: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: 'black',
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+    marginTop: 10,
+  },
+
+  ketContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    padding: 10,
+    marginTop: 15,
+  },
+
+  ketTanggal: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  ketPenyakit: {
+    fontSize: 15,
+    fontWeight: '400',
+    color: 'black',
   },
 });

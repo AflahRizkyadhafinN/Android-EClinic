@@ -10,51 +10,12 @@ import {
 import {stylesGeneral, stylesAmbilNomor} from '../Style';
 import {Provider as PaperProvider, DataTable} from 'react-native-paper';
 import {SelectList} from 'react-native-dropdown-select-list';
+import {MainNavbar} from '../MainNavbar';
 
 const numberOfItemsPerPageList = [5];
 
-export const AmbilNomor = () => {
+export const AmbilNomor = ({navigation}) => {
   const namaDokter = [
-    {
-      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-    },
-    {
-      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-    },
-    {
-      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-    },
-    {
-      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-    },
-    {
-      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-    },
-    {
-      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-    },
-    {
-      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-    },
-    {
-      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-    },
-    {
-      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-    },
-    {
-      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-    },
     {
       nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
       value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
@@ -65,7 +26,7 @@ export const AmbilNomor = () => {
     },
     {nama: 'Dr. Tjoeng Lioni Sp.PD', value: 'Dr. Tjoeng Lioni Sp.PD'},
   ];
-  
+
   const namaPasien = [
     {nama: 'Faisal', key: '1'},
     {nama: 'Vicky', key: '2'},
@@ -101,6 +62,7 @@ export const AmbilNomor = () => {
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
+        <MainNavbar navigation={navigation} />
         <Text style={stylesAmbilNomor.title}>Klinik Lansia</Text>
         <View style={stylesAmbilNomor.buttonHBContainer}>
           <TouchableOpacity
@@ -161,7 +123,7 @@ export const AmbilNomor = () => {
         </View>
         <TouchableOpacity
           disabled={pressNomor}
-          onPress={() => console.log('press')}
+          onPress={() => navigation.navigate('NomorAntrian')}
           style={
             pressNomor
               ? stylesAmbilNomor.nomorButtonContainer

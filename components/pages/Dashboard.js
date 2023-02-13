@@ -13,12 +13,12 @@ import {
 import {stylesDashboard, stylesGeneral} from '../Style';
 import {useIsFocused, useRoute} from '@react-navigation/native';
 import {MainNavbar} from '../MainNavbar';
-import { makeContext } from '../UseContext';
-import { API_URL } from '../../App';
+import {makeContext} from '../UseContext';
+import {API_URL} from '../../App';
 import DoubleTapToClose from '../CloseApp';
 
 export const Dashboard = ({navigation, isInitialScreen}) => {
-  const route = useRoute()
+  const route = useRoute();
   const [refreshing, setRefreshing] = React.useState(false);
   const [member, setMember] = useState('0');
 
@@ -132,7 +132,6 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
   ];
 
   return (
-    
     <ScrollView
       style={stylesDashboard.mainContainer}
       showsVerticalScrollIndicator={false}
@@ -140,11 +139,9 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-          {isInitialScreen && <DoubleTapToClose/>}
-        {/* <DoubleTapToClose /> */}
-      <MainNavbar
-        navigation={navigation}
-      />
+      {isInitialScreen && <DoubleTapToClose />}
+      {/* <DoubleTapToClose /> */}
+      <MainNavbar navigation={navigation} />
       <Text style={[stylesGeneral.title, stylesDashboard.title]}>
         Dashboard
       </Text>
@@ -164,7 +161,7 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       </View>
       <TouchableOpacity
         style={stylesDashboard.buttonPendaftaran}
-        onPress={() => navigation.navigate('Dokter')}>
+        onPress={() => navigation.navigate('Pendaftaran')}>
         <Text style={stylesDashboard.buttonTitlePendaftaran}>Pendaftaran</Text>
       </TouchableOpacity>
       <View style={stylesDashboard.statistikContainer1}>

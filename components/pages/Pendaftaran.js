@@ -1,6 +1,8 @@
 import React from 'react';
+import {ScrollView} from 'react-native';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {stylesGeneral, stylesPendaftaran} from '../Style';
+import {MainNavbar} from '../MainNavbar';
 
 export const Pendaftaran = ({navigation}) => {
   const poliklinik = [
@@ -27,30 +29,33 @@ export const Pendaftaran = ({navigation}) => {
   ];
 
   return (
-    <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-      <Text style={stylesPendaftaran.title}>Poliklinik</Text>
-      <Text style={stylesPendaftaran.subTitle}>poliklinik</Text>
-      <View style={stylesPendaftaran.buttonMainContainer}>
-        {poliklinik.map((e, index) => (
-          <TouchableOpacity
-            key={index}
-            style={stylesPendaftaran.buttonContainer}
-            onPress={() =>
-              navigation.navigate('Kategorisasi', {
-                name: e.nama,
-                id: e.id,
-                item: e.item,
-              })
-            }>
-            <Text style={stylesPendaftaran.buttonTitle}>{e.nama}</Text>
+    <ScrollView>
+      <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
+        <MainNavbar navigation={navigation} />
+        <Text style={stylesPendaftaran.title}>Poliklinik</Text>
+        <Text style={stylesPendaftaran.subTitle}>poliklinik</Text>
+        <View style={stylesPendaftaran.buttonMainContainer}>
+          {poliklinik.map((e, index) => (
+            <TouchableOpacity
+              key={index}
+              style={stylesPendaftaran.buttonContainer}
+              onPress={() =>
+                navigation.navigate('Kategorisasi', {
+                  name: e.nama,
+                  id: e.id,
+                  item: e.item,
+                })
+              }>
+              <Text style={stylesPendaftaran.buttonTitle}>{e.nama}</Text>
+              <Image source={require('../image/arrowRight.png')} />
+            </TouchableOpacity>
+          ))}
+          <TouchableOpacity style={stylesPendaftaran.buttonContainerEnd}>
+            <Text style={stylesPendaftaran.buttonTitle}>penyakit dalam</Text>
             <Image source={require('../image/arrowRight.png')} />
           </TouchableOpacity>
-        ))}
-        <TouchableOpacity style={stylesPendaftaran.buttonContainerEnd}>
-          <Text style={stylesPendaftaran.buttonTitle}>penyakit dalam</Text>
-          <Image source={require('../image/arrowRight.png')} />
-        </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
