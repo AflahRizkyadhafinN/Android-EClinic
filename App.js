@@ -43,7 +43,7 @@ function App() {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
           }}>
           <Stack.Navigator
-            initialRouteName="Dashboard"
+            initialRouteName="Login"
             screenOptions={{headerShown: false, animation: 'none'}}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
