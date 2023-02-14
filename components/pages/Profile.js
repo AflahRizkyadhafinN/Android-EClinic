@@ -8,31 +8,42 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {stylesGeneral, stylesProfile} from '../Style';
-import {SelectList} from 'react-native-dropdown-select-list';
 import RadioForm from 'react-native-simple-radio-button';
 import {useRoute} from '@react-navigation/native';
 import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import {API_URL, getUpdateToken, update} from '../../App';
 import {makeContext} from '../UseContext';
-import SelectDropdown from 'react-native-select-dropdown';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export const Profile = ({navigation}) => {
   const {userdata, setUserData} = useContext(makeContext);
   const [selected, setSelected] = React.useState('');
   const [edit, setEdit] = React.useState(false);
+  const [openP, setOpenP] = useState(false);
+  const [openGD, setOpenGD] = useState(false);
+  const [value, setValue] = useState(null);
 
-  const listpekerjaan = [
-    'Guru',
-    'Tentara',
-    'Pedagang',
-    'Pelajar',
-    'Polisi',
-    'Penyanyi',
-    'Pelajar',
+  const [listpekerjaan, setListPekerjaan] = useState([
+    {label: 'Guru', value: 'guru'},
+    {label: 'Tentara', value: 'tentara'},
+    {label: 'Pedagang', value: 'pedagang'},
+    {label: 'Polisi', value: 'polisi'},
+    {label: 'Penyanyi', value: 'penyanyi'},
+    {label: 'Pelajar', value: 'pelajar'},
+    {label: 'Petani', value: 'petani'},
+    {label: 'Pegawai Swasta', value: 'pegawaiswasta'},
+    {label: 'Pegawai Negeri', value: 'pegawainegeri'},
+  ]);
+  const GDarah = [
+    {label: 'A', value: 'A'},
+    {label: 'A-', value: 'A-'},
+    {label: 'B', value: 'B'},
+    {label: 'B-', value: 'B-'},
+    {label: 'AB', value: 'AB'},
+    {label: 'AB-', value: 'AB-'},
+    {label: 'O', value: 'O'},
+    {label: 'O-', value: 'O-'},
   ];
-
-  const GDarah = ['A-', 'A', 'B-', 'B', 'AB-', 'AB', '-O', 'O'];
 
   const Gender = [
     {label: 'Laki-laki', value: 'Laki-laki'},
@@ -117,7 +128,7 @@ export const Profile = ({navigation}) => {
     });
   }
   return (
-    <ScrollView>
+    <ScrollView nestedScrollEnabled={true}>
       <View style={stylesGeneral.container}>
         <TouchableOpacity disabled={!edit}>
           <Image
@@ -156,40 +167,31 @@ export const Profile = ({navigation}) => {
           editable={edit}
         />
         <Text style={stylesProfile.profileTitle}>Pekerjaan</Text>
-        <View>
-          <SelectDropdown
-            // setSelected={value => setPekerjaan(value)}
-            data={listpekerjaan}
-            onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index);
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              // text represented after item is selected
-              // if data array is an array of objects then return selectedItem.property to render after item is selected
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              // text represented for each item in dropdown
-              // if data array is an array of objects then return item.property to represent item in dropdown
-              return item;
-            }}
+        <View style={{zIndex: 1}}>
+          <DropDownPicker
+            items={listpekerjaan}
+            open={openP}
+            value={value}
+            setOpen={setOpenP}
+            setValue={setValue}
+            setItems={setListPekerjaan}
+            listMode="SCROLLVIEW"
             disabled={!edit}
-            defaultButtonText="pekerjaan"
-            buttonStyle={stylesProfile.textInput}
-            buttonTextStyle={
-              edit ? stylesProfile.selectListActive : stylesProfile.selectList
+            style={{borderWidth: 2, backgroundColor: '#f2f2f2'}}
+            dropDownDirection={'BOTTOM'}
+            labelStyle={
+              edit ? {color: 'black'} : {color: 'grey', borderWidth: 0}
             }
-            dropdownStyle={stylesProfile.dropdown}
-            rowTextStyle={stylesProfile.dropdownText}
-            renderDropdownIcon={isOpened => {
-              return (
-                <FontAwesome
-                  name={isOpened ? 'chevron-up' : 'chevron-down'}
-                  color={'#444'}
-                  size={18}
-                />
-              );
+            containerStyle={{height: openP ? 250 : 50}}
+            iconContainerStyle={{borderWidth: 2}}
+            dropDownContainerStyle={{
+              borderWidth: 2,
+              backgroundColor: '#f2f2f2',
             }}
+            listItemLabelStyle={{fontWeight: '700', color: 'black'}}
+            textStyle={edit ? {color: 'black'} : {color: 'grey'}}
+            // containerStyle={{borderWidth: 2}}
+            maxHeight={200}
           />
         </View>
         <Text style={stylesProfile.profileTitle}>Tempat lahir</Text>
@@ -214,48 +216,33 @@ export const Profile = ({navigation}) => {
           </TextInput>
         </TouchableOpacity>
         <Text style={stylesProfile.profileTitle}>Golongan Darah</Text>
-        <SelectDropdown
-          // setSelected={value => setPekerjaan(value)}
-          data={GDarah}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            // text represented after item is selected
-            // if data array is an array of objects then return selectedItem.property to render after item is selected
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            // text represented for each item in dropdown
-            // if data array is an array of objects then return item.property to represent item in dropdown
-            return item;
-          }}
-          disabled={!edit}
-          defaultButtonText="golongan darah"
-          buttonStyle={stylesProfile.textInput}
-          buttonTextStyle={
-            edit ? stylesProfile.selectListActive : stylesProfile.selectList
-          }
-          dropdownStyle={stylesProfile.dropdown}
-          rowTextStyle={stylesProfile.dropdownText}
-          renderDropdownIcon={isOpened => {
-            return (
-              <FontAwesome
-                name={isOpened ? 'chevron-up' : 'chevron-down'}
-                color={'#444'}
-                size={18}
-              />
-            );
-          }}
-        />
-        <Text style={stylesProfile.profileTitle}>Alamat</Text>
-        <TextInput
-          style={stylesProfile.textInput}
-          value={alamat}
-          onChangeText={text => setAlamat(text)}
-          placeholder="Alamat"
-          editable={edit}
-        />
+        <View style={{zIndex: 1}}>
+          <DropDownPicker
+            items={GDarah}
+            open={openGD}
+            value={value}
+            setOpen={setOpenGD}
+            setValue={setValue}
+            setItems={setListPekerjaan}
+            listMode="SCROLLVIEW"
+            disabled={!edit}
+            style={{borderWidth: 2, backgroundColor: '#f2f2f2'}}
+            dropDownDirection={'BOTTOM'}
+            labelStyle={
+              edit ? {color: 'black'} : {color: 'grey', borderWidth: 0}
+            }
+            containerStyle={{height: openGD ? 250 : 50}}
+            iconContainerStyle={{borderWidth: 2}}
+            dropDownContainerStyle={{
+              borderWidth: 2,
+              backgroundColor: '#f2f2f2',
+            }}
+            listItemLabelStyle={{fontWeight: '700', color: 'black'}}
+            textStyle={edit ? {color: 'black'} : {color: 'grey'}}
+            // containerStyle={{borderWidth: 2}}
+            maxHeight={200}
+          />
+        </View>
         <View style={{flexDirection: 'row'}}>
           <View style={{width: '50%'}}>
             <Text style={stylesProfile.profileTitle}>RW</Text>

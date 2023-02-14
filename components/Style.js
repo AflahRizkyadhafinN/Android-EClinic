@@ -481,24 +481,38 @@ export const stylesProfile = StyleSheet.create({
     color: 'grey',
   },
 
-  selectListActive: {
-    fontSize: 15,
-    fontWeight: '700',
-    textAlign: 'left',
-    marginLeft: -3,
-    Color: 'black',
-  },
-
   dropdown: {
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: 'black',
+    borderRadius: 9,
   },
 
   dropdownText: {
     fontSize: 15,
     fontWeight: '700',
+    color: 'grey',
+    textAlign: 'left',
+  },
+
+  dropdownTextActive: {
+    fontSize: 15,
+    fontWeight: '700',
     color: 'black',
-    textAlign: 'center',
+    textAlign: 'left',
+  },
+
+  placeholder: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: 'grey',
+    textAlign: 'left',
+  },
+
+  placeholderActive: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'left',
   },
 
   photoProfile: {
