@@ -130,6 +130,27 @@ export const Profile = ({navigation}) => {
   return (
     <ScrollView nestedScrollEnabled={true}>
       <View style={stylesGeneral.container}>
+        <View style={stylesDashboard.header}>
+          <Modal
+            isVisible={open}
+            onBackdropPress={() => setOpen(false)}
+            style={{margin: 0}}
+            animationIn={'slideInLeft'}
+            animationOut={'slideOutLeft'}
+            animationInTiming={1200}
+            animationOutTiming={1200}>
+            <SideNavbar navigation={navigation} />
+          </Modal>
+          <TouchableWithoutFeedback onPress={() => setOpen(true)}>
+            <View style={stylesDashboard.menuContainer}>
+              <Image
+                style={stylesDashboard.buttonBurger}
+                source={require('./image/BurgerBar.png')}
+              />
+              <Text style={stylesDashboard.menu}>Menu</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
         <TouchableOpacity disabled={!edit}>
           <Image
             source={require('../image/PhotoProfile.png')}
