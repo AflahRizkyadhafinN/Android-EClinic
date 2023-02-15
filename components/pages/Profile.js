@@ -6,14 +6,17 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
-import {stylesGeneral, stylesProfile} from '../Style';
+import {stylesGeneral, stylesProfile, stylesDashboard} from '../Style';
 import RadioForm from 'react-native-simple-radio-button';
 import {useRoute} from '@react-navigation/native';
 import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import {API_URL, getUpdateToken, update} from '../../App';
 import {makeContext} from '../UseContext';
 import DropDownPicker from 'react-native-dropdown-picker';
+import Modal from 'react-native-modal';
+import {SideNavbar} from '../SideNavbar';
 
 export const Profile = ({navigation}) => {
   const {userdata, setUserData} = useContext(makeContext);
@@ -21,7 +24,8 @@ export const Profile = ({navigation}) => {
   const [edit, setEdit] = React.useState(false);
   const [openP, setOpenP] = useState(false);
   const [openGD, setOpenGD] = useState(false);
-  const [value, setValue] = useState(null);
+  const [valueP, setValueP] = useState(null);
+  const [valueGD, setValueGD] = useState(null);
 
   const [listpekerjaan, setListPekerjaan] = useState([
     {label: 'Guru', value: 'guru'},
@@ -66,6 +70,7 @@ export const Profile = ({navigation}) => {
   const [kodepos, setKodePos] = useState(userdata.kodepos);
   const [kodewilayah, setKodeWilayah] = useState(userdata.kodewilayah);
   const [tanggal, setTanggal] = useState(userdata.tanggalLahir);
+  const [open, setOpen] = React.useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -145,7 +150,7 @@ export const Profile = ({navigation}) => {
             <View style={stylesDashboard.menuContainer}>
               <Image
                 style={stylesDashboard.buttonBurger}
-                source={require('./image/BurgerBar.png')}
+                source={require('../image/BurgerBar.png')}
               />
               <Text style={stylesDashboard.menu}>Menu</Text>
             </View>
@@ -192,27 +197,30 @@ export const Profile = ({navigation}) => {
           <DropDownPicker
             items={listpekerjaan}
             open={openP}
-            value={value}
+            value={valueP}
             setOpen={setOpenP}
-            setValue={setValue}
+            setValue={setValueP}
             setItems={setListPekerjaan}
             listMode="SCROLLVIEW"
             disabled={!edit}
-            style={{borderWidth: 2, backgroundColor: '#f2f2f2'}}
+            placeholder="Isi pekerjaan"
             dropDownDirection={'BOTTOM'}
+            style={stylesProfile.dropdown}
+            placeholderStyle={stylesProfile.dropdownPlaceholder}
             labelStyle={
-              edit ? {color: 'black'} : {color: 'grey', borderWidth: 0}
+              edit
+                ? stylesProfile.dropdownLabelActive
+                : stylesProfile.dropdownLabel
             }
             containerStyle={{height: openP ? 250 : 50}}
-            iconContainerStyle={{borderWidth: 2}}
-            dropDownContainerStyle={{
-              borderWidth: 2,
-              backgroundColor: '#f2f2f2',
-            }}
-            listItemLabelStyle={{fontWeight: '700', color: 'black'}}
-            textStyle={edit ? {color: 'black'} : {color: 'grey'}}
-            // containerStyle={{borderWidth: 2}}
-            maxHeight={200}
+            iconContainerStyle={stylesProfile.dropdownIconContainer}
+            dropDownContainerStyle={stylesProfile.dropdownContainer}
+            listItemLabelStyle={stylesProfile.dropdownListLabel}
+            textStyle={
+              edit
+                ? stylesProfile.dropdownTextActive
+                : stylesProfile.dropdownText
+            }
           />
         </View>
         <Text style={stylesProfile.profileTitle}>Tempat lahir</Text>
@@ -241,27 +249,30 @@ export const Profile = ({navigation}) => {
           <DropDownPicker
             items={GDarah}
             open={openGD}
-            value={value}
+            value={valueGD}
             setOpen={setOpenGD}
-            setValue={setValue}
+            setValue={setValueGD}
             setItems={setListPekerjaan}
             listMode="SCROLLVIEW"
             disabled={!edit}
-            style={{borderWidth: 2, backgroundColor: '#f2f2f2'}}
+            placeholder="Isi Golongan Darah"
             dropDownDirection={'BOTTOM'}
+            style={stylesProfile.dropdown}
+            placeholderStyle={stylesProfile.dropdownPlaceholder}
             labelStyle={
-              edit ? {color: 'black'} : {color: 'grey', borderWidth: 0}
+              edit
+                ? stylesProfile.dropdownLabelActive
+                : stylesProfile.dropdownLabel
             }
-            containerStyle={{height: openGD ? 250 : 50}}
-            iconContainerStyle={{borderWidth: 2}}
-            dropDownContainerStyle={{
-              borderWidth: 2,
-              backgroundColor: '#f2f2f2',
-            }}
-            listItemLabelStyle={{fontWeight: '700', color: 'black'}}
-            textStyle={edit ? {color: 'black'} : {color: 'grey'}}
-            // containerStyle={{borderWidth: 2}}
-            maxHeight={200}
+            containerStyle={{height: openP ? 250 : 50}}
+            iconContainerStyle={stylesProfile.dropdownIconContainer}
+            dropDownContainerStyle={stylesProfile.dropdownContainer}
+            listItemLabelStyle={stylesProfile.dropdownListLabel}
+            textStyle={
+              edit
+                ? stylesProfile.dropdownTextActive
+                : stylesProfile.dropdownText
+            }
           />
         </View>
         <View style={{flexDirection: 'row'}}>

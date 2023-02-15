@@ -473,46 +473,49 @@ export const stylesProfile = StyleSheet.create({
     width: '100%',
   },
 
-  selectList: {
-    fontSize: 15,
-    fontWeight: '700',
-    textAlign: 'left',
-    marginLeft: -3,
-    color: 'grey',
-  },
-
   dropdown: {
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 9,
+    borderWidth: 2,
+    backgroundColor: '#f2f2f2',
   },
 
-  dropdownText: {
+  dropdownPlaceholder: {
     fontSize: 15,
     fontWeight: '700',
-    color: 'grey',
-    textAlign: 'left',
+  },
+
+  dropdownLabelActive: {
+    color: 'black',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  dropdownLabel: {
+    color: '#969696',
+    borderWidth: 0,
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  dropdownIconContainer: {
+    borderWidth: 2,
+  },
+
+  dropdownContainer: {
+    borderWidth: 2,
+    backgroundColor: '#f2f2f2',
+  },
+
+  dropdownListLabel: {
+    fontWeight: '700',
+    color: 'black',
   },
 
   dropdownTextActive: {
-    fontSize: 15,
-    fontWeight: '700',
     color: 'black',
-    textAlign: 'left',
   },
 
-  placeholder: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: 'grey',
-    textAlign: 'left',
-  },
-
-  placeholderActive: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: 'black',
-    textAlign: 'left',
+  dropdownText: {
+    color: '#969696',
   },
 
   photoProfile: {
@@ -520,6 +523,7 @@ export const stylesProfile = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 150 / 2,
+    marginTop: 20,
   },
 
   date: {
