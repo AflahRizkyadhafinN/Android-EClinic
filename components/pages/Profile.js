@@ -6,17 +6,19 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   RefreshControl,
 } from 'react-native';
-import {stylesGeneral, stylesProfile} from '../Style';
-import {SelectList} from 'react-native-dropdown-select-list';
+import {stylesGeneral, stylesProfile, stylesDashboard} from '../Style';
 import RadioForm from 'react-native-simple-radio-button';
 import {useRoute} from '@react-navigation/native';
 import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import {API_URL, getUpdateToken, update} from '../../App';
-import { makeContext } from '../UseContext';
-import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
+import {makeContext} from '../UseContext';
 import DropDownPicker from 'react-native-dropdown-picker';
+import Modal from 'react-native-modal';
+import {SideNavbar} from '../SideNavbar';
+import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 
 function useDebounceValue(string, time = 250){
   const [debounceValue, setDebounceValue] = useState(string)
@@ -34,29 +36,34 @@ function useDebounceValue(string, time = 250){
 
 
 export const Profile = ({navigation}) => {
-  const {userdata, setUserData} = useContext(makeContext)
+  const {userdata, setUserData} = useContext(makeContext);
   const [selected, setSelected] = React.useState('');
   const [edit, setEdit] = React.useState(false);
+  const [openP, setOpenP] = useState(false);
+  const [openGD, setOpenGD] = useState(false);
+  const [valueP, setValueP] = useState(null);
+  const [valueGD, setValueGD] = useState(null);
 
-  const listpekerjaan = [
-    {key: '1', value: 'Guru'},
-    {key: '2', value: 'Tentara'},
-    {key: '3', value: 'Pedagang'},
-    {key: '4', value: 'Pelajar'},
-    {key: '5', value: 'Polisi'},
-    {key: '6', value: 'Penyanyi'},
-    {key: '7', value: 'Pelajar'},
-  ];
-
+  const [listpekerjaan, setListPekerjaan] = useState([
+    {label: 'Guru', value: 'guru'},
+    {label: 'Tentara', value: 'tentara'},
+    {label: 'Pedagang', value: 'pedagang'},
+    {label: 'Polisi', value: 'polisi'},
+    {label: 'Penyanyi', value: 'penyanyi'},
+    {label: 'Pelajar', value: 'pelajar'},
+    {label: 'Petani', value: 'petani'},
+    {label: 'Pegawai Swasta', value: 'pegawaiswasta'},
+    {label: 'Pegawai Negeri', value: 'pegawainegeri'},
+  ]);
   const GDarah = [
-    {key: '1', value: 'A'},
-    {key: '2', value: 'A-'},
-    {key: '3', value: 'B'},
-    {key: '4', value: 'B-'},
-    {key: '5', value: 'AB'},
-    {key: '6', value: 'AB-'},
-    {key: '7', value: 'O'},
-    {key: '8', value: 'O-'},
+    {label: 'A', value: 'A'},
+    {label: 'A-', value: 'A-'},
+    {label: 'B', value: 'B'},
+    {label: 'B-', value: 'B-'},
+    {label: 'AB', value: 'AB'},
+    {label: 'AB-', value: 'AB-'},
+    {label: 'O', value: 'O'},
+    {label: 'O-', value: 'O-'},
   ];
 
   const Gender = [
@@ -64,26 +71,18 @@ export const Profile = ({navigation}) => {
     {label: 'Perempuan', value: 'Perempuan'},
   ];
   const id = userdata.id;
-  const [namalengkap, setNamaLengkap] = useState(
-    userdata.namalengkap,
-  );
+  const [namalengkap, setNamaLengkap] = useState(userdata.namalengkap);
   const [nik, setNik] = useState(userdata.nik);
   const [email, setEmail] = useState(userdata.email);
   const [tanggalLahir, setTanggalLahir] = useState(new Date());
-  const [tempatLahir, setTempatLahir] = useState(
-    userdata.tempatLahir,
-  );
+  const [tempatLahir, setTempatLahir] = useState(userdata.tempatLahir);
   const [rt, setRt] = useState(userdata.rt);
   const [rw, setRw] = useState(userdata.rw);
   const [alamat, setAlamat] = useState(userdata.alamat);
   const [pekerjaan, setPekerjaan] = useState(userdata.pekerjaan);
-  const [golongandarah, setGolonganDarah] = useState(
-    userdata.golongandarah,
-  );
-  const [jeniskelamin, setJenisKelamin] = useState(
-    userdata.jeniskelamin,
-  );
-  const [token, setToken] = useState('')
+  const [golongandarah, setGolonganDarah] = useState(userdata.golongandarah);
+  const [jeniskelamin, setJenisKelamin] = useState(userdata.jeniskelamin);
+  const [token, setToken] = useState('');
   const [kodepos, setKodePos] = useState(userdata.kodepos);
   const [kodewilayah, setKodeWilayah] = useState(userdata.kodewilayah);
   const [wilayah, setWilayah] = useState([])
@@ -91,20 +90,20 @@ export const Profile = ({navigation}) => {
   const [open, setOpen] = useState(false)
   const [searchText, setSearchText] = useState('')
   const debounce = useDebounceValue(searchText)
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
-    if(event.type == 'set'){
+    if (event.type == 'set') {
       setTanggalLahir(currentDate);
       setTanggal(
-      currentDate.toLocaleString([], {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-      }),
-    );
-    }
-    else{
-      return null
+        currentDate.toLocaleString([], {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+        }),
+      );
+    } else {
+      return null;
     }
   };
 
@@ -123,37 +122,34 @@ export const Profile = ({navigation}) => {
   };
 
   function isigender() {
-    if(jeniskelamin === 'Laki-laki'){
-    return 0
-  } else if(jeniskelamin === 'Perempuan'){
-    return 1
-  } else{
-    return -1
-  }
+    if (jeniskelamin === 'Laki-laki') {
+      return 0;
+    } else if (jeniskelamin === 'Perempuan') {
+      return 1;
+    } else {
+      return -1;
+    }
   }
 
-  async function profilerefresh(id){
-
+  async function profilerefresh(id) {
     fetch(`${API_URL}/profilerefresh`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: id
-    })
-    .then(async res => {
-      try{
-        const jsonRes = await res.json()
+      body: id,
+    }).then(async res => {
+      try {
+        const jsonRes = await res.json();
         console.log(jsonRes);
-        if(res.status == 200){
-          setUserData(jsonRes)
+        if (res.status == 200) {
+          setUserData(jsonRes);
         }
+      } catch (err) {
+        console.log(err);
       }
-      catch(err){
-        console.log(err)
-      }
-    })
+    });
   }
 
   useEffect(() => {
@@ -179,10 +175,30 @@ export const Profile = ({navigation}) => {
 
 
   return (
-
-      <ScrollView>
+    <ScrollView nestedScrollEnabled={true}>
       <View style={stylesGeneral.container}>
-        <TouchableOpacity>
+        <View style={stylesDashboard.header}>
+          <Modal
+            isVisible={open}
+            onBackdropPress={() => setOpen(false)}
+            style={{margin: 0}}
+            animationIn={'slideInLeft'}
+            animationOut={'slideOutLeft'}
+            animationInTiming={1200}
+            animationOutTiming={1200}>
+            <SideNavbar navigation={navigation} />
+          </Modal>
+          <TouchableWithoutFeedback onPress={() => setOpen(true)}>
+            <View style={stylesDashboard.menuContainer}>
+              <Image
+                style={stylesDashboard.buttonBurger}
+                source={require('../image/BurgerBar.png')}
+              />
+              <Text style={stylesDashboard.menu}>Menu</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+        <TouchableOpacity disabled={!edit}>
           <Image
             source={require('../image/PhotoProfile.png')}
             style={stylesProfile.photoProfile}
@@ -219,17 +235,34 @@ export const Profile = ({navigation}) => {
           editable={edit}
         />
         <Text style={stylesProfile.profileTitle}>Pekerjaan</Text>
-        <View >
-          <SelectList
-            setSelected={value => setPekerjaan(value)}
-            data={listpekerjaan}
-            save="value"
-            boxStyles={stylesProfile.textInput}
-            inputStyles={stylesProfile.selectList}
-            dropdownStyles={stylesProfile.dropdown}
-            dropdownTextStyles={stylesProfile.dropdownText}
-            notFoundText={true}
-            placeholder={pekerjaan}
+        <View style={{zIndex: 1}}>
+          <DropDownPicker
+            items={listpekerjaan}
+            open={openP}
+            value={valueP}
+            setOpen={setOpenP}
+            setValue={setValueP}
+            setItems={setListPekerjaan}
+            listMode="SCROLLVIEW"
+            disabled={!edit}
+            placeholder="Isi pekerjaan"
+            dropDownDirection={'BOTTOM'}
+            style={stylesProfile.dropdown}
+            placeholderStyle={stylesProfile.dropdownPlaceholder}
+            labelStyle={
+              edit
+                ? stylesProfile.dropdownLabelActive
+                : stylesProfile.dropdownLabel
+            }
+            containerStyle={{height: openP ? 250 : 50}}
+            iconContainerStyle={stylesProfile.dropdownIconContainer}
+            dropDownContainerStyle={stylesProfile.dropdownContainer}
+            listItemLabelStyle={stylesProfile.dropdownListLabel}
+            textStyle={
+              edit
+                ? stylesProfile.dropdownTextActive
+                : stylesProfile.dropdownText
+            }
           />
         </View>
         <Text style={stylesProfile.profileTitle}>Tempat lahir</Text>
@@ -254,29 +287,36 @@ export const Profile = ({navigation}) => {
           </TextInput>
         </TouchableOpacity>
         <Text style={stylesProfile.profileTitle}>Golongan Darah</Text>
-        <SelectList
-          setSelected={value => setGolonganDarah(value)}
-          data={GDarah}
-          save="value"
-          search={false}
-          boxStyles={stylesProfile.textInput}
-          inputStyles={stylesProfile.selectList}
-          dropdownStyles={stylesProfile.dropdown}
-          dropdownTextStyles={stylesProfile.dropdownText}
-          notFoundText={true}
-          placeholder={golongandarah}
-          editable={edit}
-          // onChangeText={(text) => setGolonganDarah(text)}
-          // value={golongandarah}
-        />
-        <Text style={stylesProfile.profileTitle}>Alamat</Text>
-        <TextInput
-          style={stylesProfile.textInput}
-          value={alamat}
-          onChangeText={text => setAlamat(text)}
-          placeholder="Alamat"
-          editable={edit}
-        />
+        <View style={{zIndex: 1}}>
+          <DropDownPicker
+            items={GDarah}
+            open={openGD}
+            value={valueGD}
+            setOpen={setOpenGD}
+            setValue={setValueGD}
+            setItems={setListPekerjaan}
+            listMode="SCROLLVIEW"
+            disabled={!edit}
+            placeholder="Isi Golongan Darah"
+            dropDownDirection={'BOTTOM'}
+            style={stylesProfile.dropdown}
+            placeholderStyle={stylesProfile.dropdownPlaceholder}
+            labelStyle={
+              edit
+                ? stylesProfile.dropdownLabelActive
+                : stylesProfile.dropdownLabel
+            }
+            containerStyle={{height: openP ? 250 : 50}}
+            iconContainerStyle={stylesProfile.dropdownIconContainer}
+            dropDownContainerStyle={stylesProfile.dropdownContainer}
+            listItemLabelStyle={stylesProfile.dropdownListLabel}
+            textStyle={
+              edit
+                ? stylesProfile.dropdownTextActive
+                : stylesProfile.dropdownText
+            }
+          />
+        </View>
         <View style={{flexDirection: 'row'}}>
           <View style={{width: '50%'}}>
             <Text style={stylesProfile.profileTitle}>RW</Text>
@@ -348,12 +388,14 @@ export const Profile = ({navigation}) => {
         />
         <TouchableOpacity
           style={stylesProfile.submitButton}
-          onPress={() => getUpdateToken().then((token) => {
-            if(token) {
-              setEdit(!edit)
-              setToken(token)
-            }
-          })}>
+          onPress={() =>
+            getUpdateToken().then(token => {
+              if (token) {
+                setEdit(!edit);
+                setToken(token);
+              }
+            })
+          }>
           <Text style={stylesProfile.submitTitle}>Edit</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -375,11 +417,11 @@ export const Profile = ({navigation}) => {
               tempatLahir,
               tanggal,
               token,
-              navigation
+              navigation,
             ).then(() => {
-                profilerefresh(id)
-                setEdit(false)
-            })
+              profilerefresh(id);
+              setEdit(false);
+            });
           }}>
           <Text style={stylesProfile.submitTitle}>Simpan</Text>
         </TouchableOpacity>

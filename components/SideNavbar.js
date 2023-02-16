@@ -1,12 +1,12 @@
 import React, {useContext, useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {stylesDNavbar} from './Style';
-import { logout } from '../App';
-import { makeContext } from './UseContext';
+import {logout} from '../App';
+import {makeContext} from './UseContext';
 
 export const SideNavbar = ({navigation}) => {
-  const {userdata} = useContext(makeContext)
-  const id = userdata.id
+  const {userdata} = useContext(makeContext);
+  const id = userdata.id;
 
   return (
     <View style={stylesDNavbar.mainContainer}>
@@ -20,7 +20,7 @@ export const SideNavbar = ({navigation}) => {
         </View>
         <TouchableOpacity
           style={stylesDNavbar.buttonContainer}
-          >
+          onPress={() => navigation.navigate('Pendaftaran')}>
           <Text style={stylesDNavbar.buttonTitle}>Pendaftaran</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -45,14 +45,9 @@ export const SideNavbar = ({navigation}) => {
           />
           <Text style={stylesDNavbar.menuTitle}>Doctors</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={stylesDNavbar.menuContainer}>
-          <Image
-            style={stylesDNavbar.menuIcon}
-            source={require('./image/obatIcon.png')}
-          />
-          <Text style={stylesDNavbar.menuTitle}>Obat</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={stylesDNavbar.menuContainer}>
+        <TouchableOpacity
+          style={stylesDNavbar.menuContainer}
+          onPress={() => navigation.navigate('Riwayat')}>
           <Image
             style={stylesDNavbar.menuIcon}
             source={require('./image/riwayatIcon.png')}
@@ -81,7 +76,8 @@ export const SideNavbar = ({navigation}) => {
           <Text style={stylesDNavbar.menuTitle}>Login</Text>
         </TouchableOpacity> */}
         <TouchableOpacity
-          style={[stylesDNavbar.menuContainer, stylesDNavbar.login]} onPress={() => logout(navigation, id)}>
+          style={[stylesDNavbar.menuContainer, stylesDNavbar.login]}
+          onPress={() => logout(navigation, id)}>
           <Image
             style={stylesDNavbar.menuIcon}
             source={require('./image/logIcon.png')}

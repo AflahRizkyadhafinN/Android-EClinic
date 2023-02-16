@@ -471,22 +471,52 @@ export const stylesProfile = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     paddingHorizontal: 10,
-  },
-
-  selectList: {
-    fontSize: 15,
-    fontWeight: '700',
+    width: '100%',
   },
 
   dropdown: {
     borderWidth: 2,
-    borderColor: 'black',
+    backgroundColor: '#f2f2f2',
+  },
+
+  dropdownPlaceholder: {
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  dropdownLabelActive: {
+    color: 'black',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  dropdownLabel: {
+    color: '#969696',
+    borderWidth: 0,
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  dropdownIconContainer: {
+    borderWidth: 2,
+  },
+
+  dropdownContainer: {
+    borderWidth: 2,
+    backgroundColor: '#f2f2f2',
+  },
+
+  dropdownListLabel: {
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  dropdownTextActive: {
+    color: 'black',
   },
 
   dropdownText: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: 'black',
+    color: '#969696',
   },
 
   photoProfile: {
@@ -494,6 +524,7 @@ export const stylesProfile = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 150 / 2,
+    marginTop: 20,
   },
 
   date: {
@@ -733,6 +764,7 @@ export const stylesPendaftaran = StyleSheet.create({
     fontSize: 35,
     fontWeight: '700',
     color: 'black',
+    marginTop: 20,
   },
 
   subTitle: {
@@ -791,6 +823,7 @@ export const stylesAmbilNomor = StyleSheet.create({
     fontSize: 30,
     fontWeight: '700',
     color: 'black',
+    marginTop: 20,
   },
 
   buttonHBContainer: {
@@ -921,6 +954,7 @@ export const stylesNomorAntrian = StyleSheet.create({
     fontSize: 30,
     fontWeight: '700',
     color: 'black',
+    marginTop: 20,
   },
 
   antrianContainer: {
@@ -986,6 +1020,7 @@ export const stylesHasil = StyleSheet.create({
     fontSize: 30,
     fontWeight: '600',
     color: 'black',
+    marginTop: 20,
   },
 
   identitasContainer: {
@@ -1067,5 +1102,43 @@ export const stylesHasil = StyleSheet.create({
   centerBorder: {
     borderLeftWidth: 1,
     paddingLeft: 10,
+  },
+});
+
+export const stylesRiwayat = StyleSheet.create({
+  title: {
+    fontSize: 40,
+    fontWeight: '700',
+    color: 'black',
+    marginTop: 20,
+  },
+
+  bulan: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: 'black',
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+    marginTop: 10,
+  },
+
+  ketContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    padding: 10,
+    marginTop: 15,
+  },
+
+  ketTanggal: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  ketPenyakit: {
+    fontSize: 15,
+    fontWeight: '400',
+    color: 'black',
   },
 });
