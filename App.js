@@ -25,7 +25,7 @@ const Stack = createNativeStackNavigator();
 
 const isCurrentScreenInitialOne = (state) => {
   const route = state.routes[state.index];
-  if (route.state) {
+  if (route.state) {  
     return isCurrentScreenInitialOne(route.state);
   }
   return state.index === 1;
@@ -231,6 +231,8 @@ export async function update(
   tanggalLahir,
   token,
 ) {
+  const jwt = await Keychain.getGenericPassword()
+  const keyToken = jwt.password
   const payload = {
     alamat,
     id,
@@ -246,6 +248,7 @@ export async function update(
     golongandarah,
     tempatLahir,
     tanggalLahir,
+    keyToken,
   };
 
   fetch(`${API_URL}/update`, {

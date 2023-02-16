@@ -20,6 +20,7 @@
     "react-native": "0.71.0",
     "react-native-animated-progress": "^1.0.2",
     "react-native-bouncy-checkbox": "^3.0.6",
+    "react-native-dropdown-picker": "^5.4.4",
     "react-native-dropdown-select-list": "^2.0.4",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-keychain": "^8.1.1",

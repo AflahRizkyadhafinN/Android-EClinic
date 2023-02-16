@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config()
 const crypto = require('crypto')
 const secret_key = process.env.JWT_SECRET
+const {wilayah} = require('../models/dokterdata');
+
 
 exports.findAll = (req, res) => {
   data
@@ -14,8 +16,23 @@ exports.findAll = (req, res) => {
     .catch(err => {
       console.log('error', err);
     });
-};
+}; 
+exports.wilayah = (req, res) => {
+  const query = req.query.query
+  wilayah.findAll().then(data => {
+    if(isNaN(query) && query){
+      let filterData = data.filter(item => item.nama.toLowerCase().includes(query.toLowerCase()))
+      return res.json(filterData)
+    }
+    if(query){
+      filterData = data.filter(item => item.kode_wilayah.includes(query))
+      return res.json(filterData)
+    }
+      res.json(data)
+    
 
+  })
+}
 exports.signup = (req, res, next) => {
   if(isNaN(req.body.sNik)){
     return res.status(400).json({alert: 'NIK Harus Angka!'})
@@ -23,9 +40,9 @@ exports.signup = (req, res, next) => {
   else{
     data
     .findOne({where: {email: req.body.email}})
-    .then(user => {
+    .then(async user => {
       if (user) {
-        return res.status(409).json({alert: 'Email sudah dipakai'});
+        return await res.status(409).json({alert: 'Email sudah dipakai'});
       } else if (
         req.body.sPassword &&
         req.body.email &&
@@ -70,179 +87,6 @@ exports.signup = (req, res, next) => {
   
 };
 
-exports.login = (req, res, next) => {
-  if(isNaN(req.body.nik)){
-    return res.status(400).json({alert: 'NIK Harus Angka!'})
-  }
-  else{
-    data.findOne({where: {nik: req.body.nik}}).then(nik => {
-      if (req.body.remember) {
-        if (nik) {
-          bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
-            if (passwordHash) {
-              const token = jwt.sign({nik: req.body.nik}, secret_key, {
-                expiresIn: '1d',
-              });
-              res
-                .status(200)
-                .json({
-                  alert: 'Login Berhasil',
-                  pasen_id: nik.id,
-                  namalengkap: nik.namalengkap,
-                  nik: nik.nik,
-                  email: nik.email,
-                  tanggalLahir: nik.tanggallahir,
-                  golongandarah: nik.golongandarah,
-                  tempatLahir: nik.tempatlahir,
-                  alamat: nik.alamat,
-                  rw: nik.rw,
-                  rt: nik.rt,
-                  kodepos: nik.kodepos,
-                  kodewilayah: nik.kodewilayah,
-                  pekerjaan: nik.pekerjaan,
-                  jeniskelamin: nik.jeniskelamin,
-                  token: token,
-                });
-            } else {
-              res.status(404).json({alert: 'Password Salah'});
-            }
-          });
-        } else {
-          res
-            .status(404)
-            .json({alert: 'Nik Tidak Terdaftar, Register Sekarang!'});
-        }
-      } else {
-        if (nik) {
-          bcrypt.compare(req.body.pass, nik.password, (err, passwordHash) => {
-            if (passwordHash) {
-              const token = jwt.sign({nik: req.body.nik}, secret_key, {
-                expiresIn: '4h',
-              });
-              res
-                .status(200)
-                .json({
-                  alert: 'Login Berhasil',
-                  pasen_id: nik.id,
-                  namalengkap: nik.namalengkap,
-                  nik: nik.nik,
-                  email: nik.email,
-                  tanggalLahir: nik.tanggallahir,
-                  golongandarah: nik.golongandarah,
-                  tempatLahir: nik.tempatlahir,
-                  alamat: nik.alamat,
-                  rw: nik.rw,
-                  rt: nik.rt,
-                  kodepos: nik.kodepos,
-                  kodewilayah: nik.kodewilayah,
-                  pekerjaan: nik.pekerjaan,
-                  jeniskelamin: nik.jeniskelamin,
-                  token: token,
-                });
-            } else {
-              res.status(404).json({alert: 'Password Salah'});
-            }
-          });
-        } else {
-          res
-            .status(404)
-            .json({alert: 'Nik Tidak Terdaftar, Register Sekarang!'});
-        }
-      }
-    });
-  }
-  
-};
-
-exports.auth = (req, res, next) => {
-  
-  const authHeader = req.get('Authorization');
-  if (!authHeader) {
-    return res.status(401).json({alert: 'Authentication Gagal'});
-  }
-  const token = authHeader.split(' ')[1];
-
-  let decodedToken;
-  try {
-    decodedToken = jwt.verify(token, secret_key);
-  } catch (err) {
-    return res.status(500).json({alert: 'Error token expired'});
-  }
-  if (!decodedToken) {
-    res.status(401).json({alert: 'Unauthorized'});
-  } else {
-    res
-      .status(200)
-      .json({alert: 'Login Berhasil'})
-
-        data.update(
-          {
-            accesstoken: token,
-          },
-          {
-            where: {
-              nik: decodedToken.nik,
-            },
-          },
-        );
-  }
-};
-
-
-exports.rememberauth = (req, res, next) => {
-  const authHeader = req.get('Authorization');
-  if (!authHeader) {
-    return res.status(401).json({alert: 'Authentication Gagal'});
-  }
-  const token = authHeader.split(' ')[1];
-  let decodedToken;
-  try {
-    decodedToken = jwt.verify(token, secret_key);
-  } catch (err) {
-    return res.status(500).json({alert: 'Error token expired. Silahkan login kembali'});
-  }
-  if (!decodedToken) {
-    res.status(401).json({alert: 'Unauthorized'});
-  } else {
-    data.findOne({where: {nik: decodedToken.nik}}).then(nik => {
-      if (nik) {
-        res
-          .status(200)
-          .json({
-            pasen_id: nik.id,
-            namalengkap: nik.namalengkap,
-            nik: nik.nik,
-            email: nik.email,
-            tanggalLahir: nik.tanggallahir,
-            golongandarah: nik.golongandarah,
-            tempatLahir: nik.tempatlahir,
-            alamat: nik.alamat,
-            rw: nik.rw,
-            rt: nik.rt,
-            kodepos: nik.kodepos,
-            kodewilayah: nik.kodewilayah,
-            pekerjaan: nik.pekerjaan,
-            jeniskelamin: nik.jeniskelamin,
-            token: token,
-          })
-            data.update(
-              {
-                accesstoken: token,
-              },
-              {
-                where: {
-                  nik: decodedToken.nik,
-                },
-              },
-            );
-      }
-      else{
-        res.status(404).json({alert: 'Error tolong login kembali'})
-      }
-    })
-  }
-}
-
 exports.updatetoken = (req, res, next) => {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
@@ -283,7 +127,7 @@ exports.update = (req, res, next) => {
     return res.status(401).json({alert: 'Authentication Gagal'});
   }
   const token = authHeader.split(' ')[1];
-  data.findOne({where: {accesstoken: token}}).then(data => {
+  data.findOne({where: {accesstoken: req.body.keyToken}}).then(data => {
     if (data) {
       let decodedToken;
       try {
@@ -328,7 +172,7 @@ exports.update = (req, res, next) => {
               },
               {
                 where: {
-                  pasen_id: req.body.id,
+                  kode_pasen: req.body.id,
                 },
               },
             )
@@ -347,7 +191,7 @@ exports.profilerefresh = (req, res, next) => {
   data.findOne({where: {pasen_id: req.body}}).then(nik => {
     if(nik){
       res.status(200).json({
-            pasen_id: nik.id,
+            id: nik.pasen_id,
             namalengkap: nik.namalengkap,
             nik: nik.nik,
             email: nik.email,
@@ -366,7 +210,6 @@ exports.profilerefresh = (req, res, next) => {
   })
 }
 exports.logout = (req, res, next) => {
-  console.log(req.body.id)
   data.update({accesstoken: null}, {
     where: {pasen_id: req.body.id}
   })

@@ -461,6 +461,7 @@ export const stylesProfile = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: 'black',
+    zIndex: -2
   },
   textInput: {
     marginTop: 5,

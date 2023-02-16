@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -9,13 +9,13 @@ import {
 } from 'react-native';
 import {Icon} from '../Icon';
 import {stylesGeneral, stylesRegister} from '../Style';
-import { setpass } from '../../App';
+import {setpass} from '../../App';
 
 export const Register = ({navigation}) => {
   const windows = useWindowDimensions();
-  const [email, setEmail] = useState('')
-  const [sNik, setNik] = useState('')
-  const [sNamaLengkap, setNamaLengkap] = useState('')
+  const [email, setEmail] = useState('');
+  const [sNik, setNik] = useState('');
+  const [sNamaLengkap, setNamaLengkap] = useState('');
   // sEmail,
   // sNik,
   // sPassword,
@@ -38,7 +38,7 @@ export const Register = ({navigation}) => {
           stylesRegister.inputName,
         ]}
         value={sNamaLengkap}
-        onChangeText={(text) => setNamaLengkap(text)}
+        onChangeText={text => setNamaLengkap(text)}
         placeholder="Fullname"
       />
       <TextInput
@@ -46,11 +46,10 @@ export const Register = ({navigation}) => {
           stylesGeneral.input,
           stylesRegister.input,
           stylesRegister.inputPNumber,
-          
         ]}
         placeholder="Email"
         value={email}
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={text => setEmail(text)}
       />
       <TextInput
         style={[
@@ -60,7 +59,7 @@ export const Register = ({navigation}) => {
         ]}
         placeholder="NIK"
         value={sNik}
-        onChangeText={(text) => setNik(text)}
+        onChangeText={text => setNik(text)}
         keyboardType={'numeric'}
       />
       <TouchableOpacity

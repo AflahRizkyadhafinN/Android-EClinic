@@ -2,6 +2,8 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {Platform, BackHandler, ToastAndroid} from 'react-native';
 
+import Keychain from 'react-native-keychain'
+
 export const ExecuteOnlyOnAndroid = (props) => {
   const {message} = props;
   const [exitApp, setExitApp] = useState(0);
@@ -14,7 +16,15 @@ export const ExecuteOnlyOnAndroid = (props) => {
 
       ToastAndroid.show(message, ToastAndroid.SHORT);
     } else if (exitApp === 1) {
-      BackHandler.exitApp();
+      const jwt = Keychain.getGenericPassword()
+      if(jwt.username == 'forgot'){
+        logout(navigation, id)
+        BackHandler.exitApp()
+      }
+      else if (jwt.username == 'remember'){
+        BackHandler.exitApp()
+      }
+
     }
     return true;
   };

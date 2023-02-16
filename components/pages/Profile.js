@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   ScrollView,
   View,
@@ -6,6 +6,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import {stylesGeneral, stylesProfile} from '../Style';
 import {SelectList} from 'react-native-dropdown-select-list';
@@ -14,6 +15,23 @@ import {useRoute} from '@react-navigation/native';
 import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import {API_URL, getUpdateToken, update} from '../../App';
 import { makeContext } from '../UseContext';
+import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
+import DropDownPicker from 'react-native-dropdown-picker';
+
+function useDebounceValue(string, time = 250){
+  const [debounceValue, setDebounceValue] = useState(string)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebounceValue(string)
+    }, time);
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [string, time])
+  return debounceValue
+}
+
 
 export const Profile = ({navigation}) => {
   const {userdata, setUserData} = useContext(makeContext)
@@ -45,7 +63,6 @@ export const Profile = ({navigation}) => {
     {label: 'Laki-laki', value: 'Laki-laki'},
     {label: 'Perempuan', value: 'Perempuan'},
   ];
-  const route = useRoute();
   const id = userdata.id;
   const [namalengkap, setNamaLengkap] = useState(
     userdata.namalengkap,
@@ -69,8 +86,11 @@ export const Profile = ({navigation}) => {
   const [token, setToken] = useState('')
   const [kodepos, setKodePos] = useState(userdata.kodepos);
   const [kodewilayah, setKodeWilayah] = useState(userdata.kodewilayah);
+  const [wilayah, setWilayah] = useState([])
   const [tanggal, setTanggal] = useState(userdata.tanggalLahir);
-
+  const [open, setOpen] = useState(false)
+  const [searchText, setSearchText] = useState('')
+  const debounce = useDebounceValue(searchText)
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     if(event.type == 'set'){
@@ -136,8 +156,31 @@ export const Profile = ({navigation}) => {
     })
   }
 
+  useEffect(() => {
+    if(debounce.length > 0){
+      console.log(debounce)
+      fetch(`${API_URL}/wilayah?query=${debounce}`)
+      .then(async (res) => {
+        try{
+          const wilayahRes = await res.json()
+          let wilayahArray = await wilayahRes.map((item) => {
+            return {label: `${item.nama} (${item.kode_wilayah})`, value: item.kode_wilayah}
+          })
+           setWilayah(wilayahArray)
+        }
+        catch(err){
+          console.error(err);
+        }
+      })
+      .catch(error => console.error(error))
+    }
+    
+  }, [debounce])
+
+
   return (
-    <ScrollView>
+
+      <ScrollView>
       <View style={stylesGeneral.container}>
         <TouchableOpacity>
           <Image
@@ -265,13 +308,21 @@ export const Profile = ({navigation}) => {
           editable={edit}
         />
         <Text style={stylesProfile.profileTitle}>Kode wilayah</Text>
-        <TextInput
-          style={stylesProfile.textInput}
+        <View >
+        <DropDownPicker
+          open={open}
           value={kodewilayah}
-          onChangeText={text => setKodeWilayah(text)}
-          placeholder="Kode wilayah"
-          editable={edit}
+          items={wilayah}
+          setOpen={setOpen}
+          setValue={setKodeWilayah}
+          searchable={true}
+          listMode='MODAL'
+          modalAnimationType="slide"
+          disableLocalSearch={true}
+          searchPlaceholder="Cari nama atau Kode wilayah anda.."
+          onChangeSearchText={(text) => setSearchText(text)}
         />
+        </View>
         <Text style={stylesProfile.profileTitle}>Gender</Text>
         <RadioForm
           formHorizontal={true}
@@ -288,6 +339,7 @@ export const Profile = ({navigation}) => {
             borderRadius: 6,
             paddingVertical: 10,
             justifyContent: 'center',
+            zIndex: -10
           }}
           labelStyle={{marginRight: 15}}
           editable={edit}
@@ -332,6 +384,6 @@ export const Profile = ({navigation}) => {
           <Text style={stylesProfile.submitTitle}>Simpan</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </ScrollView>    
   );
 };
