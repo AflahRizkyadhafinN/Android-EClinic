@@ -16,11 +16,36 @@ import {MainNavbar} from '../MainNavbar';
 import {makeContext} from '../UseContext';
 import {API_URL} from '../../App';
 import DoubleTapToClose from '../CloseApp';
+import {Icon} from '@rneui/themed';
 
 export const Dashboard = ({navigation, isInitialScreen}) => {
   const route = useRoute();
   const [refreshing, setRefreshing] = React.useState(false);
   const [member, setMember] = useState('0');
+  const StatistikArrow = () => {
+    return (
+      <View style={stylesDashboard.statistikArrowContainer}>
+        <TouchableWithoutFeedback>
+          <Icon
+            name="keyboard-arrow-left"
+            type="material"
+            color={'#000'}
+            size={40}
+            style={{margin: -10}}
+          />
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback>
+          <Icon
+            name="keyboard-arrow-right"
+            type="material"
+            color={'#000'}
+            size={40}
+            style={{margin: -10}}
+          />
+        </TouchableWithoutFeedback>
+      </View>
+    );
+  };
 
   useEffect(() => {
     fetch(`${API_URL}/users`, {
@@ -147,9 +172,12 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       </Text>
       <View style={stylesDashboard.cardContainer}>
         <View style={stylesDashboard.cardImageContainer}>
-          <Image
+          <Icon
             style={stylesDashboard.cardImage}
-            source={require('../image/people.png')}
+            name="people"
+            type="ionicon"
+            color={'#fff'}
+            size={50}
           />
         </View>
         <View style={stylesDashboard.cardDescriptionContainer}>
@@ -187,14 +215,7 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
             />
           </View>
         ))}
-        <View style={stylesDashboard.statistikArrowContainer}>
-          <TouchableWithoutFeedback>
-            <Image source={require('../image/arrowLeft.png')} />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback>
-            <Image source={require('../image/arrowRight.png')} />
-          </TouchableWithoutFeedback>
-        </View>
+        <StatistikArrow />
       </View>
       <View style={stylesDashboard.statistikContainer2}>
         <Text style={stylesDashboard.statistikSubtitle}>
@@ -218,14 +239,7 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
             />
           </View>
         ))}
-        <View style={stylesDashboard.statistikArrowContainer}>
-          <TouchableWithoutFeedback>
-            <Image source={require('../image/arrowLeft.png')} />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback>
-            <Image source={require('../image/arrowRight.png')} />
-          </TouchableWithoutFeedback>
-        </View>
+        <StatistikArrow />
       </View>
       <View style={stylesDashboard.statistikContainer2}>
         <Text style={stylesDashboard.statistikSubtitle}>Pekerjaan pasien</Text>
@@ -247,14 +261,7 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
             />
           </View>
         ))}
-        <View style={stylesDashboard.statistikArrowContainer}>
-          <TouchableWithoutFeedback>
-            <Image source={require('../image/arrowLeft.png')} />
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback>
-            <Image source={require('../image/arrowRight.png')} />
-          </TouchableWithoutFeedback>
-        </View>
+        <StatistikArrow />
       </View>
     </ScrollView>
   );

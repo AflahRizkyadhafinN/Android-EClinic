@@ -3,11 +3,12 @@ import {View, ScrollView, Text, Image, TouchableOpacity} from 'react-native';
 import {MainNavbar} from '../MainNavbar';
 import {stylesGeneral, stylesAbout} from '../Style';
 import {useRoute} from '@react-navigation/native';
+import {Icon} from '@rneui/themed';
 
 export const About = ({navigation}) => {
   const route = useRoute();
   return (
-    <View>
+    <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
         <MainNavbar navigation={navigation} />
         <Image
@@ -21,23 +22,29 @@ export const About = ({navigation}) => {
         <View style={stylesAbout.contactContainer}>
           <Text style={stylesAbout.contactTitle}>Hubungi kami di :</Text>
           <View style={stylesAbout.contactDescContainer}>
-            <Image
-              style={stylesAbout.contactIcon}
-              source={require('../image/phoneIcon.png')}
+            <Icon
+              name="phone-square"
+              type="font-awesome"
+              color={'#000'}
+              size={50}
             />
             <Text style={stylesAbout.contactDescription}>083245678934</Text>
           </View>
           <View style={stylesAbout.contactDescContainer}>
-            <Image
-              style={stylesAbout.contactIcon}
-              source={require('../image/waIcon.png')}
+            <Icon
+              name="whatsapp-square"
+              type="font-awesome-5"
+              color={'#000'}
+              size={50}
             />
             <Text style={stylesAbout.contactDescription}>083237568013</Text>
           </View>
           <View style={stylesAbout.contactDescContainer}>
-            <Image
-              style={stylesAbout.contactIcon}
-              source={require('../image/mailIcon.png')}
+            <Icon
+              name="envelope-square"
+              type="font-awesome"
+              color={'#000'}
+              size={50}
             />
             <Text style={stylesAbout.contactDescription}>
               EClinic123@gmail.com
@@ -48,9 +55,11 @@ export const About = ({navigation}) => {
           <Text style={stylesAbout.sosmedTitle}>Sosial Media</Text>
           <View style={stylesAbout.sosmedBorder}>
             <TouchableOpacity style={stylesAbout.sosmedContainer}>
-              <Image
-                style={stylesAbout.sosmedIcon}
-                source={require('../image/igIcon.png')}
+              <Icon
+                name="instagram-with-circle"
+                type="entypo"
+                color={'#000'}
+                size={43}
               />
               <View style={stylesAbout.sosmedNameContainer}>
                 <Text style={stylesAbout.sosmedName}>Eclinic</Text>
@@ -62,9 +71,11 @@ export const About = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={[stylesAbout.sosmedContainer, {paddingTop: 0}]}>
-              <Image
-                style={stylesAbout.sosmedIcon}
-                source={require('../image/twIcon.png')}
+              <Icon
+                name="twitter-with-circle"
+                type="entypo"
+                color={'#000'}
+                size={43}
               />
               <View style={stylesAbout.sosmedNameContainer}>
                 <Text style={stylesAbout.sosmedName}>Eclinic</Text>
@@ -76,9 +87,11 @@ export const About = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={[stylesAbout.sosmedContainer, {paddingTop: 0}]}>
-              <Image
-                style={stylesAbout.sosmedIcon}
-                source={require('../image/fbIcon.png')}
+              <Icon
+                name="facebook-with-circle"
+                type="entypo"
+                color={'#000'}
+                size={43}
               />
               <View
                 style={[
@@ -95,6 +108,6 @@ export const About = ({navigation}) => {
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };

@@ -219,23 +219,17 @@ export const stylesDashboard = StyleSheet.create({
     alignItems: 'center',
   },
 
-  buttonBurger: {
-    width: 25,
-    height: 25,
-  },
-
   menuContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
   },
 
   menu: {
-    fontWeight: '600',
+    fontWeight: '700',
     fontSize: 20,
-    marginLeft: 10,
-    alignSelf: 'center',
-    justifyContent: 'center',
+    marginLeft: 5,
     color: '#000000',
+    alignSelf: 'center',
   },
 
   menuLoginButton: {
@@ -437,13 +431,9 @@ export const stylesDNavbar = StyleSheet.create({
   },
 
   menuContainer: {
-    marginTop: 20,
+    marginTop: 15,
     flexDirection: 'row',
-  },
-
-  menuIcon: {
-    height: 25,
-    width: 25,
+    alignItems: 'center',
   },
 
   menuTitle: {
@@ -451,7 +441,6 @@ export const stylesDNavbar = StyleSheet.create({
     fontWeight: '700',
     fontSize: 25,
     marginLeft: 15,
-    marginTop: -5,
   },
 });
 
