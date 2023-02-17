@@ -615,6 +615,39 @@ export const stylesDokter = StyleSheet.create({
   cardDescription: {
     color: 'grey',
   },
+
+  dropdownBox: {
+    borderColor: 'black',
+    borderRadius: 0,
+    borderWidth: 2,
+    borderTopWidth: 0,
+    paddingLeft: 10,
+  },
+
+  dropdownInput: {
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  dropdownInputActive: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  dropdownContainer: {
+    borderColor: 'black',
+    borderRadius: 0,
+    borderWidth: 2,
+    borderTopWidth: 0,
+    marginTop: 0,
+  },
+
+  dropdownList: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: 'black',
+  },
 });
 
 export const stylesAbout = StyleSheet.create({
@@ -934,6 +967,12 @@ export const stylesAmbilNomor = StyleSheet.create({
   selectListText: {
     fontSize: 15,
     fontWeight: '500',
+  },
+
+  selectListTextActive: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: 'black',
   },
 });
 

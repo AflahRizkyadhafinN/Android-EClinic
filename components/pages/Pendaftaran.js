@@ -39,13 +39,7 @@ export const Pendaftaran = ({navigation}) => {
             <TouchableOpacity
               key={index}
               style={stylesPendaftaran.buttonContainer}
-              onPress={() =>
-                navigation.navigate('Kategorisasi', {
-                  name: e.nama,
-                  id: e.id,
-                  item: e.item,
-                })
-              }>
+              onPress={() => navigation.navigate('AmbilNomor')}>
               <Text style={stylesPendaftaran.buttonTitle}>{e.nama}</Text>
               <Image source={require('../image/arrowRight.png')} />
             </TouchableOpacity>
