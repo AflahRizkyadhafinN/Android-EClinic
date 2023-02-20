@@ -64,7 +64,9 @@ export const Dokter = ({navigation}) => {
           <View style={stylesDokter.cardContainer} key={index}>
             <Image
               style={stylesDokter.cardImage}
-              source={require('../image/PhotoProfile.png')}
+              source={{
+                uri: 'https://hasnamedika.com/wp-content/uploads/2021/07/Irlandi-dr.jpg',
+              }}
               resizeMode="cover"
             />
             <View style={stylesDokter.cardDescriptionContainer}>
