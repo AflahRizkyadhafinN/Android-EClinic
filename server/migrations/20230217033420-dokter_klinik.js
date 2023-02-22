@@ -9,33 +9,32 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-     queryInterface.createTable(
-      'keahlian',
-      {
-        keahlian_id: {
-          type: Sequelize.BIGINT,
+    await queryInterface.createTable(
+      'dokter_klinik',{
+        dokter_id : {
+          type: Sequelize.UUID,
           primaryKey: true,
           allowNull: false,
-          autoIncrement :true
+          references: {
+            model : {tableName: 'dokter', schema: 'public'},
+            key: 'dokter_id'
+          }
         },
-        nama_keahlian: {
-          type: Sequelize.STRING(255),
-        }
+        klinik_id : {
+          type: Sequelize.UUID,
+          primaryKey: true,
+          allowNull: false,
+          references: {
+            model : {tableName: 'klinik', schema: 'public'},
+            key: 'klinik_id'
+          }
+        },
       },
       {
-        timestamps: false,
         schema: 'ref',
-        indexes: [
-          {
-            name: "keahlian_pkey",
-            unique: true,
-            fields: [
-              { name: "keahlian_id" },
-            ]
-          },
-        ]  
-      },
-    )
+        timestamps: false
+      }
+      )
   },
 
   async down (queryInterface, Sequelize) {
@@ -45,6 +44,5 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    await queryInterface.dropTable({tableName: 'keahlian', schema: 'ref'});
   }
 };

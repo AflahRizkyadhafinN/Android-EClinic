@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   ScrollView,
@@ -11,21 +11,44 @@ import {stylesGeneral, stylesAmbilNomor} from '../Style';
 import {Provider as PaperProvider, DataTable} from 'react-native-paper';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {MainNavbar} from '../MainNavbar';
+import { useRoute } from '@react-navigation/native';
 
 const numberOfItemsPerPageList = [5];
 
 export const AmbilNomor = ({navigation}) => {
-  const namaDokter = [
-    {
-      nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-      value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-    },
-    {
-      nama: 'Dr. Abirianty Priandani Araminta, Sp.PD',
-      value: 'Dr. Abirianty Priandani Araminta, Sp.PD',
-    },
-    {nama: 'Dr. Tjoeng Lioni Sp.PD', value: 'Dr. Tjoeng Lioni Sp.PD'},
-  ];
+  const [namaDokter, setNamaDokter] = useState([])
+  const [klinik, setKlinik] = useState('..')
+  const route = useRoute()
+
+  useEffect(() => {
+    async function getNamaDokter() {
+      const list = route.params.jsonRes
+
+      let dokterArray = await list.map(item => {
+        return {nama: item.nama_dokter, value: item.nama_dokter};
+      });
+      let namaKlinik = list.map(item => {
+        return item.keahlian;
+       });
+      setKlinik(namaKlinik[0].nama_keahlian)
+      setNamaDokter(dokterArray);
+    }
+
+    getNamaDokter();
+  }, []);
+  
+  
+  // const namaDokter = [
+  //   {
+  //     nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+  //     value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
+  //   },
+  //   {
+  //     nama: 'Dr. Abirianty Priandani Araminta, Sp.PD',
+  //     value: 'Dr. Abirianty Priandani Araminta, Sp.PD',
+  //   },
+  //   {nama: 'Dr. Tjoeng Lioni Sp.PD', value: 'Dr. Tjoeng Lioni Sp.PD'},
+  // ];
 
   const namaPasien = [
     {nama: 'Faisal', key: '1'},
@@ -41,8 +64,8 @@ export const AmbilNomor = ({navigation}) => {
   const [pressWaktu, setPressWaktu] = useState(false);
   const [selected, setSelected] = useState('');
 
-  const [page, setPage] = React.useState(0);
-  const [numberOfItemsPerPage, onItemsPerPageChange] = React.useState(
+  const [page, setPage] = useState(0);
+  const [numberOfItemsPerPage, onItemsPerPageChange] = useState(
     numberOfItemsPerPageList[0],
   );
   const from = page * numberOfItemsPerPage;
@@ -63,7 +86,7 @@ export const AmbilNomor = ({navigation}) => {
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
         <MainNavbar navigation={navigation} />
-        <Text style={stylesAmbilNomor.title}>Klinik Lansia</Text>
+        <Text style={stylesAmbilNomor.title}>{klinik}</Text>
         <View style={stylesAmbilNomor.buttonHBContainer}>
           <TouchableOpacity
             style={

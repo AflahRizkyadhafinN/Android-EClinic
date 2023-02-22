@@ -21,7 +21,7 @@ module.exports = {
         nik: {
           type: Sequelize.STRING(16),
         },
-        nama: {
+        nama_dokter: {
           type: Sequelize.STRING(50),
         },
         jenis_kelamin: {

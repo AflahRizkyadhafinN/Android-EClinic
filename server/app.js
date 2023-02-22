@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const dataDokter = require('./models/dokterdata');
 const login = require('./controller/LoginControl');
 const klinik = require('./controller/KlinikControl');
+const profile = require('./controller/ProfileControl');
 app.use(express.urlencoded({extended: true}));
 
 app.use(express.json());
@@ -32,13 +33,14 @@ app.post('/signup', data.signup);
 app.post('/login', login.login);
 app.get('/auth', login.auth);
 app.get('/rememberauth', login.rememberauth);
-app.post('/update', data.update);
-app.get('/updatetoken', data.updatetoken);
-app.post('/profilerefresh', data.profilerefresh);
-app.post('/logout', data.logout);
+app.post('/update', profile.update);
+app.get('/updatetoken', profile.updatetoken);
+app.post('/profilerefresh', profile.profilerefresh);
+app.post('/logout', login.logout);
 app.get('/wilayah', data.wilayah);
 app.get('/klinik', klinik.klinik);
 app.get('/poliklinik', klinik.getPoliklinik);
+app.post('/ambil', klinik.ambilNomor);
 
 const PORT = 5000;
 

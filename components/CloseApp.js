@@ -3,11 +3,16 @@ import {useEffect, useState} from 'react';
 import {Platform, BackHandler, ToastAndroid} from 'react-native';
 
 import Keychain from 'react-native-keychain'
+import { exitLogout, logout } from '../App';
+import { useContext } from 'react';
+import { makeContext } from './UseContext';
 
 export const ExecuteOnlyOnAndroid = (props) => {
+  const {userdata} = useContext(makeContext);
+  const id = userdata.id;
   const {message} = props;
   const [exitApp, setExitApp] = useState(0);
-  const backAction = () => {
+  const backAction = async () => {
     setTimeout(() => {
       setExitApp(0);
     }, 1000);
@@ -16,10 +21,9 @@ export const ExecuteOnlyOnAndroid = (props) => {
 
       ToastAndroid.show(message, ToastAndroid.SHORT);
     } else if (exitApp === 1) {
-      const jwt = Keychain.getGenericPassword()
+      const jwt = await Keychain.getGenericPassword()
       if(jwt.username == 'forgot'){
-        logout(navigation, id)
-        BackHandler.exitApp()
+        await exitLogout(id).then((res) => BackHandler.exitApp() )
       }
       else if (jwt.username == 'remember'){
         BackHandler.exitApp()

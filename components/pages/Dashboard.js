@@ -139,7 +139,7 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      {isInitialScreen && <DoubleTapToClose />}
+      {isInitialScreen && <DoubleTapToClose navigation={navigation}/>}
       {/* <DoubleTapToClose /> */}
       <MainNavbar navigation={navigation} />
       <Text style={[stylesGeneral.title, stylesDashboard.title]}>

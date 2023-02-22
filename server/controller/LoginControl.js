@@ -3,11 +3,29 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
 const secret_key = process.env.JWT_SECRET
+const { body, validationResult } = require('express-validator');
 
-exports.login = (req, res, next) => {
-    if(isNaN(req.body.nik)){
-        return res.status(400).json({alert: 'NIK Harus Angka!'})
+exports.login = [
+  body('pass')
+    .isLength({min: 0})
+    .withMessage('Password Minimal 7 Karakter'),
+  body('nik')
+  .isLength({max: 16})
+  .isNumeric()
+  .withMessage('NIK Tidak Valid')
+  .escape(true),  
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json({alert: errors.array().map(items => items.msg)[0]});
     }
+
+  if (!req.body.nik ||!req.body.pass) {
+    return res.status(400).json({alert: 'NIK dan Password Harus Diisi!'});
+  }
     data.findOne({where: {nik: req.body.nik}}).then(nik => {
         if (req.body.remember) {
            if (!nik) {
@@ -78,7 +96,7 @@ exports.login = (req, res, next) => {
           });
       });
     
-  };
+  }]
 
 exports.auth = (req, res, next) => {
   
@@ -110,6 +128,8 @@ exports.auth = (req, res, next) => {
         );
     
   };
+
+
   
   
   exports.rememberauth = (req, res, next) => {
@@ -163,4 +183,17 @@ exports.auth = (req, res, next) => {
           res.status(404).json({alert: 'Error tolong login kembali'})
         }
       })
+  }
+  exports.logout = (req, res, next) => {
+    data.update({accesstoken: null}, {
+      where: {pasen_id: req.body.id}
+    })
+    .then(id => {
+      if(id){
+       return res.status(200).json({alert : 'Logout Berhasil'})
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }

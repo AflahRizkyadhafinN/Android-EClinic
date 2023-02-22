@@ -360,6 +360,20 @@ export const Profile = ({navigation}) => {
           modalAnimationType="slide"
           disableLocalSearch={true}
           searchPlaceholder="Cari nama atau Kode wilayah anda.."
+          placeholder="Isi Kode Wilayah"
+          textStyle={
+            edit
+              ? stylesProfile.dropdownTextActive
+              : stylesProfile.dropdownText
+          }
+          labelStyle={
+            edit
+              ? stylesProfile.dropdownLabelActive
+              : stylesProfile.dropdownLabel
+          }
+          style={stylesProfile.dropdown}
+          placeholderStyle={stylesProfile.dropdownPlaceholder}
+          disabled={!edit}
           onChangeSearchText={(text) => setSearchText(text)}
         />
         </View>

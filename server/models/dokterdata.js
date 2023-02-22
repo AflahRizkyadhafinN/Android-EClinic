@@ -6,6 +6,7 @@ const dokter = sequelize.define(
   {
     dokter_id: {
       type: Sequelize.UUID,
+      allowNull: false,
       primaryKey: true,
       defaultValue: Sequelize.UUIDV4,
     },
@@ -19,11 +20,27 @@ const dokter = sequelize.define(
       type: Sequelize.STRING(1),
     },
     keahlian_id: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
+      references: {
+        model: {tableName: 'keahlian', schema: 'ref'},
+        key: 'keahlian_id'
+      }
+
     },
   },
   {
+    schema: 'public',
     timestamps: false,
+    indexes: [
+      {
+        name: "dokter_pkey",
+        unique: true,
+        fields: [
+          { name: "dokter_id" },
+        ]
+      },
+    ]
+
   },
 );
 
@@ -33,11 +50,7 @@ const klinik = sequelize.define(
     klinik_id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
-    },
-    kode_klinik: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     nama: {
       type: Sequelize.STRING(100),
@@ -88,7 +101,7 @@ const klinik = sequelize.define(
         name: "klinik_pkey",
         unique: true,
         fields: [
-          { name: "kode_klinik" },
+          { name: "klinik_id" },
         ]
       },
       {
@@ -122,16 +135,28 @@ const klinik = sequelize.define(
     'keahlian',
     {
       keahlian_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         primaryKey: true,
+        allowNull: false,
         autoIncrement :true
       },
       nama: {
-        type: Sequelize.STRING(60),
+        type: Sequelize.STRING(255),
       }
     },
     {
       timestamps: false,
+      tableName: 'keahlian',
+      schema: 'ref',
+      indexes: [
+        {
+          name: "keahlian_pkey",
+          unique: true,
+          fields: [
+            { name: "keahlian_id" },
+          ]
+        },
+      ]  
     },
   )
   const wilayah = sequelize.define(
@@ -203,7 +228,7 @@ const klinik = sequelize.define(
         allowNull: false,
         references: {
           model : {tableName: 'klinik', schema: 'public'},
-          key: 'kode_klinik'
+          key: 'klinik_id'
         }
       },
     },
@@ -232,8 +257,41 @@ const klinik = sequelize.define(
     }
   )
 
+  const klinik_dokter = sequelize.define(
+    'dokter_klinik',{
+      dokter_id : {
+        type: Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
+        references: {
+          model : {tableName: 'dokter', schema: 'public'},
+          key: 'dokter_id'
+        }
+      },
+      klinik_id : {
+        type: Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
+        references: {
+          model : {tableName: 'klinik', schema: 'public'},
+          key: 'klinik_id'
+        }
+      },
+    },
+    {
+      schema: 'ref',
+      timestamps: false
+    }
+  )
+
   klinik.hasMany(klinik_poliklinik, {foreignKey: 'klinik_id'})
   klinik_poliklinik.belongsTo(klinik, {foreignKey: 'klinik_id'})
   klinik_poliklinik.belongsTo(poliklinik, {foreignKey: 'poliklinik_id'})
   poliklinik.hasMany(klinik_poliklinik, {foreignKey: 'poliklinik_id'})
-module.exports = {wilayah, dokter, klinik, poliklinik, klinik_poliklinik}
+  dokter.hasMany(klinik_dokter, {foreignKey: 'dokter_id'})
+  klinik_dokter.belongsTo(dokter, {foreignKey: 'dokter_id'})
+  klinik_dokter.belongsTo(klinik, {foreignKey: 'klinik_id'})
+  klinik.hasMany(klinik_dokter, {foreignKey: 'klinik_id'})
+  dokter.hasOne(keahlian, {sourceKey: 'keahlian_id', foreignKey: 'keahlian_id'})
+  keahlian.belongsTo(dokter, {foreignKey: 'keahlian_id'})
+module.exports = {wilayah, dokter, klinik, poliklinik, klinik_poliklinik, keahlian, klinik_dokter}

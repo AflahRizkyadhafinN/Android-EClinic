@@ -15,7 +15,7 @@ module.exports = {
     await queryInterface.bulkInsert({tableName: 'klinik', schema: 'public'}, [
       {
         klinik_id: 'c1ec8c67-f41d-45dd-93a5-16e506402e89',
-        nama: 'klinik123',
+        nama_klinik: 'klinik123',
         alamat: 'bandung',
         kode_wilayah: '3200000000',
         rt: '05',

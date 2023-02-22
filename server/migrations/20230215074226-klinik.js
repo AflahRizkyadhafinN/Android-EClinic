@@ -15,13 +15,9 @@ module.exports = {
         klinik_id: {
           type: Sequelize.UUID,
           defaultValue: Sequelize.UUIDV4,
-        },
-        kode_klinik: {
-          type: Sequelize.INTEGER,
-          autoIncrement: true,
           primaryKey: true,
         },
-        nama: {
+        nama_klinik: {
           type: Sequelize.STRING(100),
         },
         alamat: {
@@ -70,7 +66,7 @@ module.exports = {
             name: "klinik_pkey",
             unique: true,
             fields: [
-              { name: "kode_klinik" },
+              { name: "klinik_id" },
             ]
           },
           {

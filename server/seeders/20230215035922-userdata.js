@@ -24,8 +24,15 @@ module.exports = {
       nik: '564',
       password: "$2a$12$9/x8L5KHWbJ2BFYOXKYzq.bLcKVBfQ2miDff4K.QiyHP5sf7HIyjG",
       email: "Manusiakocak430@gmail.com",
-      namalengkap: "RakhansyahL"
-    },  
+      namalengkap: "RakhansyahL",
+    },
+    {
+      pasen_id: '79585d0e-226f-42eb-afaf-9e520cd7c516',
+      nik: '1078',
+      password: "$2a$12$YaimKx39egKi.x8tNSbSNej3mlZ6ls8byi6/QxMM92lNiNMtd/4XC",
+      email: "Vicky@gmail.com",
+      namalengkap: "Vicky",
+    }
   ], {
     schema: 'public'
   });

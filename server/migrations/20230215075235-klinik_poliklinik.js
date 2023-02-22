@@ -21,12 +21,12 @@ module.exports = {
         }
       },
       klinik_id : {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         primaryKey: true,
         allowNull: false,
         references: {
           model : {tableName: 'klinik', schema: 'public'},
-          key: 'kode_klinik'
+          key: 'klinik_id'
         }
       },
     },

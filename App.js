@@ -43,7 +43,7 @@ function App() {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
           }}>
           <Stack.Navigator
-            initialRouteName="Profile"
+            initialRouteName="Login"
             screenOptions={{headerShown: false, animation: 'none'}}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
@@ -91,6 +91,8 @@ export async function insert(email, sPassword, sNik, sNamaLengkap, navigation) {
       try {
         const jsonRes = await res.json();
         if (res.status !== 200) {
+          // const errorss = await jsonRes.errors.map(items => items.msg)
+          console.log(jsonRes.alert);
           Alert.alert(jsonRes.alert);
         } else if (res.status === 200) {
           Alert.alert(jsonRes.alert);
@@ -163,6 +165,60 @@ export function logout(navigation, id) {
       style: 'cancel',
     },
   ]);
+}
+
+export function exitLogout(id) {
+  const payload = {
+    id,
+  };
+  console.log(id);
+  fetch(`${API_URL}/logout`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(payload),
+  }).then(async res => {
+    try {
+      const jsonRes = await res.json();
+      if (res.status === 200) {
+        Alert.alert(jsonRes.alert);
+        Keychain.resetGenericPassword();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+  return Promise.resolve()
+}
+
+export function getListDokter(nama, namaKlinik, navigation){
+  const payload = {
+    keahlian: `Dokter ${nama}`,
+    namaKlinik
+  }
+  fetch(`${API_URL}/ambil`, {
+    method: 'POST',
+    headers: {
+      'Content-Type' : 'application/json',
+      Accept: 'application/json'
+    },
+    body: JSON.stringify(payload)
+  }).then(async res => {
+    try{
+      const jsonRes = await res.json()
+      if (res.status === 200) {
+        navigation.navigate('AmbilNomor', {
+          jsonRes
+        })
+      }
+    }
+    catch(err){
+      console.log(err);
+    }
+  })
+  console.log(payload);
 }
 
 export function authenticate(userdata, navigation) {
