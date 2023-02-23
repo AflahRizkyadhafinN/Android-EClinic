@@ -219,23 +219,17 @@ export const stylesDashboard = StyleSheet.create({
     alignItems: 'center',
   },
 
-  buttonBurger: {
-    width: 25,
-    height: 25,
-  },
-
   menuContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
   },
 
   menu: {
-    fontWeight: '600',
+    fontWeight: '700',
     fontSize: 20,
-    marginLeft: 10,
-    alignSelf: 'center',
-    justifyContent: 'center',
+    marginLeft: 5,
     color: '#000000',
+    alignSelf: 'center',
   },
 
   menuLoginButton: {
@@ -437,13 +431,9 @@ export const stylesDNavbar = StyleSheet.create({
   },
 
   menuContainer: {
-    marginTop: 20,
+    marginTop: 15,
     flexDirection: 'row',
-  },
-
-  menuIcon: {
-    height: 25,
-    width: 25,
+    alignItems: 'center',
   },
 
   menuTitle: {
@@ -451,7 +441,6 @@ export const stylesDNavbar = StyleSheet.create({
     fontWeight: '700',
     fontSize: 25,
     marginLeft: 15,
-    marginTop: -5,
   },
 });
 
@@ -626,6 +615,39 @@ export const stylesDokter = StyleSheet.create({
 
   cardDescription: {
     color: 'grey',
+  },
+
+  dropdownBox: {
+    borderColor: 'black',
+    borderRadius: 0,
+    borderWidth: 2,
+    borderTopWidth: 0,
+    paddingLeft: 10,
+  },
+
+  dropdownInput: {
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  dropdownInputActive: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  dropdownContainer: {
+    borderColor: 'black',
+    borderRadius: 0,
+    borderWidth: 2,
+    borderTopWidth: 0,
+    marginTop: 0,
+  },
+
+  dropdownList: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: 'black',
   },
 });
 
@@ -946,6 +968,12 @@ export const stylesAmbilNomor = StyleSheet.create({
   selectListText: {
     fontSize: 15,
     fontWeight: '500',
+  },
+
+  selectListTextActive: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: 'black',
   },
 });
 

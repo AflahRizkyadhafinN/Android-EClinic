@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import {stylesDashboard} from './Style';
 import {
   View,
@@ -9,10 +9,11 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {SideNavbar} from './SideNavbar';
-import { makeContext } from './UseContext';
+import {makeContext} from './UseContext';
+import {Icon} from '@rneui/themed';
 
 export const MainNavbar = props => {
-  const {userdata} = useContext(makeContext)
+  const {userdata} = useContext(makeContext);
   const [open, setOpen] = React.useState(false);
   const {navigation} = props;
 
@@ -30,9 +31,12 @@ export const MainNavbar = props => {
       </Modal>
       <TouchableWithoutFeedback onPress={() => setOpen(true)}>
         <View style={stylesDashboard.menuContainer}>
-          <Image
-            style={stylesDashboard.buttonBurger}
-            source={require('./image/BurgerBar.png')}
+          <Icon
+            name="menu"
+            type="entypo"
+            color={'#00096E'}
+            size={40}
+            style={{alignContent: 'center'}}
           />
           <Text style={stylesDashboard.menu}>Menu</Text>
         </View>

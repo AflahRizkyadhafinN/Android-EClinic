@@ -3,6 +3,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {stylesDNavbar} from './Style';
 import {logout} from '../App';
 import {makeContext} from './UseContext';
+import {Icon} from '@rneui/themed';
 
 export const SideNavbar = ({navigation}) => {
   const {userdata} = useContext(makeContext);
@@ -24,14 +25,11 @@ export const SideNavbar = ({navigation}) => {
           <Text style={stylesDNavbar.buttonTitle}>Pendaftaran</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[stylesDNavbar.menuContainer, {marginTop: 50}]}
+          style={[stylesDNavbar.menuContainer, {marginTop: 40}]}
           onPress={() => {
             navigation.navigate('Dashboard');
           }}>
-          <Image
-            style={stylesDNavbar.menuIcon}
-            source={require('./image/dashboardIcon.png')}
-          />
+          <Icon name="dashboard" type="material" color={'#fff'} size={30} />
           <Text style={stylesDNavbar.menuTitle}>Dashboard</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -39,18 +37,17 @@ export const SideNavbar = ({navigation}) => {
           onPress={() => {
             navigation.navigate('Dokter');
           }}>
-          <Image
-            style={stylesDNavbar.menuIcon}
-            source={require('./image/dokterIcon.png')}
-          />
+          <Icon name="person" type="ionicon" color={'#fff'} size={30} />
           <Text style={stylesDNavbar.menuTitle}>Doctors</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={stylesDNavbar.menuContainer}
           onPress={() => navigation.navigate('Riwayat')}>
-          <Image
-            style={stylesDNavbar.menuIcon}
-            source={require('./image/riwayatIcon.png')}
+          <Icon
+            name="history"
+            type="material-community"
+            color={'#fff'}
+            size={30}
           />
           <Text style={stylesDNavbar.menuTitle}>Riwayat</Text>
         </TouchableOpacity>
@@ -59,9 +56,11 @@ export const SideNavbar = ({navigation}) => {
           onPress={() => {
             navigation.navigate('About');
           }}>
-          <Image
-            style={stylesDNavbar.menuIcon}
-            source={require('./image/aboutIcon.png')}
+          <Icon
+            name="information"
+            type="material-community"
+            color={'#fff'}
+            size={30}
           />
           <Text style={stylesDNavbar.menuTitle}>About</Text>
         </TouchableOpacity>
@@ -69,18 +68,17 @@ export const SideNavbar = ({navigation}) => {
       <View>
         {/* <TouchableOpacity
           style={[stylesDNavbar.menuContainer, stylesDNavbar.login]}>
-          <Image
-            style={stylesDNavbar.menuIcon}
-            source={require('./image/logIcon.png')}
-          />
+          <Icon name="login" type="simple-line-icon" color={'#fff'} size={25} />
           <Text style={stylesDNavbar.menuTitle}>Login</Text>
         </TouchableOpacity> */}
         <TouchableOpacity
           style={[stylesDNavbar.menuContainer, stylesDNavbar.login]}
           onPress={() => logout(navigation, id)}>
-          <Image
-            style={stylesDNavbar.menuIcon}
-            source={require('./image/logIcon.png')}
+          <Icon
+            name="logout"
+            type="simple-line-icon"
+            color={'#fff'}
+            size={25}
           />
           <Text style={stylesDNavbar.menuTitle}>Logout</Text>
         </TouchableOpacity>

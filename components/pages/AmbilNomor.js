@@ -139,9 +139,13 @@ export const AmbilNomor = ({navigation}) => {
             placeholder={'Dokter'}
             search={false}
             boxStyles={stylesAmbilNomor.selectListBox}
-            inputStyles={stylesAmbilNomor.selectListText}
+            inputStyles={
+              pressNomor
+                ? stylesAmbilNomor.selectListText
+                : stylesAmbilNomor.selectListTextActive
+            }
             dropdownStyles={stylesAmbilNomor.selectListBox}
-            dropdownTextStyles={stylesAmbilNomor.selectListText}
+            dropdownTextStyles={stylesAmbilNomor.selectListTextActive}
           />
         </View>
         <TouchableOpacity

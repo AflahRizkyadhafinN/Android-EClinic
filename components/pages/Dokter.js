@@ -1,16 +1,17 @@
 import {useRoute} from '@react-navigation/native';
-import React, { useContext } from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {ScrollView} from 'react-native-gesture-handler';
 import {MainNavbar} from '../MainNavbar';
 import {stylesGeneral, stylesDokter} from '../Style';
-import { dokterContext } from '../DokterContext';
+import {dokterContext} from '../DokterContext';
 
 export const Dokter = ({navigation}) => {
   const [select, setSelected] = React.useState('');
   const route = useRoute();
-  const {dokter} = useContext(dokterContext)
+  const {dokter} = useContext(dokterContext);
+  const [color, setColor] = useState(true);
 
   const namaDokter = [
     {nama: 'Faisal', keahlian: 'Mata'},
@@ -39,33 +40,22 @@ export const Dokter = ({navigation}) => {
         />
         <SelectList
           setSelected={setSelected}
+          onSelect={() => {
+            setColor(false);
+          }}
           data={keahlianList}
           save="value"
           search={false}
           notFoundText={true}
           placeholder="Keahlian"
-          boxStyles={{
-            borderColor: 'black',
-            borderRadius: 0,
-            borderWidth: 2,
-            borderTopWidth: 0,
-            paddingLeft: 10,
-          }}
-          inputStyles={{
-            fontSize: 15,
-            fontWeight: '700',
-          }}
-          dropdownStyles={{
-            borderColor: 'black',
-            borderRadius: 0,
-            borderWidth: 2,
-            borderTopWidth: 0,
-            marginTop: 0,
-          }}
-          dropdownTextStyles={{
-            fontSize: 15,
-            fontWeight: '700',
-          }}
+          boxStyles={stylesDokter.dropdownBox}
+          inputStyles={
+            color
+              ? stylesDokter.dropdownInput
+              : stylesDokter.dropdownInputActive
+          }
+          dropdownStyles={stylesDokter.dropdownContainer}
+          dropdownTextStyles={stylesDokter.dropdownList}
         />
         <TouchableOpacity style={stylesDokter.searchButtonContainer}>
           <Text style={stylesDokter.searchButtonTitle}>Search</Text>
@@ -74,7 +64,9 @@ export const Dokter = ({navigation}) => {
           <View style={stylesDokter.cardContainer} key={index}>
             <Image
               style={stylesDokter.cardImage}
-              source={require('../image/PhotoProfile.png')}
+              source={{
+                uri: 'https://hasnamedika.com/wp-content/uploads/2021/07/Irlandi-dr.jpg',
+              }}
               resizeMode="cover"
             />
             <View style={stylesDokter.cardDescriptionContainer}>
