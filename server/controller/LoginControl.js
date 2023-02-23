@@ -129,9 +129,6 @@ exports.auth = (req, res, next) => {
     
   };
 
-
-  
-  
   exports.rememberauth = (req, res, next) => {
     const authHeader = req.get('Authorization');
     if (!authHeader) {

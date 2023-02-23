@@ -50,9 +50,9 @@ const klinik = sequelize.define(
     klinik_id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
-      primaryKey: true
+      primaryKey: true,
     },
-    nama: {
+    nama_klinik: {
       type: Sequelize.STRING(100),
     },
     alamat: {
@@ -140,7 +140,7 @@ const klinik = sequelize.define(
         allowNull: false,
         autoIncrement :true
       },
-      nama: {
+      nama_keahlian: {
         type: Sequelize.STRING(255),
       }
     },
@@ -172,6 +172,10 @@ const klinik = sequelize.define(
       },
       nama: {
         type: Sequelize.STRING(60),
+      },
+      id_level_wilayah: {
+        type: Sequelize.BIGINT,
+        allowNull: true
       },
     },
     {

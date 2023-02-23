@@ -23,6 +23,18 @@ exports.wilayah = (req, res) => {
   // localhost/wilayah?query=bandung
   const query = req.query.query;
   wilayah.findAll().then(data => {
+    function filterLevelWilayah(data) {
+      let parent_level = null
+      for(const data of regions){
+        region.parent_level = parent_level
+        if(data.id_level_wilayah === 1){
+          parent_level = data.id_level_wilayah
+        } else {
+          parent_level = data.id_level_wilayah - 1
+        }
+      }
+     }
+
     if (isNaN(query) && query) {
       let filterData = data.filter(item =>
         item.nama.toLowerCase().includes(query.toLowerCase()),
@@ -31,9 +43,10 @@ exports.wilayah = (req, res) => {
     }
     if (query) {
       filterData = data.filter(item => item.kode_wilayah.includes(query));
+      
       return res.json(filterData);
     }
-    res.json(data);
+    res.json(data)
   });
 };
 exports.signup = [

@@ -38,9 +38,12 @@ app.get('/updatetoken', profile.updatetoken);
 app.post('/profilerefresh', profile.profilerefresh);
 app.post('/logout', login.logout);
 app.get('/wilayah', data.wilayah);
-app.get('/klinik', klinik.klinik);
+app.post('/klinik', klinik.klinik);
 app.get('/poliklinik', klinik.getPoliklinik);
 app.post('/ambil', klinik.ambilNomor);
+app.post('/dokter', klinik.getDokter)
+app.get('/keahlian', klinik.getKeahlian)
+
 
 const PORT = 5000;
 

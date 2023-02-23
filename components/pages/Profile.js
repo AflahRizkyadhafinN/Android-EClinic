@@ -18,22 +18,22 @@ import {makeContext} from '../UseContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Modal from 'react-native-modal';
 import {SideNavbar} from '../SideNavbar';
-import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
+import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
+import {Icon} from '@rneui/themed';
 
-function useDebounceValue(string, time = 250){
-  const [debounceValue, setDebounceValue] = useState(string)
+function useDebounceValue(string, time = 250) {
+  const [debounceValue, setDebounceValue] = useState(string);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setDebounceValue(string)
+      setDebounceValue(string);
     }, time);
     return () => {
-      clearTimeout(timeout)
-    }
-  }, [string, time])
-  return debounceValue
+      clearTimeout(timeout);
+    };
+  }, [string, time]);
+  return debounceValue;
 }
-
 
 export const Profile = ({navigation}) => {
   const {userdata, setUserData} = useContext(makeContext);
@@ -85,11 +85,12 @@ export const Profile = ({navigation}) => {
   const [token, setToken] = useState('');
   const [kodepos, setKodePos] = useState(userdata.kodepos);
   const [kodewilayah, setKodeWilayah] = useState(userdata.kodewilayah);
-  const [wilayah, setWilayah] = useState([])
+  const [wilayah, setWilayah] = useState([]);
   const [tanggal, setTanggal] = useState(userdata.tanggalLahir);
-  const [open, setOpen] = useState(false)
-  const [searchText, setSearchText] = useState('')
-  const debounce = useDebounceValue(searchText)
+  const [open, setOpen] = useState(false);
+  const [navbarOpen, setNavbarOpen] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const debounce = useDebounceValue(searchText);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -153,47 +154,53 @@ export const Profile = ({navigation}) => {
   }
 
   useEffect(() => {
-    if(debounce.length > 0){
-      console.log(debounce)
+    if (debounce.length > 0) {
+      console.log(debounce);
       fetch(`${API_URL}/wilayah?query=${debounce}`)
-      .then(async (res) => {
-        try{
-          const wilayahRes = await res.json()
-          let wilayahArray = await wilayahRes.map((item) => {
-            return {label: `${item.nama} (${item.kode_wilayah})`, value: item.kode_wilayah}
-          })
-           setWilayah(wilayahArray)
-        }
-        catch(err){
-          console.error(err);
-        }
-      })
-      .catch(error => console.error(error))
+        .then(async res => {
+          try {
+            const wilayahRes = await res.json();
+            const nokec = wilayahRes.filter(item => {
+              return item.id_level_wilayah != 3;
+            });
+            const wilayahArray = nokec.map(item => {
+              return {
+                label: item.nama,
+                value: item.kode_wilayah,
+              };
+            });
+            setWilayah(wilayahArray);
+          } catch (err) {
+            console.error(err);
+          }
+        })
+        .catch(error => console.error(error));
     }
-    
-  }, [debounce])
-
+  }, [debounce]);
 
   return (
     <ScrollView nestedScrollEnabled={true}>
       <View style={stylesGeneral.container}>
         <View style={stylesDashboard.header}>
           <Modal
-            isVisible={open}
-            onBackdropPress={() => setOpen(false)}
+            isVisible={navbarOpen}
+            onBackdropPress={() => setNavbarOpen(false)}
             style={{margin: 0}}
             animationIn={'slideInLeft'}
-            animationOut={'slideOutLeft'}
+            animationOut={'slideOutLeft'} 
             animationInTiming={1200}
             animationOutTiming={1200}>
             <SideNavbar navigation={navigation} />
           </Modal>
-          <TouchableWithoutFeedback onPress={() => setOpen(true)}>
+          <TouchableWithoutFeedback onPress={() => setNavbarOpen(true)}>
             <View style={stylesDashboard.menuContainer}>
-              <Image
-                style={stylesDashboard.buttonBurger}
-                source={require('../image/BurgerBar.png')}
-              />
+            <Icon
+            name="menu"
+            type="entypo"
+            color={'#00096E'}
+            size={40}
+            style={{alignContent: 'center'}}
+          />
               <Text style={stylesDashboard.menu}>Menu</Text>
             </View>
           </TouchableWithoutFeedback>
@@ -316,6 +323,14 @@ export const Profile = ({navigation}) => {
                 : stylesProfile.dropdownText
             }
           />
+          <Text style={stylesProfile.profileTitle}>Alamat</Text>
+          <TextInput
+            style={stylesProfile.textInput}
+            value={alamat}
+            onChangeText={text => setAlamat(text)}
+            placeholder="Alamat"
+            editable={edit}
+          />
         </View>
         <View style={{flexDirection: 'row'}}>
           <View style={{width: '50%'}}>
@@ -348,34 +363,34 @@ export const Profile = ({navigation}) => {
           editable={edit}
         />
         <Text style={stylesProfile.profileTitle}>Kode wilayah</Text>
-        <View >
-        <DropDownPicker
-          open={open}
-          value={kodewilayah}
-          items={wilayah}
-          setOpen={setOpen}
-          setValue={setKodeWilayah}
-          searchable={true}
-          listMode='MODAL'
-          modalAnimationType="slide"
-          disableLocalSearch={true}
-          searchPlaceholder="Cari nama atau Kode wilayah anda.."
-          placeholder="Isi Kode Wilayah"
-          textStyle={
-            edit
-              ? stylesProfile.dropdownTextActive
-              : stylesProfile.dropdownText
-          }
-          labelStyle={
-            edit
-              ? stylesProfile.dropdownLabelActive
-              : stylesProfile.dropdownLabel
-          }
-          style={stylesProfile.dropdown}
-          placeholderStyle={stylesProfile.dropdownPlaceholder}
-          disabled={!edit}
-          onChangeSearchText={(text) => setSearchText(text)}
-        />
+        <View>
+          <DropDownPicker
+            open={open}
+            value={kodewilayah}
+            items={wilayah}
+            setOpen={setOpen}
+            setValue={setKodeWilayah}
+            searchable={true}
+            listMode="MODAL"
+            modalAnimationType="slide"
+            disableLocalSearch={true}
+            searchPlaceholder="Cari nama atau Kode wilayah anda.."
+            placeholder="Isi Kode Wilayah"
+            textStyle={
+              edit
+                ? stylesProfile.dropdownTextActive
+                : stylesProfile.dropdownText
+            }
+            labelStyle={
+              edit
+                ? stylesProfile.dropdownLabelActive
+                : stylesProfile.dropdownLabel
+            }
+            style={stylesProfile.dropdown}
+            placeholderStyle={stylesProfile.dropdownPlaceholder}
+            disabled={!edit}
+            onChangeSearchText={text => setSearchText(text)}
+          />
         </View>
         <Text style={stylesProfile.profileTitle}>Gender</Text>
         <RadioForm
@@ -393,7 +408,7 @@ export const Profile = ({navigation}) => {
             borderRadius: 6,
             paddingVertical: 10,
             justifyContent: 'center',
-            zIndex: -10
+            zIndex: -10,
           }}
           labelStyle={{marginRight: 15}}
           editable={edit}
@@ -440,6 +455,6 @@ export const Profile = ({navigation}) => {
           <Text style={stylesProfile.submitTitle}>Simpan</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>    
+    </ScrollView>
   );
 };

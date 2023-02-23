@@ -1,11 +1,41 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {View, ScrollView, Text, Image, TouchableOpacity} from 'react-native';
 import {MainNavbar} from '../MainNavbar';
 import {stylesGeneral, stylesAbout} from '../Style';
 import {useRoute} from '@react-navigation/native';
 import {Icon} from '@rneui/themed';
+import { klinikContext } from '../KlinikContext';
+import { API_URL } from '../../App';
 
 export const About = ({navigation}) => {
+    const {klinik} = useContext(klinikContext)
+    const [dataKlinik, setDataKlinik] = useState({})
+    useEffect(() => {
+      function getKlinik() {
+        const payload = {
+          klinik,
+        };
+        fetch(`${API_URL}/klinik`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify(payload),
+        }).then(async res => {
+          try {
+            const jsonRes = await res.json();
+            if (res.status === 200) {
+              setDataKlinik(jsonRes);
+            }
+          } catch (err) {
+            console.log(err)
+          }
+        });
+      }
+      getKlinik()
+    }, [])
+    console.log(dataKlinik)
   const route = useRoute();
   return (
     <ScrollView>
@@ -15,9 +45,9 @@ export const About = ({navigation}) => {
           style={stylesAbout.clinicIcon}
           source={require('../image/logo.png')}
         />
-        <Text style={stylesAbout.clinicName}>E-Clinic</Text>
+        <Text style={stylesAbout.clinicName}>{dataKlinik.namaKlinik}</Text>
         <Text style={stylesAbout.clinicAddress}>
-          Jl. Lorem No.9 Cigajah Bandung, Jawa barat 40171
+          {`${dataKlinik.alamat}, ${dataKlinik.kode_pos} `}
         </Text>
         <View style={stylesAbout.contactContainer}>
           <Text style={stylesAbout.contactTitle}>Hubungi kami di :</Text>
@@ -28,7 +58,7 @@ export const About = ({navigation}) => {
               color={'#000'}
               size={50}
             />
-            <Text style={stylesAbout.contactDescription}>083245678934</Text>
+            <Text style={stylesAbout.contactDescription}>{dataKlinik.no_kontak}</Text>
           </View>
           <View style={stylesAbout.contactDescContainer}>
             <Icon
@@ -37,7 +67,7 @@ export const About = ({navigation}) => {
               color={'#000'}
               size={50}
             />
-            <Text style={stylesAbout.contactDescription}>083237568013</Text>
+            <Text style={stylesAbout.contactDescription}>{dataKlinik.no_wa}</Text>
           </View>
           <View style={stylesAbout.contactDescContainer}>
             <Icon
@@ -47,7 +77,7 @@ export const About = ({navigation}) => {
               size={50}
             />
             <Text style={stylesAbout.contactDescription}>
-              EClinic123@gmail.com
+            {dataKlinik.email}
             </Text>
           </View>
         </View>
@@ -62,7 +92,7 @@ export const About = ({navigation}) => {
                 size={43}
               />
               <View style={stylesAbout.sosmedNameContainer}>
-                <Text style={stylesAbout.sosmedName}>Eclinic</Text>
+                <Text style={stylesAbout.sosmedName}>{dataKlinik.instagram}</Text>
                 <Image
                   style={stylesAbout.sosmedArrow}
                   source={require('../image/arrowRight.png')}
@@ -78,7 +108,7 @@ export const About = ({navigation}) => {
                 size={43}
               />
               <View style={stylesAbout.sosmedNameContainer}>
-                <Text style={stylesAbout.sosmedName}>Eclinic</Text>
+                <Text style={stylesAbout.sosmedName}>{dataKlinik.twitter}</Text>
                 <Image
                   style={stylesAbout.sosmedArrow}
                   source={require('../image/arrowRight.png')}
@@ -98,7 +128,7 @@ export const About = ({navigation}) => {
                   stylesAbout.sosmedNameContainer,
                   {paddingBottom: 0, borderBottomWidth: 0},
                 ]}>
-                <Text style={stylesAbout.sosmedName}>Eclinic</Text>
+                <Text style={stylesAbout.sosmedName}>{dataKlinik.twitter}</Text>
                 <Image
                   style={stylesAbout.sosmedArrow}
                   source={require('../image/arrowRight.png')}

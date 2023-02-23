@@ -18,8 +18,8 @@ import {Alert} from 'react-native';
 import {UserData} from './components/UseContext';
 import Keychain from 'react-native-keychain';
 import {Hasil} from './components/pages/Hasil';
-import {DokterData} from './components/DokterContext';
 import {Riwayat} from './components/pages/Riwayat';
+import { KlinikNama } from './components/KlinikContext';
 
 export const API_URL = 'http://10.10.10.91:5000';
 const Stack = createNativeStackNavigator();
@@ -36,7 +36,7 @@ function App() {
   const [isInitialScreen, setIsInitialScreen] = useState(true);
 
   return (
-    <DokterData>
+    <KlinikNama>
       <UserData>
         <NavigationContainer
           onStateChange={state => {
@@ -67,7 +67,7 @@ function App() {
           </Stack.Navigator>
         </NavigationContainer>
       </UserData>
-    </DokterData>
+    </KlinikNama>
   );
 }
 
