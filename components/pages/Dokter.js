@@ -18,7 +18,6 @@ export const Dokter = ({navigation}) => {
   const [outKeahlian, setOutKeahlian] = useState();
   const [cariDokter, setCariDokter] = useState('');
   const [outDokter, setOutDokter] = useState();
-  const [cariKeahlian, setCariKeahlian] = useState('');
 
   const namaDokter = [
     {nama: 'Faisal', keahlian: 'Mata'},
@@ -94,7 +93,6 @@ export const Dokter = ({navigation}) => {
           onChangeText={nama => setCariDokter(nama)}
         />
         <SelectList
-          setSelected={data => setCariKeahlian(data)}
           setSelected={data => setCariKeahlian(data)}
           onSelect={() => {
             setColor(false);
