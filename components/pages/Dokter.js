@@ -7,6 +7,7 @@ import {MainNavbar} from '../MainNavbar';
 import {stylesGeneral, stylesDokter} from '../Style';
 import {dokterContext} from '../DokterContext';
 import {useEffect} from 'react';
+import {useEffect} from 'react';
 
 export const Dokter = ({navigation}) => {
   const [select, setSelected] = React.useState('');
@@ -17,6 +18,7 @@ export const Dokter = ({navigation}) => {
   const [outKeahlian, setOutKeahlian] = useState();
   const [cariDokter, setCariDokter] = useState('');
   const [outDokter, setOutDokter] = useState();
+  const [cariKeahlian, setCariKeahlian] = useState('');
 
   const namaDokter = [
     {nama: 'Faisal', keahlian: 'Mata'},
@@ -61,6 +63,25 @@ export const Dokter = ({navigation}) => {
     );
   };
 
+  useEffect(() => {
+    const filterKeahlian = keahlianList
+      .filter(data => {
+        return data.value === cariKeahlian;
+      })
+      .map(({key, value}) => {
+        {
+          key, value;
+        }
+      });
+    filterKeahlian;
+  }, [cariKeahlian]);
+
+  // namaDokter.map(e => {
+  //   if (e.keahlian === filterKeahlian[0].value) {
+  //     console.log(e.nama + ' , ' + e.keahlian);
+  //   }
+  // });
+
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
@@ -73,6 +94,7 @@ export const Dokter = ({navigation}) => {
           onChangeText={nama => setCariDokter(nama)}
         />
         <SelectList
+          setSelected={data => setCariKeahlian(data)}
           setSelected={data => setCariKeahlian(data)}
           onSelect={() => {
             setColor(false);
