@@ -24,6 +24,7 @@ export const Dokter = ({navigation}) => {
   ];
 
   const keahlianList = [
+    {key: '0', value: '-'},
     {key: '1', value: 'Mata'},
     {key: '2', value: 'Paru'},
     {key: '3', value: 'Gizi'},
@@ -58,19 +59,6 @@ export const Dokter = ({navigation}) => {
     );
   };
 
-  useEffect(() => {
-    const filterKeahlian = keahlianList
-      .filter(data => {
-        return data.value === cariKeahlian;
-      })
-      .map(({key, value}) => {
-        {
-          key, value;
-        }
-      });
-    filterKeahlian;
-  }, [cariKeahlian]);
-
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
@@ -101,16 +89,15 @@ export const Dokter = ({navigation}) => {
           dropdownStyles={stylesDokter.dropdownContainer}
           dropdownTextStyles={stylesDokter.dropdownList}
         />
-        <TouchableOpacity style={stylesDokter.searchButtonContainer}>
-          <Text style={stylesDokter.searchButtonTitle}>Search</Text>
-        </TouchableOpacity>
         {namaDokter
           .filter(data => data.nama.substring(0, hurufKe) === cariDokter)
           .map((dokter, index) => {
             {
-              if (outKeahlian === undefined) {
+              if (outKeahlian === undefined || outKeahlian.value === '-') {
                 return (
-                  <View key={index}>
+                  <View
+                    key={index}
+                    style={index === 0 ? {marginTop: 10} : {marginTop: 0}}>
                     {ListDokter(dokter.nama, dokter.keahlian)}
                   </View>
                 );
@@ -118,7 +105,9 @@ export const Dokter = ({navigation}) => {
                 {
                   if (dokter.keahlian === outKeahlian.value) {
                     return (
-                      <View key={index}>
+                      <View
+                        key={index}
+                        style={index === 0 ? {marginTop: 10} : {marginTop: 0}}>
                         {ListDokter(dokter.nama, dokter.keahlian)}
                       </View>
                     );

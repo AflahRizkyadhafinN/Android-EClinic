@@ -570,23 +570,6 @@ export const stylesDokter = StyleSheet.create({
     fontWeight: '700',
   },
 
-  searchButtonContainer: {
-    backgroundColor: 'black',
-    paddingVertical: 10,
-    borderBottomRightRadius: 6,
-    borderBottomLeftRadius: 6,
-    borderTopWidth: 3,
-    marginBottom: 20,
-  },
-
-  searchButtonTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: 'white',
-    textAlign: 'center',
-    borderTopColor: 'black',
-  },
-
   cardContainer: {
     borderColor: 'black',
     borderWidth: 2,
@@ -619,6 +602,8 @@ export const stylesDokter = StyleSheet.create({
   dropdownBox: {
     borderColor: 'black',
     borderRadius: 0,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
     borderWidth: 2,
     borderTopWidth: 0,
     paddingLeft: 10,
@@ -637,10 +622,9 @@ export const stylesDokter = StyleSheet.create({
 
   dropdownContainer: {
     borderColor: 'black',
-    borderRadius: 0,
+    borderRadius: 6,
     borderWidth: 2,
-    borderTopWidth: 0,
-    marginTop: 0,
+    marginTop: 5,
   },
 
   dropdownList: {
