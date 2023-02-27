@@ -90,7 +90,11 @@ export const Dokter = ({navigation}) => {
           dropdownTextStyles={stylesDokter.dropdownList}
         />
         {namaDokter
-          .filter(data => data.nama.substring(0, hurufKe) === cariDokter)
+          .filter(
+            data =>
+              data.nama.substring(0, hurufKe).toLowerCase() ===
+              cariDokter.toLowerCase(),
+          )
           .map((dokter, index) => {
             {
               if (outKeahlian === undefined || outKeahlian.value === '-') {
