@@ -17,10 +17,15 @@ export const Dokter = ({navigation}) => {
 
   const namaDokter = [
     {nama: 'Faisal', keahlian: 'Mata'},
+    {nama: 'Faisal Muslim', keahlian: 'Mata'},
     {nama: 'Vicky', keahlian: 'Mata'},
+    {nama: 'M Vicky', keahlian: 'Gizi'},
     {nama: 'Rakha', keahlian: 'Gizi'},
+    {nama: 'Rakha Lubis', keahlian: 'Gizi'},
     {nama: 'Harun', keahlian: 'Otot'},
+    {nama: 'Harun Kusnaedi', keahlian: 'Otot'},
     {nama: 'Aflah', keahlian: 'Gigi'},
+    {nama: 'Aflah Nurfikri', keahlian: 'Paru'},
   ];
 
   const keahlianList = [

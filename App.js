@@ -11,7 +11,6 @@ import {Profile} from './components/pages/Profile';
 import {Dokter} from './components/pages/Dokter';
 import {About} from './components/pages/About';
 import {Pendaftaran} from './components/pages/Pendaftaran';
-import {Kategorisasi} from './components/pages/Kategorisasi';
 import {AmbilNomor} from './components/pages/AmbilNomor';
 import {NomorAntrian} from './components/pages/NomorAntrian';
 import {Alert} from 'react-native';
@@ -20,6 +19,8 @@ import Keychain from 'react-native-keychain';
 import {Hasil} from './components/pages/Hasil';
 import {DokterData} from './components/DokterContext';
 import {Riwayat} from './components/pages/Riwayat';
+import {PilihDokter} from './components/pages/Dokter/PilihDokter';
+import {ConfirmDiagnosa} from './components/pages/Dokter/ConfirmDiagnosa';
 
 export const API_URL = 'http://10.10.10.91:5000';
 const Stack = createNativeStackNavigator();
@@ -43,7 +44,7 @@ function App() {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
           }}>
           <Stack.Navigator
-            initialRouteName="Dokter"
+            initialRouteName="Login"
             screenOptions={{headerShown: false, animation: 'none'}}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
@@ -59,11 +60,12 @@ function App() {
             <Stack.Screen name="Dokter" component={Dokter} />
             <Stack.Screen name="About" component={About} />
             <Stack.Screen name="Pendaftaran" component={Pendaftaran} />
-            <Stack.Screen name="Kategorisasi" component={Kategorisasi} />
             <Stack.Screen name="AmbilNomor" component={AmbilNomor} />
             <Stack.Screen name="Hasil" component={Hasil} />
             <Stack.Screen name="NomorAntrian" component={NomorAntrian} />
             <Stack.Screen name="Riwayat" component={Riwayat} />
+            <Stack.Screen name="PilihDokter" component={PilihDokter} />
+            <Stack.Screen name="ConfirmDiagnosa" component={ConfirmDiagnosa} />
           </Stack.Navigator>
         </NavigationContainer>
       </UserData>

@@ -17,6 +17,7 @@ import {makeContext} from '../UseContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Modal from 'react-native-modal';
 import {SideNavbar} from '../SideNavbar';
+import {Icon} from '@rneui/themed';
 
 export const Profile = ({navigation}) => {
   const {userdata, setUserData} = useContext(makeContext);
@@ -148,9 +149,12 @@ export const Profile = ({navigation}) => {
           </Modal>
           <TouchableWithoutFeedback onPress={() => setOpen(true)}>
             <View style={stylesDashboard.menuContainer}>
-              <Image
-                style={stylesDashboard.buttonBurger}
-                source={require('../image/BurgerBar.png')}
+              <Icon
+                name="menu"
+                type="entypo"
+                color={'#00096E'}
+                size={40}
+                style={{alignContent: 'center'}}
               />
               <Text style={stylesDashboard.menu}>Menu</Text>
             </View>
