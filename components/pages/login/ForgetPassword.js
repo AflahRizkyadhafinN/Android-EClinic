@@ -7,14 +7,12 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-import {Icon} from '../Icon';
-import {stylesGeneral, stylesFPassword} from '../Style';
+import {Icon} from '../../Icon';
+import {stylesGeneral, stylesFPassword} from '../../Style';
 
 export const ForgetPassword = ({navigation}) => {
-  const windows = useWindowDimensions();
-
   return (
-    <View style={[stylesGeneral.container,]}>
+    <View style={[stylesGeneral.container]}>
       <Icon />
       <TouchableWithoutFeedback onPress={() => navigation.navigate('Login')}>
         <Text style={stylesFPassword.backToLogin}>Back to login</Text>

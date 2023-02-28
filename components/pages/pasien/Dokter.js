@@ -3,9 +3,9 @@ import React, {useContext, useState, useEffect} from 'react';
 import {View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {ScrollView} from 'react-native-gesture-handler';
-import {MainNavbar} from '../MainNavbar';
-import {stylesGeneral, stylesDokter} from '../Style';
-import {dokterContext} from '../DokterContext';
+import {MainNavbar} from '../../MainNavbar';
+import {stylesGeneral, stylesDokter} from '../../Style';
+import {dokterContext} from '../../DokterContext';
 
 export const Dokter = ({navigation}) => {
   const route = useRoute();

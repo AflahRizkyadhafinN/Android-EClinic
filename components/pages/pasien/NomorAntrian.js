@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, ScrollView} from 'react-native';
-import {stylesGeneral, stylesNomorAntrian} from '../Style';
-import {MainNavbar} from '../MainNavbar';
+import {stylesGeneral, stylesNomorAntrian} from '../../Style';
+import {MainNavbar} from '../../MainNavbar';
 
 export const NomorAntrian = ({navigation}) => {
   return (

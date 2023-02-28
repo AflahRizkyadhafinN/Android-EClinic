@@ -7,10 +7,10 @@ import {
   Image,
   Pressable,
 } from 'react-native';
-import {stylesGeneral, stylesAmbilNomor} from '../Style';
+import {stylesGeneral, stylesAmbilNomor} from '../../Style';
 import {Provider as PaperProvider, DataTable} from 'react-native-paper';
 import {SelectList} from 'react-native-dropdown-select-list';
-import {MainNavbar} from '../MainNavbar';
+import {MainNavbar} from '../../MainNavbar';
 
 const numberOfItemsPerPageList = [5];
 

@@ -722,21 +722,11 @@ export const stylesAbout = StyleSheet.create({
     borderBottomWidth: 1,
   },
 
-  sosmedIcon: {
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-  },
-
   sosmedName: {
     fontSize: 25,
     fontWeight: '700',
     color: 'black',
     paddingRight: '60%',
-  },
-
-  sosmedArrow: {
-    marginRight: 10,
   },
 });
 

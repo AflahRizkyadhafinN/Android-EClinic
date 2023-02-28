@@ -1,8 +1,9 @@
 import React from 'react';
 import {ScrollView} from 'react-native';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {stylesGeneral, stylesPendaftaran} from '../Style';
-import {MainNavbar} from '../MainNavbar';
+import {stylesGeneral, stylesPendaftaran} from '../../Style';
+import {MainNavbar} from '../../MainNavbar';
+import {Icon} from '@rneui/themed';
 
 export const Pendaftaran = ({navigation}) => {
   const poliklinik = [
@@ -41,12 +42,22 @@ export const Pendaftaran = ({navigation}) => {
               style={stylesPendaftaran.buttonContainer}
               onPress={() => navigation.navigate('AmbilNomor')}>
               <Text style={stylesPendaftaran.buttonTitle}>{e.nama}</Text>
-              <Image source={require('../image/arrowRight.png')} />
+              <Icon
+                name="arrow-right"
+                type="simple-line-icon"
+                color={'#000'}
+                size={25}
+              />
             </TouchableOpacity>
           ))}
           <TouchableOpacity style={stylesPendaftaran.buttonContainerEnd}>
             <Text style={stylesPendaftaran.buttonTitle}>penyakit dalam</Text>
-            <Image source={require('../image/arrowRight.png')} />
+            <Icon
+              name="arrow-right"
+              type="simple-line-icon"
+              color={'#000'}
+              size={25}
+            />
           </TouchableOpacity>
         </View>
       </View>

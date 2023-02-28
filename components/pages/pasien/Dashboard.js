@@ -10,12 +10,12 @@ import {
   RefreshControl,
   BackHandler,
 } from 'react-native';
-import {stylesDashboard, stylesGeneral} from '../Style';
+import {stylesDashboard, stylesGeneral} from '../../Style';
 import {useIsFocused, useRoute} from '@react-navigation/native';
-import {MainNavbar} from '../MainNavbar';
-import {makeContext} from '../UseContext';
-import {API_URL} from '../../App';
-import DoubleTapToClose from '../CloseApp';
+import {MainNavbar} from '../../MainNavbar';
+import {makeContext} from '../../UseContext';
+import {API_URL} from '../../../App';
+import DoubleTapToClose from '../../CloseApp';
 import {Icon} from '@rneui/themed';
 
 export const Dashboard = ({navigation, isInitialScreen}) => {

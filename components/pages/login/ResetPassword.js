@@ -8,8 +8,8 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-import {Icon} from '../Icon';
-import {stylesGeneral, stylesRPassword} from '../Style';
+import {Icon} from '../../Icon';
+import {stylesGeneral, stylesRPassword} from '../../Style';
 
 export const ResetPassword = ({navigation}) => {
   const windows = useWindowDimensions();
