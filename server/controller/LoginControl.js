@@ -5,6 +5,9 @@ require('dotenv').config();
 const secret_key = process.env.JWT_SECRET;
 const {body, validationResult} = require('express-validator');
 const Sequelize = require('sequelize');
+var useragent = require('express-useragent');
+const DeviceDetector = require("device-detector-js");
+
 
 exports.login = [
   //validasi express-validator
@@ -94,7 +97,8 @@ exports.login = [
   },
 ];
 
-exports.auth = (req, res, next) => {
+exports.auth = (req, res) => {
+
   const authHeader = req.get('Authorization');
   if (!authHeader) {
     return res.status(401).json({alert: 'Authentication Gagal'});
@@ -117,7 +121,7 @@ exports.auth = (req, res, next) => {
         is_login: true,
         last_login: Sequelize.Sequelize.fn('now'),
         jwt_token: token,
-        device: req.body.deviceName
+        device: req.body.deviceName || null
       },
       {
         where: {id_user: decodedToken.id},

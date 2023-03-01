@@ -8,7 +8,10 @@ const login = require('./controller/LoginControl');
 const klinik = require('./controller/KlinikControl');
 const profile = require('./controller/ProfileControl');
 const daftar = require('./controller/DaftarControl');
+var useragent = require('express-useragent');
+
 app.use(express.urlencoded({extended: true}));
+app.use(useragent.express());
 
 app.use(express.json());
 app.use(bodyParser.json());
