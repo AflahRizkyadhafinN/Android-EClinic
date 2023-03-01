@@ -19,14 +19,15 @@ import {UserData} from './components/UseContext';
 import Keychain from 'react-native-keychain';
 import {Hasil} from './components/pages/Hasil';
 import {Riwayat} from './components/pages/Riwayat';
-import { KlinikNama } from './components/KlinikContext';
+import {KlinikNama} from './components/KlinikContext';
+import DeviceInfo from 'react-native-device-info';
 
 export const API_URL = 'http://10.10.10.91:5000';
 const Stack = createNativeStackNavigator();
 
 const isCurrentScreenInitialOne = state => {
   const route = state.routes[state.index];
-  if (route.state) {  
+  if (route.state) {
     return isCurrentScreenInitialOne(route.state);
   }
   return state.index === 1;
@@ -91,7 +92,6 @@ export async function insert(email, sPassword, sNik, sNamaLengkap, navigation) {
       try {
         const jsonRes = await res.json();
         if (res.status !== 200) {
-          // const errorss = await jsonRes.errors.map(items => items.msg)
           console.log(jsonRes.alert);
           Alert.alert(jsonRes.alert);
         } else if (res.status === 200) {
@@ -190,45 +190,50 @@ export function exitLogout(id) {
       console.log(err);
     }
   });
-  return Promise.resolve()
+  return Promise.resolve();
 }
 
-export function getListDokter(nama, namaKlinik, navigation){
+export function getListDokter(nama, namaKlinik, navigation) {
   const payload = {
     keahlian: `Dokter ${nama}`,
-    namaKlinik
-  }
+    namaKlinik,
+  };
   fetch(`${API_URL}/ambil`, {
     method: 'POST',
     headers: {
-      'Content-Type' : 'application/json',
-      Accept: 'application/json'
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   }).then(async res => {
-    try{
-      const jsonRes = await res.json()
+    try {
+      const jsonRes = await res.json();
       if (res.status === 200) {
         navigation.navigate('AmbilNomor', {
-          jsonRes
-        })
+          jsonRes,
+        });
       }
-    }
-    catch(err){
+    } catch (err) {
       console.log(err);
     }
-  })
+  });
   console.log(payload);
 }
 
-export function authenticate(userdata, navigation) {
+export async function authenticate(userdata, navigation) {
+  let deviceName = await DeviceInfo.getDevice()
+  const payload = 
+  {
+    deviceName
+  }
   fetch(`${API_URL}/auth`, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       Authorization: `Bearer ${userdata.token}`,
     },
+    body: JSON.stringify(payload),
   }).then(async res => {
     try {
       const jsonRes = await res.json();
@@ -269,6 +274,33 @@ export async function getUpdateToken() {
   }
 }
 
+export async function daftar(pasien_id, dokter_id, navigation){
+  const jwt = await Keychain.getGenericPassword();
+  const keyToken = jwt.password;
+  const payload = {
+    pasien_id,
+    dokter_id
+  };
+  fetch(`${API_URL}/daftar`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${keyToken}`,
+    },
+    body: JSON.stringify(payload),
+  }).then(async res => {
+    const dataRes = await res.json()
+    if(res.status !== 200){
+      return Alert.alert(dataRes.alert)
+    }
+    Alert.alert(dataRes.alert)
+    navigation.navigate('NomorAntrian')
+  }).catch(err => {
+    console.log(err);
+  })
+}
+
 export async function update(
   id,
   email,
@@ -286,8 +318,8 @@ export async function update(
   tanggalLahir,
   token,
 ) {
-  const jwt = await Keychain.getGenericPassword()
-  const keyToken = jwt.password
+  const jwt = await Keychain.getGenericPassword();
+  const keyToken = jwt.password;
   const payload = {
     alamat,
     id,
@@ -306,7 +338,7 @@ export async function update(
     keyToken,
   };
 
-  fetch(`${API_URL}/update`, {
+  const res = fetch(`${API_URL}/update`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -314,22 +346,9 @@ export async function update(
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(payload),
-  })
-    .then(async res => {
-      try {
-        const jsonRes = await res.json();
-        if (res.status !== 200) {
-          Alert.alert(jsonRes.alert);
-        } else if (res.status === 200) {
-          Alert.alert(jsonRes.alert);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  });
+
+  return res;
 }
 
 export default App;

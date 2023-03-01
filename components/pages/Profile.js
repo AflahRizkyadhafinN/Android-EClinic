@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {
   ScrollView,
   View,
@@ -18,58 +18,16 @@ import {makeContext} from '../UseContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Modal from 'react-native-modal';
 import {SideNavbar} from '../SideNavbar';
-import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 import {Icon} from '@rneui/themed';
-
-function useDebounceValue(string, time = 250) {
-  const [debounceValue, setDebounceValue] = useState(string);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDebounceValue(string);
-    }, time);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [string, time]);
-  return debounceValue;
-}
+import { Alert } from 'react-native';
 
 export const Profile = ({navigation}) => {
   const {userdata, setUserData} = useContext(makeContext);
-  const [selected, setSelected] = React.useState('');
   const [edit, setEdit] = React.useState(false);
   const [openP, setOpenP] = useState(false);
   const [openGD, setOpenGD] = useState(false);
   const [valueP, setValueP] = useState(null);
   const [valueGD, setValueGD] = useState(null);
-
-  const [listpekerjaan, setListPekerjaan] = useState([
-    {label: 'Guru', value: 'guru'},
-    {label: 'Tentara', value: 'tentara'},
-    {label: 'Pedagang', value: 'pedagang'},
-    {label: 'Polisi', value: 'polisi'},
-    {label: 'Penyanyi', value: 'penyanyi'},
-    {label: 'Pelajar', value: 'pelajar'},
-    {label: 'Petani', value: 'petani'},
-    {label: 'Pegawai Swasta', value: 'pegawaiswasta'},
-    {label: 'Pegawai Negeri', value: 'pegawainegeri'},
-  ]);
-  const GDarah = [
-    {label: 'A', value: 'A'},
-    {label: 'A-', value: 'A-'},
-    {label: 'B', value: 'B'},
-    {label: 'B-', value: 'B-'},
-    {label: 'AB', value: 'AB'},
-    {label: 'AB-', value: 'AB-'},
-    {label: 'O', value: 'O'},
-    {label: 'O-', value: 'O-'},
-  ];
-
-  const Gender = [
-    {label: 'Laki-laki', value: 'Laki-laki'},
-    {label: 'Perempuan', value: 'Perempuan'},
-  ];
   const id = userdata.id;
   const [namalengkap, setNamaLengkap] = useState(userdata.namalengkap);
   const [nik, setNik] = useState(userdata.nik);
@@ -89,8 +47,38 @@ export const Profile = ({navigation}) => {
   const [tanggal, setTanggal] = useState(userdata.tanggalLahir);
   const [open, setOpen] = useState(false);
   const [navbarOpen, setNavbarOpen] = useState(false);
-  const [searchText, setSearchText] = useState('');
-  const debounce = useDebounceValue(searchText);
+  const [debouncer, setDebouncer] = useState('');
+
+  const [listpekerjaan, setListPekerjaan] = useState([
+    {label: 'Guru', value: 'guru'},
+    {label: 'Tentara', value: 'tentara'},
+    {label: 'Pedagang', value: 'pedagang'},
+    {label: 'Polisi', value: 'polisi'},
+    {label: 'Penyanyi', value: 'penyanyi'},
+    {label: 'Pelajar', value: 'pelajar'},
+    {label: 'Petani', value: 'petani'},
+    {label: 'Pegawai Swasta', value: 'pegawaiswasta'},
+    {label: 'Pegawai Negeri', value: 'pegawainegeri'},
+  ]);
+  const [GDarah, setGDarah] = useState([]);
+
+  const Gender = [
+    {label: 'Laki-laki', value: 'Laki-laki'},
+    {label: 'Perempuan', value: 'Perempuan'},
+  ];
+
+  useEffect(() => {
+    function getGolonganDarah(){
+      fetch(`${API_URL}/darah`).then(async res => {
+        const data = await res.json();
+        setGDarah(data.map(item => {return {
+          label: item.nama,
+          value: item.golongan_darah_id,
+        }}))
+      })
+    }
+    getGolonganDarah()
+  }, [])
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -153,20 +141,33 @@ export const Profile = ({navigation}) => {
     });
   }
 
+  function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  }
+
+  const changeTextDebouncer = debounce(text => {
+    setDebouncer(text);
+  }, 1000);
+
   useEffect(() => {
-    if (debounce.length > 0) {
-      console.log(debounce);
-      fetch(`${API_URL}/wilayah?query=${debounce}`)
+    if (debouncer.length > 0) {
+      console.log(debouncer);
+      fetch(`${API_URL}/wilayah?query=${debouncer}`)
         .then(async res => {
           try {
             const wilayahRes = await res.json();
-            const nokec = wilayahRes.filter(item => {
-              return item.id_level_wilayah != 3;
-            });
-            const wilayahArray = nokec.map(item => {
+            const wilayahArray = wilayahRes.map(item => {
               return {
-                label: item.nama,
-                value: item.kode_wilayah,
+                label: `${item.Kelurahan},  ${item.Kecamatan}, ${item.KabupatenKota}, ${item.Provinsi}`,
+                value: item.kodeWilayah,
               };
             });
             setWilayah(wilayahArray);
@@ -176,7 +177,7 @@ export const Profile = ({navigation}) => {
         })
         .catch(error => console.error(error));
     }
-  }, [debounce]);
+  }, [debouncer]);
 
   return (
     <ScrollView nestedScrollEnabled={true}>
@@ -187,20 +188,20 @@ export const Profile = ({navigation}) => {
             onBackdropPress={() => setNavbarOpen(false)}
             style={{margin: 0}}
             animationIn={'slideInLeft'}
-            animationOut={'slideOutLeft'} 
+            animationOut={'slideOutLeft'}
             animationInTiming={1200}
             animationOutTiming={1200}>
             <SideNavbar navigation={navigation} />
           </Modal>
           <TouchableWithoutFeedback onPress={() => setNavbarOpen(true)}>
             <View style={stylesDashboard.menuContainer}>
-            <Icon
-            name="menu"
-            type="entypo"
-            color={'#00096E'}
-            size={40}
-            style={{alignContent: 'center'}}
-          />
+              <Icon
+                name="menu"
+                type="entypo"
+                color={'#00096E'}
+                size={40}
+                style={{alignContent: 'center'}}
+              />
               <Text style={stylesDashboard.menu}>Menu</Text>
             </View>
           </TouchableWithoutFeedback>
@@ -294,7 +295,7 @@ export const Profile = ({navigation}) => {
           </TextInput>
         </TouchableOpacity>
         <Text style={stylesProfile.profileTitle}>Golongan Darah</Text>
-        <View style={{zIndex: 1}}>
+        <View style={{zIndex: 4000}}>
           <DropDownPicker
             items={GDarah}
             open={openGD}
@@ -313,7 +314,7 @@ export const Profile = ({navigation}) => {
                 ? stylesProfile.dropdownLabelActive
                 : stylesProfile.dropdownLabel
             }
-            containerStyle={{height: openP ? 250 : 50}}
+            containerStyle={{height: openGD ? 250 : 50}}
             iconContainerStyle={stylesProfile.dropdownIconContainer}
             dropDownContainerStyle={stylesProfile.dropdownContainer}
             listItemLabelStyle={stylesProfile.dropdownListLabel}
@@ -323,6 +324,7 @@ export const Profile = ({navigation}) => {
                 : stylesProfile.dropdownText
             }
           />
+        </View>
           <Text style={stylesProfile.profileTitle}>Alamat</Text>
           <TextInput
             style={stylesProfile.textInput}
@@ -331,7 +333,6 @@ export const Profile = ({navigation}) => {
             placeholder="Alamat"
             editable={edit}
           />
-        </View>
         <View style={{flexDirection: 'row'}}>
           <View style={{width: '50%'}}>
             <Text style={stylesProfile.profileTitle}>RW</Text>
@@ -374,7 +375,7 @@ export const Profile = ({navigation}) => {
             listMode="MODAL"
             modalAnimationType="slide"
             disableLocalSearch={true}
-            searchPlaceholder="Cari nama atau Kode wilayah anda.."
+            searchPlaceholder="Cari kelurahan anda"
             placeholder="Isi Kode Wilayah"
             textStyle={
               edit
@@ -389,7 +390,7 @@ export const Profile = ({navigation}) => {
             style={stylesProfile.dropdown}
             placeholderStyle={stylesProfile.dropdownPlaceholder}
             disabled={!edit}
-            onChangeSearchText={text => setSearchText(text)}
+            onChangeSearchText={changeTextDebouncer}
           />
         </View>
         <Text style={stylesProfile.profileTitle}>Gender</Text>
@@ -447,9 +448,21 @@ export const Profile = ({navigation}) => {
               tanggal,
               token,
               navigation,
-            ).then(() => {
-              profilerefresh(id);
-              setEdit(false);
+            ).then(async res => {
+              try {
+                const jsonRes = await res.json();
+                if (res.status !== 200) {
+                  Alert.alert(jsonRes.alert);
+                  return
+                } else if (res.status === 200) {
+                  Alert.alert(jsonRes.alert);
+                  // profilerefresh(id);
+                  // setEdit(false);
+                  return
+                }
+              } catch (e) {
+                console.log(e);
+              }
             });
           }}>
           <Text style={stylesProfile.submitTitle}>Simpan</Text>

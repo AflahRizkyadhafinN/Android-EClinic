@@ -53,7 +53,6 @@ exports.getPoliklinik = (req, res) => {
     })
     .then(result => {
       if (result) {
-        console.log(result.klinik_polikliniks);
         const klinikpoli = result.klinik_polikliniks;
         return res.status(200).json(klinikpoli);
       }
@@ -130,7 +129,7 @@ exports.ambilNomor = (req, res) => {
         attributes: ['klinik_id'],
         include: {
           model: dokter,
-          attributes: ['nama_dokter'],
+          attributes: ['nama_dokter', 'dokter_id'],
           raw: true,
           nest: true,
           include: {

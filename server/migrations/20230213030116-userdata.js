@@ -19,10 +19,6 @@ module.exports = {
           primaryKey: true,
           allowNull:true
         },
-        kode_pasen: {
-          type: Sequelize.BIGINT,
-          autoIncrement: true,
-        },
         email: {
           type: Sequelize.STRING(30),
         },
@@ -65,12 +61,19 @@ module.exports = {
         pekerjaan: {
           type: Sequelize.STRING,
         },
-        accesstoken: {
-          type: Sequelize.STRING,
-        },
       },
       {
         timestamps: false,
+        indexes: [
+          {
+            name: "master_user_pkey",
+            unique: true,
+            fields: [
+              { name: "pasen_id" },
+            ]
+          },
+        ]
+  
       },
     );
 

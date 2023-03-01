@@ -16,7 +16,6 @@ import {Loading} from '../Loading';
 import { useContext } from "react";
 import { makeContext } from '../UseContext';
 
-
 export const Login = ({navigation}) => {
   const [token, setToken] = useState('');
   const [rememberlogin, setRememberLogin] = useState('');
@@ -28,8 +27,8 @@ export const Login = ({navigation}) => {
   const {setUserData} = useContext(makeContext)
 
 
-
  async function login(nik, pass, remember, navigation) {
+
     const payload = {
       nik,
       pass,
@@ -37,7 +36,7 @@ export const Login = ({navigation}) => {
     };
 
     if (remember === true) {
-      const res = fetch(`${API_URL}/login`, {
+      fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,7 +58,7 @@ export const Login = ({navigation}) => {
         }
       });
     } else {
-      const res = fetch(`${API_URL}/login`, {
+      fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

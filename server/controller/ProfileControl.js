@@ -1,4 +1,4 @@
-const data = require('../models/datas');
+const {data, user_controls} = require('../models/datas');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
@@ -13,7 +13,7 @@ exports.updatetoken = (req, res, next) => {
       return res.status(401).json({alert: 'Authentication Gagal'});
     }
     const gettoken = authHeader.split(' ')[1];
-    data.findOne({where: {accesstoken: gettoken}}).then(data => {
+    user_controls.findOne({where: {jwt_token: gettoken}}).then(data => {
       if (data) {
         let decodedToken;
         try {
@@ -47,7 +47,7 @@ exports.updatetoken = (req, res, next) => {
       return res.status(401).json({alert: 'Authentication Gagal'});
     }
     const token = authHeader.split(' ')[1];
-    data.findOne({where: {accesstoken: req.body.keyToken}}).then(data => {
+    user_controls.findOne({where: {jwt_token: req.body.keyToken}}).then(data => {
       if (data) {
         let decodedToken;
         try {
@@ -63,7 +63,6 @@ exports.updatetoken = (req, res, next) => {
             !req.body.namalengkap ||
             !req.body.tanggalLahir ||
             !req.body.pekerjaan ||
-            !req.body.golongandarah ||
             !req.body.rw ||
             !req.body.rt ||
             !req.body.alamat ||
@@ -92,7 +91,7 @@ exports.updatetoken = (req, res, next) => {
                 },
                 {
                   where: {
-                    kode_pasen: req.body.id,
+                    pasen_id: req.body.id,
                   },
                 },
               )

@@ -6,17 +6,16 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {MainNavbar} from '../MainNavbar';
 import {stylesGeneral, stylesDokter} from '../Style';
 import {klinikContext} from '../KlinikContext';
-import { API_URL } from '../../App';
-import { keahlian } from '../../server/models/dokterdata';
+import {API_URL} from '../../App';
 
 export const Dokter = ({navigation}) => {
   const [select, setSelected] = React.useState('');
   const route = useRoute();
   const {klinik} = useContext(klinikContext);
   const [color, setColor] = useState(true);
-  const [dokter, setDokter] = useState([])
-
+  const [dokter, setDokter] = useState([]);
   const [keahlianList, setKeahlianList] = useState([]);
+
   useEffect(() => {
     function getListDokter() {
       const payload = {
@@ -34,15 +33,17 @@ export const Dokter = ({navigation}) => {
           const jsonRes = await res.json();
           if (res.status === 200) {
             const dokterArray = jsonRes.map(dokter => {
-              return {nama: dokter.nama_dokter, keahlian: dokter.keahlian.nama_keahlian }
-            })
-            setDokter(dokterArray)
+              return {
+                nama: dokter.nama_dokter,
+                keahlian: dokter.keahlian.nama_keahlian,
+              };
+            });
+            setDokter(dokterArray);
           }
         } catch (err) {
-          console.log(err)
+          console.log(err);
         }
       });
-
     }
     function getListKeahlian() {
       fetch(`${API_URL}/keahlian`, {
@@ -64,9 +65,9 @@ export const Dokter = ({navigation}) => {
         }
       });
     }
-    getListKeahlian()
-    getListDokter()
-  },[]);
+    getListKeahlian();
+    getListDokter();
+  }, []);
 
   return (
     <ScrollView>
@@ -110,9 +111,7 @@ export const Dokter = ({navigation}) => {
             />
             <View style={stylesDokter.cardDescriptionContainer}>
               <Text style={stylesDokter.cardTitle}>{orang.nama}</Text>
-              <Text style={stylesDokter.cardSpesialis}>
-                {orang.keahlian}
-              </Text>
+              <Text style={stylesDokter.cardSpesialis}>{orang.keahlian}</Text>
             </View>
           </View>
         ))}

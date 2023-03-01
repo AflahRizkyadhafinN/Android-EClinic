@@ -1005,7 +1005,7 @@ export const stylesNomorAntrian = StyleSheet.create({
   antrianNomor: {
     textAlign: 'center',
     fontWeight: '800',
-    fontSize: 60,
+    fontSize: 40,
     color: 'white',
   },
 

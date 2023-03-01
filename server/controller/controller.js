@@ -1,54 +1,67 @@
-const data = require('../models/datas');
+const {data, user_controls} = require('../models/datas');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
 const crypto = require('crypto')
 const secret_key = process.env.JWT_SECRET
-const {wilayah} = require('../models/dokterdata');
+const {wilayah, golongan_darah} = require('../models/dokterdata');
 const { body, validationResult } = require('express-validator');
-
 
 exports.findAll = (req, res) => {
   data
-    .count('kode_pasen')
+    .count('pasen_id')
     .then(id => {
       res.json({id: id});
     })
     .catch(err => {
       console.log('error', err);
     });
-}; 
+};
 exports.wilayah = (req, res) => {
-  // search dari data yang ditampilkan menggunakan parameter query pada url 
+  // search dari data yang ditampilkan menggunakan parameter query pada url
   // localhost/wilayah?query=bandung
   const query = req.query.query;
-  wilayah.findAll().then(data => {
-    function filterLevelWilayah(data) {
-      let parent_level = null
-      for(const data of regions){
-        region.parent_level = parent_level
-        if(data.id_level_wilayah === 1){
-          parent_level = data.id_level_wilayah
-        } else {
-          parent_level = data.id_level_wilayah - 1
-        }
+  wilayah.findAll({order: [['wilayah_id', 'ASC']]}).then(data => {
+    let currentKota = null;
+    let currentKec = null;
+    let currentProv = null;
+    const result = [];
+
+    for (const item of data) {
+      if (item.id_level_wilayah === '1') {
+        currentProv = item.nama;
+      } else if (item.id_level_wilayah === '2') {
+        currentKota = item.nama;
+      } else if (item.id_level_wilayah === '3') {
+        currentKec = item.nama;
+      } else if (item.id_level_wilayah === '4') {
+        result.push({
+          Provinsi: currentProv,
+          KabupatenKota: currentKota,
+          Kecamatan: currentKec,
+          Kelurahan: item.nama,
+          kodeWilayah: item.kode_wilayah,
+        });
       }
-     }
+    }
 
     if (isNaN(query) && query) {
-      let filterData = data.filter(item =>
-        item.nama.toLowerCase().includes(query.toLowerCase()),
+      let filterData = result.filter(item =>
+        item.Kelurahan.toLowerCase().includes(query.toLowerCase()),
       );
       return res.json(filterData);
     }
-    if (query) {
-      filterData = data.filter(item => item.kode_wilayah.includes(query));
-      
-      return res.json(filterData);
-    }
-    res.json(data)
+
+    return res.json(result);
   });
 };
+
+exports.getGolonganDarah = (req, res) => {
+  golongan_darah.findAll().then(darah => {
+    return res.json(darah);
+  })
+}
+
 exports.signup = [
   // Validasi data pendaftaran menggunakan express-validator untuk menghindari sql injection
   body('email').isEmail().withMessage('Email Tidak Valid'),
@@ -57,7 +70,7 @@ exports.signup = [
     .withMessage('Password Minimal 7 Karakter'),
   body('sNamaLengkap').escape(true),
   body('sNik')
-    .isLength({max: 16})
+    .isLength({min: 16,max: 16})
     .isNumeric()
     .withMessage('NIK Tidak Valid')
     .escape(true),  
@@ -94,6 +107,11 @@ exports.signup = [
                   namalengkap: req.body.sNamaLengkap,
                 })
                 .then(() => {
+                  data.findOne({where : {email: req.body.email}}).then(user => {
+                    user_controls.create({
+                      id_user: user.pasen_id,
+                    })
+                  })
                   res.status(200).json({alert: 'Berhasil membuat akun'});
                 })
                 .catch(err => {

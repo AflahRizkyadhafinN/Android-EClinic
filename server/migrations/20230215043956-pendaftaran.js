@@ -32,10 +32,18 @@ module.exports = {
           key: 'dokter_id'
         }
       },
+      klinik_id : {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model : {tableName: 'klinik', schema: 'public'},
+          key: 'klinik_id'
+        }
+      },
       tanggal_pendaftaran: {
         type: Sequelize.DATE,
         allowNull: true,
-        defaultValue: Sequelize.Sequelize.fn('now')
+        defaultValue: Sequelize.Sequelize.fn('now'),
       },
       nomor_pendaftaran: {
         type: Sequelize.BIGINT,

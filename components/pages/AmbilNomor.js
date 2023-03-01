@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   ScrollView,
@@ -12,20 +12,24 @@ import {Provider as PaperProvider, DataTable} from 'react-native-paper';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {MainNavbar} from '../MainNavbar';
 import { useRoute } from '@react-navigation/native';
-
+import { daftar } from '../../App';
+import { makeContext } from '../UseContext';
+import moment from 'moment';
+import 'moment/locale/id'
 const numberOfItemsPerPageList = [5];
 
 export const AmbilNomor = ({navigation}) => {
   const [namaDokter, setNamaDokter] = useState([])
   const [klinik, setKlinik] = useState('..')
   const route = useRoute()
+  const {userdata} = useContext(makeContext);
 
   useEffect(() => {
     async function getNamaDokter() {
       const list = route.params.jsonRes
 
       let dokterArray = await list.map(item => {
-        return {nama: item.nama_dokter, value: item.nama_dokter};
+        return {key: item.dokter_id, value: item.nama_dokter};
       });
       let namaKlinik = list.map(item => {
         return item.keahlian;
@@ -59,10 +63,10 @@ export const AmbilNomor = ({navigation}) => {
     {nama: 'Rebeca', key: '6'},
   ];
   const [waktu, setWaktu] = useState('Hari ini');
-  const [hari, setHari] = useState('Selasa, 30 Januari 2023');
+  const [hari, setHari] = useState(moment().locale('id').format('dddd, DD MMMM YYYY'));
   const [pressNomor, setPressNomor] = useState(true);
   const [pressWaktu, setPressWaktu] = useState(false);
-  const [selected, setSelected] = useState('');
+  const [dokter, setDokter] = useState('');
 
   const [page, setPage] = useState(0);
   const [numberOfItemsPerPage, onItemsPerPageChange] = useState(
@@ -78,7 +82,7 @@ export const AmbilNomor = ({navigation}) => {
     </DataTable.Row>
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPage(0);
   }, [numberOfItemsPerPage]);
 
@@ -100,7 +104,7 @@ export const AmbilNomor = ({navigation}) => {
             }
             onPress={() => {
               setWaktu('Hari ini'),
-                setHari('Selasa, 30 Januari 2022'),
+                setHari(moment().locale('id').format('dddd, DD MMMM YYYY')),
                 setPressWaktu(false);
             }}>
             <Text style={stylesAmbilNomor.buttonHBTitle}>Hari ini</Text>
@@ -117,7 +121,7 @@ export const AmbilNomor = ({navigation}) => {
             }
             onPress={() => {
               setWaktu('Besok'),
-                setHari('Rabu, 31 Januari 2022'),
+                setHari(moment().locale('id').add(1, 'day').calendar({nextDay: 'dddd, DD MMMM YYYY'})),
                 setPressWaktu(true);
             }}>
             <Text style={stylesAmbilNomor.buttonHBTitle}>Besok</Text>
@@ -131,10 +135,10 @@ export const AmbilNomor = ({navigation}) => {
           </Text>
           <Text style={stylesAmbilNomor.dokterNamaTitle}>Pilih Dokter</Text>
           <SelectList
-            setSelected={value => setSelected(value)}
+            setSelected={value => setDokter(value)}
             onSelect={() => setPressNomor(false)}
             data={namaDokter}
-            save="value"
+            save="key"
             notFoundText={true}
             placeholder={'Dokter'}
             search={false}
@@ -150,13 +154,13 @@ export const AmbilNomor = ({navigation}) => {
         </View>
         <TouchableOpacity
           disabled={pressNomor}
-          onPress={() => navigation.navigate('NomorAntrian')}
+          onPress={() => daftar(userdata.id, dokter, navigation)}
           style={
             pressNomor
               ? stylesAmbilNomor.nomorButtonContainer
               : stylesAmbilNomor.nomorButtonContainerActive
           }>
-          <Text style={stylesAmbilNomor.nomorTitle}>Ambil Nomor</Text>
+          <Text style={stylesAmbilNomor.nomorTitle}>Daftar</Text>
         </TouchableOpacity>
         <View style={stylesAmbilNomor.ketPasienContainer}>
           <Text style={stylesAmbilNomor.ketPasienJumlah}>Pasien Terdaftar</Text>

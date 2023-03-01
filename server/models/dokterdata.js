@@ -298,4 +298,4 @@ const klinik = sequelize.define(
   klinik.hasMany(klinik_dokter, {foreignKey: 'klinik_id'})
   dokter.hasOne(keahlian, {sourceKey: 'keahlian_id', foreignKey: 'keahlian_id'})
   keahlian.belongsTo(dokter, {foreignKey: 'keahlian_id'})
-module.exports = {wilayah, dokter, klinik, poliklinik, klinik_poliklinik, keahlian, klinik_dokter}
+module.exports = {wilayah, dokter, klinik, poliklinik, klinik_poliklinik, keahlian, klinik_dokter, golongan_darah}

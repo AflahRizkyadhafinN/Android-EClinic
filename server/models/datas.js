@@ -1,17 +1,13 @@
 const Sequelize = require('sequelize');
 const sequelize = require('./connection.js');
 
-module.exports = sequelize.define(
+const data = sequelize.define(
   'userdata',
   {
     pasen_id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
-    },
-    kode_pasen: {
-      type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
     },
     email: {
       type: Sequelize.STRING(30),
@@ -55,11 +51,64 @@ module.exports = sequelize.define(
     pekerjaan: {
       type: Sequelize.STRING,
     },
-    accesstoken: {
-      type: Sequelize.STRING,
-    },
   },
   {
     timestamps: false,
   },
 );
+
+const user_controls = sequelize.define('user_controls',{
+      id_user: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        primaryKey: true,
+        references: {
+          model: {
+            tableName: 'userdata',
+            schema: 'public',
+          },
+          key: 'pasen_id'
+        }
+      },
+      is_login: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+      },
+      last_login: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      last_logout: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      jwt_token: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+      is_active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: true
+      },
+      device: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+    }, {
+      tableName: 'user_controls',
+      schema: 'users',
+      timestamps: false,
+      indexes: [
+        {
+          name: "user_controls_pkey",
+          unique: true,
+          fields: [
+            { name: "id_user" },
+          ]
+        },
+      ]
+    })
+
+module.exports = {data, user_controls}
