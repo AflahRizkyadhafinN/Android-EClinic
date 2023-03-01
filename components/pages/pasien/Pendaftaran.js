@@ -10,23 +10,27 @@ export const Pendaftaran = ({navigation}) => {
     {
       nama: 'Penyakit Dalam',
       id: 'PenyakitDalam',
-      item: [
-        {nama: 'Penyakit dalam umum', id: 'penyakitDalamUmum'},
-        {nama: 'Infeksi', id: 'infeksi'},
-        {nama: 'DOTS', id: 'dots'},
-        {nama: 'Ginjal hipertensi', id: 'ginjalHipertensi'},
-        {nama: 'TB MDR', id: 'tbmdr'},
-      ],
     },
     {
       nama: 'Bedah',
       id: 'Bedah',
-      item: [{nama: 'Bedah', id: 'bedah'}],
     },
-    {nama: 'Kebidanan', id: 'Kebidanan'},
-    {nama: 'Anak', id: 'Anak'},
-    {nama: 'Bedah Saraf', id: 'BedahSaraf'},
-    {nama: 'Orthopedi', id: 'Orthopedi'},
+    {
+      nama: 'Kebidanan',
+      id: 'Kebidanan',
+    },
+    {
+      nama: 'Anak',
+      id: 'Anak',
+    },
+    {
+      nama: 'Bedah Saraf',
+      id: 'BedahSaraf',
+    },
+    {
+      nama: 'Orthopedi',
+      id: 'Orthopedi',
+    },
   ];
 
   return (
@@ -39,7 +43,11 @@ export const Pendaftaran = ({navigation}) => {
           {poliklinik.map((e, index) => (
             <TouchableOpacity
               key={index}
-              style={stylesPendaftaran.buttonContainer}
+              style={
+                index + 1 === poliklinik.length
+                  ? [stylesPendaftaran.buttonContainer, {borderBottomWidth: 0}]
+                  : stylesPendaftaran.buttonContainer
+              }
               onPress={() => navigation.navigate('AmbilNomor')}>
               <Text style={stylesPendaftaran.buttonTitle}>{e.nama}</Text>
               <Icon
@@ -50,15 +58,6 @@ export const Pendaftaran = ({navigation}) => {
               />
             </TouchableOpacity>
           ))}
-          <TouchableOpacity style={stylesPendaftaran.buttonContainerEnd}>
-            <Text style={stylesPendaftaran.buttonTitle}>penyakit dalam</Text>
-            <Icon
-              name="arrow-right"
-              type="simple-line-icon"
-              color={'#000'}
-              size={25}
-            />
-          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>

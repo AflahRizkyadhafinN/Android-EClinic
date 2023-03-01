@@ -61,7 +61,11 @@ export const Diagnosa = ({navigation}) => {
           }}
           onPress={() => setOpenModal(true)}
         />
-        <Modal isVisible={openModal}>
+        <Modal
+          isVisible={openModal}
+          onBackdropPress={() => setOpenModal(false)}
+          animationIn={'fadeIn'}
+          animationOut={'fadeOut'}>
           <View
             style={{
               backgroundColor: 'white',

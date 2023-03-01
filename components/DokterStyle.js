@@ -54,15 +54,6 @@ export const pilihDokterStyles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  buttonContainer: {
-    marginTop: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 6,
-    backgroundColor: '#00096E',
-    paddingVertical: 5,
-  },
-
   buttonLabel: {
     textAlign: 'center',
     fontSize: 20,

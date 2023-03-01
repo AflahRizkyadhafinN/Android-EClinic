@@ -19,10 +19,11 @@ import {ConfirmDiagnosa} from './components/pages/dokter/ConfirmDiagnosa';
 import {PilihDokter} from './components/pages/dokter/PilihDokter';
 import {Diagnosa} from './components/pages/dokter/Diagnosa';
 
-import {DokterData} from './components/DokterContext';
 import {Alert} from 'react-native';
 import {UserData} from './components/UseContext';
 import Keychain from 'react-native-keychain';
+import {KlinikNama} from './components/KlinikContext';
+import DeviceInfo from 'react-native-device-info';
 
 export const API_URL = 'http://10.10.10.91:5000';
 const Stack = createNativeStackNavigator();
@@ -39,14 +40,14 @@ function App() {
   const [isInitialScreen, setIsInitialScreen] = useState(true);
 
   return (
-    <DokterData>
+    <KlinikNama>
       <UserData>
         <NavigationContainer
           onStateChange={state => {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
           }}>
           <Stack.Navigator
-            initialRouteName="ResetPassword"
+            initialRouteName="Login"
             screenOptions={{headerShown: false, animation: 'none'}}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
@@ -72,7 +73,7 @@ function App() {
           </Stack.Navigator>
         </NavigationContainer>
       </UserData>
-    </DokterData>
+    </KlinikNama>
   );
 }
 
@@ -96,6 +97,7 @@ export async function insert(email, sPassword, sNik, sNamaLengkap, navigation) {
       try {
         const jsonRes = await res.json();
         if (res.status !== 200) {
+          console.log(jsonRes.alert);
           Alert.alert(jsonRes.alert);
         } else if (res.status === 200) {
           Alert.alert(jsonRes.alert);
@@ -170,14 +172,72 @@ export function logout(navigation, id) {
   ]);
 }
 
-export function authenticate(userdata, navigation) {
+export function exitLogout(id) {
+  const payload = {
+    id,
+  };
+  console.log(id);
+  fetch(`${API_URL}/logout`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(payload),
+  }).then(async res => {
+    try {
+      const jsonRes = await res.json();
+      if (res.status === 200) {
+        Alert.alert(jsonRes.alert);
+        Keychain.resetGenericPassword();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+  return Promise.resolve();
+}
+
+export function getListDokter(nama, namaKlinik, navigation) {
+  const payload = {
+    keahlian: `Dokter ${nama}`,
+    namaKlinik,
+  };
+  fetch(`${API_URL}/ambil`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(payload),
+  }).then(async res => {
+    try {
+      const jsonRes = await res.json();
+      if (res.status === 200) {
+        navigation.navigate('AmbilNomor', {
+          jsonRes,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+  console.log(payload);
+}
+
+export async function authenticate(userdata, navigation) {
+  let deviceName = await DeviceInfo.getUserAgent();
+  const payload = {
+    deviceName,
+  };
   fetch(`${API_URL}/auth`, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       Authorization: `Bearer ${userdata.token}`,
     },
+    body: JSON.stringify(payload),
   }).then(async res => {
     try {
       const jsonRes = await res.json();
@@ -218,6 +278,35 @@ export async function getUpdateToken() {
   }
 }
 
+export async function daftar(pasien_id, dokter_id, navigation) {
+  const jwt = await Keychain.getGenericPassword();
+  const keyToken = jwt.password;
+  const payload = {
+    pasien_id,
+    dokter_id,
+  };
+  fetch(`${API_URL}/daftar`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${keyToken}`,
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(async res => {
+      const dataRes = await res.json();
+      if (res.status !== 200) {
+        return Alert.alert(dataRes.alert);
+      }
+      Alert.alert(dataRes.alert);
+      navigation.navigate('NomorAntrian');
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
 export async function update(
   id,
   email,
@@ -235,6 +324,8 @@ export async function update(
   tanggalLahir,
   token,
 ) {
+  const jwt = await Keychain.getGenericPassword();
+  const keyToken = jwt.password;
   const payload = {
     alamat,
     id,
@@ -250,9 +341,10 @@ export async function update(
     golongandarah,
     tempatLahir,
     tanggalLahir,
+    keyToken,
   };
 
-  fetch(`${API_URL}/update`, {
+  const res = fetch(`${API_URL}/update`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -260,22 +352,9 @@ export async function update(
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(payload),
-  })
-    .then(async res => {
-      try {
-        const jsonRes = await res.json();
-        if (res.status !== 200) {
-          Alert.alert(jsonRes.alert);
-        } else if (res.status === 200) {
-          Alert.alert(jsonRes.alert);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  });
+
+  return res;
 }
 
 export default App;

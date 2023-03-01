@@ -3,41 +3,78 @@ import React, {useContext, useState, useEffect} from 'react';
 import {View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {ScrollView} from 'react-native-gesture-handler';
+import {klinikContext} from '../../KlinikContext';
 import {MainNavbar} from '../../MainNavbar';
 import {stylesGeneral, stylesDokter} from '../../Style';
-import {dokterContext} from '../../DokterContext';
+import {API_URL} from '../../../App';
+import {Button} from 'react-native-paper';
 
 export const Dokter = ({navigation}) => {
+  const [select, setSelected] = React.useState('');
   const route = useRoute();
-  const {dokter} = useContext(dokterContext);
+  const {klinik} = useContext(klinikContext);
   const [color, setColor] = useState(true);
-  const [cariKeahlian, setCariKeahlian] = useState('');
-  const [outKeahlian, setOutKeahlian] = useState();
+  const [dokter, setDokter] = useState([]);
+  const [keahlianList, setKeahlianList] = useState([]);
   const [cariDokter, setCariDokter] = useState('');
+  const [cariKeahlian, setCariKeahlian] = useState('');
+  const [outKeahlian, setOutKeahlian] = useState('');
 
-  const namaDokter = [
-    {nama: 'Faisal', keahlian: 'Mata'},
-    {nama: 'Faisal Muslim', keahlian: 'Mata'},
-    {nama: 'Vicky', keahlian: 'Mata'},
-    {nama: 'M Vicky', keahlian: 'Gizi'},
-    {nama: 'Rakha', keahlian: 'Gizi'},
-    {nama: 'Rakha Lubis', keahlian: 'Gizi'},
-    {nama: 'Harun', keahlian: 'Otot'},
-    {nama: 'Harun Kusnaedi', keahlian: 'Otot'},
-    {nama: 'Aflah', keahlian: 'Gigi'},
-    {nama: 'Aflah Nurfikri', keahlian: 'Paru'},
-  ];
+  useEffect(() => {
+    function getListDokter() {
+      const payload = {
+        klinik,
+      };
+      fetch(`${API_URL}/dokter`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(payload),
+      }).then(async res => {
+        try {
+          const jsonRes = await res.json();
+          if (res.status === 200) {
+            const dokterArray = jsonRes.map(dokter => {
+              return {
+                nama: dokter.nama_dokter,
+                keahlian: dokter.keahlian.nama_keahlian,
+              };
+            });
+            setDokter(dokterArray);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    }
+    function getListKeahlian() {
+      fetch(`${API_URL}/keahlian`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      }).then(async res => {
+        try {
+          const jsonRes = await res.json();
+          const keahlianArray = jsonRes.map(keahlian => {
+            return {
+              key: keahlian.id_keahlian,
+              value: keahlian.nama_keahlian,
+            };
+          });
 
-  const keahlianList = [
-    {key: '0', value: '-'},
-    {key: '1', value: 'Mata'},
-    {key: '2', value: 'Paru'},
-    {key: '3', value: 'Gizi'},
-    {key: '4', value: 'Otot'},
-    {key: '5', value: 'Gigi'},
-  ];
-
-  const hurufKe = cariDokter.length;
+          setKeahlianList(keahlianArray);
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    }
+    getListKeahlian();
+    getListDokter();
+  }, []);
 
   useEffect(() => {
     const filterKeahlian = keahlianList.filter(data => {
@@ -57,13 +94,12 @@ export const Dokter = ({navigation}) => {
           resizeMode="cover"
         />
         <View style={stylesDokter.cardDescriptionContainer}>
-          <Text style={stylesDokter.cardTitle}>Dr. {dokter}</Text>
+          <Text style={stylesDokter.cardTitle}>{dokter}</Text>
           <Text style={stylesDokter.cardSpesialis}>Spesialis {keahlian}</Text>
         </View>
       </View>
     );
   };
-
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
@@ -81,7 +117,8 @@ export const Dokter = ({navigation}) => {
             setColor(false);
           }}
           data={keahlianList}
-          save="value"
+          select={cariKeahlian}
+          save="key"
           search={false}
           notFoundText={true}
           placeholder="Keahlian"
@@ -94,11 +131,9 @@ export const Dokter = ({navigation}) => {
           dropdownStyles={stylesDokter.dropdownContainer}
           dropdownTextStyles={stylesDokter.dropdownList}
         />
-        {namaDokter
-          .filter(
-            data =>
-              data.nama.substring(0, hurufKe).toLowerCase() ===
-              cariDokter.toLowerCase(),
+        {dokter
+          .filter(data =>
+            data.nama.toLowerCase().includes(cariDokter.toLowerCase()),
           )
           .map((dokter, index) => {
             {

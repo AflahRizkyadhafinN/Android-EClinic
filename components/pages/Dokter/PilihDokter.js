@@ -4,8 +4,9 @@ import {stylesGeneral, stylesProfile} from '../../Style';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useState} from 'react';
 import {pilihDokterStyles} from '../../DokterStyle';
+import {Button} from 'react-native-paper';
 
-export const PilihDokter = () => {
+export const PilihDokter = ({navigation}) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [namaDokter, setNamaDokter] = useState([
@@ -44,9 +45,15 @@ export const PilihDokter = () => {
               placeholderStyle={{color: 'grey'}}
             />
           </View>
-          <TouchableOpacity style={pilihDokterStyles.buttonContainer}>
-            <Text style={pilihDokterStyles.buttonLabel}>Masuk</Text>
-          </TouchableOpacity>
+          <Button
+            mode="contained"
+            style={{borderRadius: 6, marginTop: 10}}
+            buttonColor="#00096E"
+            textColor="white"
+            labelStyle={pilihDokterStyles.label}
+            onPress={() => navigation.navigate('Diagnosa')}>
+            Masuk
+          </Button>
         </View>
       </View>
     </View>

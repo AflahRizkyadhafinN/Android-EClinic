@@ -426,6 +426,7 @@ export const stylesProfile = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: 'black',
+    zIndex: -2
   },
   textInput: {
     marginTop: 5,
@@ -954,7 +955,7 @@ export const stylesNomorAntrian = StyleSheet.create({
   antrianNomor: {
     textAlign: 'center',
     fontWeight: '800',
-    fontSize: 60,
+    fontSize: 40,
     color: 'white',
   },
 
