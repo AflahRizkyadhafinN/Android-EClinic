@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {View, Text, ScrollView} from 'react-native';
-import {stylesGeneral, stylesNomorAntrian} from '../Style';
-import {MainNavbar} from '../MainNavbar';
-import Keychain from 'react-native-keychain';
-import { makeContext } from '../UseContext';
-import { API_URL } from '../../App';
-
+import {stylesGeneral, stylesNomorAntrian} from '../../Style';
+import {MainNavbar} from '../../MainNavbar';
+import { API_URL } from '../../../App';
+import { makeContext } from '../../UseContext';
+import Keychain from'react-native-keychain';
 export const NomorAntrian = ({navigation}) => {
   const {userdata} = useContext(makeContext);
   const [noAntrian, setNoAntrian] = useState(0)

@@ -1,8 +1,8 @@
 import React from 'react';
 import {ScrollView} from 'react-native';
 import {View, Text, TouchableOpacity} from 'react-native';
-import {stylesGeneral, stylesRiwayat} from '../Style';
-import {MainNavbar} from '../MainNavbar';
+import {stylesGeneral, stylesRiwayat} from '../../Style';
+import {MainNavbar} from '../../MainNavbar';
 
 export const Riwayat = ({navigation}) => {
   return (

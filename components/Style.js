@@ -79,33 +79,19 @@ export const stylesLogin = StyleSheet.create({
     width: '90%',
   },
 
-  loginButton: {
-    backgroundColor: 'black',
-    marginRight: 10,
-  },
-
-  loginTitle: {
-    color: '#dfdfdf',
-  },
-
   rememberFPasswordContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     paddingVertical: 20,
+    paddingHorizontal: 20,
   },
 
   flexButtonContainer: {
+    flex: 0,
     flexDirection: 'row',
-    alignSelf: 'center',
-  },
-
-  registerButton: {
-    backgroundColor: '#dfdfdf',
-  },
-
-  registerTitle: {
-    color: 'black',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
   },
 });
 
@@ -117,14 +103,9 @@ export const stylesFPassword = StyleSheet.create({
     color: '#000b8d',
   },
 
-  button: {
-    backgroundColor: 'black',
-    marginTop: 0,
-  },
-
   buttonLogin: {
     textAlign: 'center',
-    fontWeight: '700',
+    fontWeight: '600',
     fontSize: 18,
     color: '#dfdfdf',
   },
@@ -148,7 +129,7 @@ export const stylesRPassword = StyleSheet.create({
 
   buttonLogin: {
     textAlign: 'center',
-    fontWeight: '700',
+    fontWeight: '600',
     fontSize: 18,
     color: '#dfdfdf',
   },
@@ -192,11 +173,6 @@ export const stylesRegister = {
   inputNik: {
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
-  },
-
-  button: {
-    marginTop: 10,
-    backgroundColor: 'black',
   },
 
   buttonTitle: {
@@ -571,23 +547,6 @@ export const stylesDokter = StyleSheet.create({
     fontWeight: '700',
   },
 
-  searchButtonContainer: {
-    backgroundColor: 'black',
-    paddingVertical: 10,
-    borderBottomRightRadius: 6,
-    borderBottomLeftRadius: 6,
-    borderTopWidth: 3,
-    marginBottom: 20,
-  },
-
-  searchButtonTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: 'white',
-    textAlign: 'center',
-    borderTopColor: 'black',
-  },
-
   cardContainer: {
     borderColor: 'black',
     borderWidth: 2,
@@ -620,6 +579,8 @@ export const stylesDokter = StyleSheet.create({
   dropdownBox: {
     borderColor: 'black',
     borderRadius: 0,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
     borderWidth: 2,
     borderTopWidth: 0,
     paddingLeft: 10,
@@ -638,10 +599,9 @@ export const stylesDokter = StyleSheet.create({
 
   dropdownContainer: {
     borderColor: 'black',
-    borderRadius: 0,
+    borderRadius: 6,
     borderWidth: 2,
-    borderTopWidth: 0,
-    marginTop: 0,
+    marginTop: 5,
   },
 
   dropdownList: {
@@ -739,21 +699,11 @@ export const stylesAbout = StyleSheet.create({
     borderBottomWidth: 1,
   },
 
-  sosmedIcon: {
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-  },
-
   sosmedName: {
     fontSize: 25,
     fontWeight: '700',
     color: 'black',
     paddingRight: '60%',
-  },
-
-  sosmedArrow: {
-    marginRight: 10,
   },
 });
 
@@ -1083,8 +1033,8 @@ export const stylesHasil = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 6,
+    borderTopRightRadius: 0,
     padding: 10,
-    marginTop: 20,
   },
 
   obatTanggal: {
@@ -1118,7 +1068,7 @@ export const stylesHasil = StyleSheet.create({
   },
 
   tableJumlah: {
-    backgroundColor: '#00069E',
+    backgroundColor: '#00096E',
   },
 
   tableJumlahText: {

@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import {Provider, DataTable} from 'react-native-paper';
-import {stylesGeneral, stylesHasil} from '../Style';
-import {MainNavbar} from '../MainNavbar';
+import {stylesGeneral, stylesHasil} from '../../Style';
+import {MainNavbar} from '../../MainNavbar';
 
 export const Hasil = ({navigation}) => {
   const {width} = 100 % +10;

@@ -8,13 +8,14 @@ import {
   TouchableWithoutFeedback,
   Alert,
 } from 'react-native';
-import {stylesGeneral, stylesLogin} from '../Style';
-import {Icon} from '../Icon';
-import { API_URL, authenticate, remembermelogin} from '../../App';
+import {stylesGeneral, stylesLogin} from '../../Style';
+import {Icon} from '../../Icon';
+import {API_URL, authenticate, remembermelogin} from '../../../App';
 import Keychain from 'react-native-keychain';
-import {Loading} from '../Loading';
-import { useContext } from "react";
-import { makeContext } from '../UseContext';
+import {Loading} from '../../Loading';
+import {useContext} from 'react';
+import {makeContext} from '../../UseContext';
+import {Button} from 'react-native-paper';
 
 export const Login = ({navigation}) => {
   const [token, setToken] = useState('');
@@ -24,11 +25,9 @@ export const Login = ({navigation}) => {
   const [pass, setPass] = useState('');
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(true);
-  const {setUserData} = useContext(makeContext)
+  const {setUserData} = useContext(makeContext);
 
-
- async function login(nik, pass, remember, navigation) {
-
+  async function login(nik, pass, remember, navigation) {
     const payload = {
       nik,
       pass,
@@ -48,7 +47,7 @@ export const Login = ({navigation}) => {
           const jsonRes = await res.json();
           if (res.status === 200) {
             await Keychain.setGenericPassword('remember', jsonRes.token);
-            setUserData(jsonRes)
+            setUserData(jsonRes);
             authenticate(jsonRes, navigation);
           } else {
             Alert.alert(jsonRes.alert);
@@ -70,7 +69,7 @@ export const Login = ({navigation}) => {
           const jsonRes = await res.json();
           if (res.status === 200) {
             await Keychain.setGenericPassword('forgot', jsonRes.token);
-            setUserData(jsonRes)
+            setUserData(jsonRes);
             authenticate(jsonRes, navigation);
           } else {
             Alert.alert(jsonRes.alert);
@@ -79,56 +78,53 @@ export const Login = ({navigation}) => {
           console.log(err);
         }
       });
-    } 
+    }
   }
 
-    const retrieveJwt = async () => {
-      try {
-        const jwt = await Keychain.getGenericPassword();
-        if (jwt) {
-          setToken(jwt.password)
-          setRememberLogin(jwt.username)
-        }
-        // else {
-        //   setLoading(false);
-        // }
-        return jwt;
-      } catch (err) {
-        console.log(err);
+  const retrieveJwt = async () => {
+    try {
+      const jwt = await Keychain.getGenericPassword();
+      if (jwt) {
+        setToken(jwt.password);
+        setRememberLogin(jwt.username);
       }
-    };
+      // else {
+      //   setLoading(false);
+      // }
+      return jwt;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-    useEffect(() => {
-      retrieveJwt().then((jwt) => {
-        if (jwt.username === 'forgot' || !jwt) {
-          setLoading(false);
-        }
-      })
-    }, [])
-
-    useEffect(() => {
-      if(rememberlogin === 'remember' && !rememberloggedin){
-           remembermelogin(token, navigation).then(async (res) => {
-            try{
-              const userdata = await res.json();
-              if(res.status === 200){
-                setRememberLoggedIn(true)
-                setUserData(userdata)
-                navigation.navigate('Dashboard')
-                setLoading(false)
-              } else{
-                Alert.alert(userdata.alert)
-                setLoading(false)
-              }
-            }
-            catch(err){
-              console.log(err);
-            }
-
-          })
-
+  useEffect(() => {
+    retrieveJwt().then(jwt => {
+      if (jwt.username === 'forgot' || !jwt) {
+        setLoading(false);
       }
-    }, [token, rememberlogin])
+    });
+  }, []);
+
+  useEffect(() => {
+    if (rememberlogin === 'remember' && !rememberloggedin) {
+      remembermelogin(token, navigation).then(async res => {
+        try {
+          const userdata = await res.json();
+          if (res.status === 200) {
+            setRememberLoggedIn(true);
+            setUserData(userdata);
+            navigation.navigate('Dashboard');
+            setLoading(false);
+          } else {
+            Alert.alert(userdata.alert);
+            setLoading(false);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    }
+  }, [token, rememberlogin]);
 
   if (loading) {
     return <Loading />;
@@ -174,27 +170,33 @@ export const Login = ({navigation}) => {
         />
         <TouchableWithoutFeedback
           onPress={() => navigation.navigate('ForgetPassword')}>
-          <Text style={stylesLogin.FPassword}>Forgot Password</Text>
+          <Text>Forgot Password</Text>
         </TouchableWithoutFeedback>
       </View>
 
       <View style={stylesLogin.flexButtonContainer}>
-        <TouchableOpacity
-          style={[stylesGeneral.buttonContainer, stylesLogin.loginButton]}
-          onPress={() => login(nik, pass, remember, navigation).then((res) => {
-              setRememberLoggedIn(true)
-            })}>
-          <Text style={[stylesLogin.buttonTitle, stylesLogin.loginTitle]}>
-            Login
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[stylesGeneral.buttonContainer, stylesLogin.registerButton]}
+        <Button
+          mode="contained"
+          style={{borderRadius: 6}}
+          contentStyle={{paddingHorizontal: 30}}
+          buttonColor={'black'}
+          textColor={'#dfdfdf'}
+          onPress={() =>
+            login(nik, pass, remember, navigation).then(res => {
+              setRememberLoggedIn(true);
+            })
+          }>
+          Login
+        </Button>
+        <Button
+          mode="contained"
+          style={{borderRadius: 6}}
+          contentStyle={{paddingHorizontal: 30}}
+          buttonColor={'#dfdfdf'}
+          textColor={'black'}
           onPress={() => navigation.navigate('Register')}>
-          <Text style={[stylesLogin.buttonTitle, stylesLogin.registerTitle]}>
-            Register
-          </Text>
-        </TouchableOpacity>
+          Register
+        </Button>
       </View>
     </View>
   );

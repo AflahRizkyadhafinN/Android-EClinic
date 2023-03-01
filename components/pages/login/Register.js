@@ -7,12 +7,12 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {Icon} from '../Icon';
-import {stylesGeneral, stylesRegister} from '../Style';
-import {setpass} from '../../App';
+import {Icon} from '../../Icon';
+import {stylesGeneral, stylesRegister} from '../../Style';
+import {setpass} from '../../../App';
+import {Button} from 'react-native-paper';
 
 export const Register = ({navigation}) => {
-  const windows = useWindowDimensions();
   const [email, setEmail] = useState('');
   const [sNik, setNik] = useState('');
   const [sNamaLengkap, setNamaLengkap] = useState('');
@@ -62,11 +62,15 @@ export const Register = ({navigation}) => {
         onChangeText={text => setNik(text)}
         keyboardType={'numeric'}
       />
-      <TouchableOpacity
-        onPress={() => setpass(email, sNik, sNamaLengkap, navigation)}
-        style={[stylesGeneral.buttonContainer, stylesRegister.button]}>
-        <Text style={stylesRegister.buttonTitle}>Register</Text>
-      </TouchableOpacity>
+      <Button
+        mode="contained"
+        buttonColor="black"
+        textColor="white"
+        labelStyle={stylesRegister.buttonTitle}
+        style={{borderRadius: 6, marginTop: 10}}
+        onPress={() => setpass(email, sNik, sNamaLengkap, navigation)}>
+        Register
+      </Button>
     </View>
   );
 };

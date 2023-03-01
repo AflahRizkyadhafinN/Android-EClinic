@@ -9,17 +9,17 @@ import {
   TouchableWithoutFeedback,
   RefreshControl,
 } from 'react-native';
-import {stylesGeneral, stylesProfile, stylesDashboard} from '../Style';
+import {stylesGeneral, stylesProfile, stylesDashboard} from '../../Style';
 import RadioForm from 'react-native-simple-radio-button';
 import {useRoute} from '@react-navigation/native';
 import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
-import {API_URL, getUpdateToken, update} from '../../App';
-import {makeContext} from '../UseContext';
+import {API_URL, getUpdateToken, update} from '../../../App';
+import {makeContext} from '../../UseContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Modal from 'react-native-modal';
-import {SideNavbar} from '../SideNavbar';
-import {Icon} from '@rneui/themed';
 import { Alert } from 'react-native';
+import {SideNavbar} from '../../SideNavbar';
+import {Icon} from '@rneui/themed';
 
 export const Profile = ({navigation}) => {
   const {userdata, setUserData} = useContext(makeContext);
@@ -208,7 +208,7 @@ export const Profile = ({navigation}) => {
         </View>
         <TouchableOpacity disabled={!edit}>
           <Image
-            source={require('../image/PhotoProfile.png')}
+            source={require('../../image/PhotoProfile.png')}
             style={stylesProfile.photoProfile}
           />
         </TouchableOpacity>

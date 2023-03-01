@@ -1,19 +1,25 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Dashboard} from './components/pages/Dashboard';
-import {ForgetPassword} from './components/pages/ForgetPassword';
-import {Login} from './components/pages/Login';
-import {Register} from './components/pages/Register';
-import {ResetPassword} from './components/pages/ResetPassword';
-import {SetPassword} from './components/pages/SetPassword';
-import {Profile} from './components/pages/Profile';
-import {Dokter} from './components/pages/Dokter';
-import {About} from './components/pages/About';
-import {Pendaftaran} from './components/pages/Pendaftaran';
-import {Kategorisasi} from './components/pages/Kategorisasi';
-import {AmbilNomor} from './components/pages/AmbilNomor';
-import {NomorAntrian} from './components/pages/NomorAntrian';
+import {Dashboard} from './components/pages/pasien/Dashboard';
+import {ForgetPassword} from './components/pages/login/ForgetPassword';
+import {Login} from './components/pages/login/Login';
+import {Register} from './components/pages/login/Register';
+import {ResetPassword} from './components/pages/login/ResetPassword';
+import {SetPassword} from './components/pages/login/SetPassword';
+import {Profile} from './components/pages/pasien/Profile';
+import {Dokter} from './components/pages/pasien/Dokter';
+import {About} from './components/pages/pasien/About';
+import {Pendaftaran} from './components/pages/pasien/Pendaftaran';
+import {AmbilNomor} from './components/pages/pasien/AmbilNomor';
+import {NomorAntrian} from './components/pages/pasien/NomorAntrian';
+import {Riwayat} from './components/pages/pasien/Riwayat';
+import {Hasil} from './components/pages/pasien/Hasil';
+import {ConfirmDiagnosa} from './components/pages/dokter/ConfirmDiagnosa';
+import {PilihDokter} from './components/pages/dokter/PilihDokter';
+import {Diagnosa} from './components/pages/dokter/Diagnosa';
+
+import {DokterData} from './components/DokterContext';
 import {Alert} from 'react-native';
 import {UserData} from './components/UseContext';
 import Keychain from 'react-native-keychain';
@@ -44,7 +50,7 @@ function App() {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
           }}>
           <Stack.Navigator
-            initialRouteName="Login"
+            initialRouteName="ResetPassword"
             screenOptions={{headerShown: false, animation: 'none'}}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
@@ -60,11 +66,13 @@ function App() {
             <Stack.Screen name="Dokter" component={Dokter} />
             <Stack.Screen name="About" component={About} />
             <Stack.Screen name="Pendaftaran" component={Pendaftaran} />
-            <Stack.Screen name="Kategorisasi" component={Kategorisasi} />
             <Stack.Screen name="AmbilNomor" component={AmbilNomor} />
             <Stack.Screen name="Hasil" component={Hasil} />
             <Stack.Screen name="NomorAntrian" component={NomorAntrian} />
             <Stack.Screen name="Riwayat" component={Riwayat} />
+            <Stack.Screen name="PilihDokter" component={PilihDokter} />
+            <Stack.Screen name="ConfirmDiagnosa" component={ConfirmDiagnosa} />
+            <Stack.Screen name="Diagnosa" component={Diagnosa} />
           </Stack.Navigator>
         </NavigationContainer>
       </UserData>

@@ -7,14 +7,13 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-import {Icon} from '../Icon';
-import {stylesGeneral, stylesFPassword} from '../Style';
+import {Icon} from '../../Icon';
+import {stylesGeneral, stylesFPassword} from '../../Style';
+import {Button} from 'react-native-paper';
 
 export const ForgetPassword = ({navigation}) => {
-  const windows = useWindowDimensions();
-
   return (
-    <View style={[stylesGeneral.container,]}>
+    <View style={[stylesGeneral.container]}>
       <Icon />
       <TouchableWithoutFeedback onPress={() => navigation.navigate('Login')}>
         <Text style={stylesFPassword.backToLogin}>Back to login</Text>
@@ -28,10 +27,15 @@ export const ForgetPassword = ({navigation}) => {
       <TextInput
         style={[stylesGeneral.input, stylesFPassword.input]}
         placeholder="Email address or mobile number"></TextInput>
-      <TouchableOpacity
-        style={[stylesGeneral.buttonContainer, stylesFPassword.button]}>
-        <Text style={stylesFPassword.buttonLogin}>Send reset link</Text>
-      </TouchableOpacity>
+      <Button
+        mode="contained"
+        style={{borderRadius: 6}}
+        labelStyle={stylesFPassword.buttonLogin}
+        buttonColor="black"
+        textColor="white"
+        onPress={() => {}}>
+        Send reset link
+      </Button>
     </View>
   );
 };

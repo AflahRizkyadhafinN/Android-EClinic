@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {ScrollView} from 'react-native';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {stylesGeneral, stylesPendaftaran} from '../Style';
-import {MainNavbar} from '../MainNavbar';
-import { API_URL, getListDokter } from '../../App';
+import {stylesGeneral, stylesPendaftaran} from '../../Style';
+import {MainNavbar} from '../../MainNavbar';
+import {Icon} from '@rneui/themed';
+import { API_URL, getListDokter } from '../../../App';
 
 export const Pendaftaran = ({navigation}) => {
   const [poliklinik, setPoliklinik] = useState([])
@@ -65,12 +66,22 @@ export const Pendaftaran = ({navigation}) => {
                 getListDokter(e.nama, namaKlinik, navigation)
               }>
               <Text style={stylesPendaftaran.buttonTitle}>{e.nama}</Text>
-              <Image source={require('../image/arrowRight.png')} />
+              <Icon
+                name="arrow-right"
+                type="simple-line-icon"
+                color={'#000'}
+                size={25}
+              />
             </TouchableOpacity>
           ))}
-          {/* <TouchableOpacity style={stylesPendaftaran.buttonContainerEnd}>
+           {/* <TouchableOpacity style={stylesPendaftaran.buttonContainerEnd}>
             <Text style={stylesPendaftaran.buttonTitle}>penyakit dalam</Text>
-            <Image source={require('../image/arrowRight.png')} />
+            <Icon
+              name="arrow-right"
+              type="simple-line-icon"
+              color={'#000'}
+              size={25}
+            />
           </TouchableOpacity> */}
         </View>
       </View>

@@ -8,14 +8,13 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-import {Icon} from '../Icon';
-import {stylesGeneral, stylesRPassword} from '../Style';
+import {Icon} from '../../Icon';
+import {stylesGeneral, stylesRPassword} from '../../Style';
+import {Button} from 'react-native-paper';
 
 export const ResetPassword = ({navigation}) => {
-  const windows = useWindowDimensions();
-
   return (
-    <View style={[stylesGeneral.container, {marginTop: windows.height / 4.5}]}>
+    <View style={stylesGeneral.container}>
       <Icon />
       <TouchableWithoutFeedback onPress={() => navigation.navigate('Login')}>
         <Text style={stylesRPassword.backToLogin}>Back to login</Text>
@@ -44,11 +43,15 @@ export const ResetPassword = ({navigation}) => {
         placeholder="Confirm Password"
         secureTextEntry={true}
         autoCorrect={false}></TextInput>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Login')}
-        style={[stylesGeneral.buttonContainer, stylesRPassword.button]}>
-        <Text style={stylesRPassword.buttonLogin}>Save new password</Text>
-      </TouchableOpacity>
+      <Button
+        mode="contained"
+        buttonColor="black"
+        textColor="white"
+        style={{borderRadius: 6, marginTop: 10}}
+        labelStyle={stylesRPassword.buttonLogin}
+        onPress={() => navigation.navigate('Login')}>
+        Save new password
+      </Button>
     </View>
   );
 };

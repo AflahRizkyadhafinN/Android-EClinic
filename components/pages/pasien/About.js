@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {View, ScrollView, Text, Image, TouchableOpacity} from 'react-native';
-import {MainNavbar} from '../MainNavbar';
-import {stylesGeneral, stylesAbout} from '../Style';
+import {MainNavbar} from '../../MainNavbar';
+import {stylesGeneral, stylesAbout} from '../../Style';
 import {useRoute} from '@react-navigation/native';
 import {Icon} from '@rneui/themed';
 import { klinikContext } from '../KlinikContext';
@@ -43,7 +43,7 @@ export const About = ({navigation}) => {
         <MainNavbar navigation={navigation} />
         <Image
           style={stylesAbout.clinicIcon}
-          source={require('../image/logo.png')}
+          source={require('../../image/logo.png')}
         />
         <Text style={stylesAbout.clinicName}>{dataKlinik.namaKlinik}</Text>
         <Text style={stylesAbout.clinicAddress}>
@@ -93,9 +93,11 @@ export const About = ({navigation}) => {
               />
               <View style={stylesAbout.sosmedNameContainer}>
                 <Text style={stylesAbout.sosmedName}>{dataKlinik.instagram}</Text>
-                <Image
-                  style={stylesAbout.sosmedArrow}
-                  source={require('../image/arrowRight.png')}
+                <Icon
+                  name="arrow-right"
+                  type="simple-line-icon"
+                  color={'#000'}
+                  size={25}
                 />
               </View>
             </TouchableOpacity>
@@ -109,9 +111,11 @@ export const About = ({navigation}) => {
               />
               <View style={stylesAbout.sosmedNameContainer}>
                 <Text style={stylesAbout.sosmedName}>{dataKlinik.twitter}</Text>
-                <Image
-                  style={stylesAbout.sosmedArrow}
-                  source={require('../image/arrowRight.png')}
+                <Icon
+                  name="arrow-right"
+                  type="simple-line-icon"
+                  color={'#000'}
+                  size={25}
                 />
               </View>
             </TouchableOpacity>
@@ -128,10 +132,12 @@ export const About = ({navigation}) => {
                   stylesAbout.sosmedNameContainer,
                   {paddingBottom: 0, borderBottomWidth: 0},
                 ]}>
-                <Text style={stylesAbout.sosmedName}>{dataKlinik.twitter}</Text>
-                <Image
-                  style={stylesAbout.sosmedArrow}
-                  source={require('../image/arrowRight.png')}
+                <Text style={stylesAbout.sosmedName}>{dataKlinik.facebook}</Text>
+                <Icon
+                  name="arrow-right"
+                  type="simple-line-icon"
+                  color={'#000'}
+                  size={25}
                 />
               </View>
             </TouchableOpacity>

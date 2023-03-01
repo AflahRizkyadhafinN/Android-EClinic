@@ -7,15 +7,15 @@ import {
   Image,
   Pressable,
 } from 'react-native';
-import {stylesGeneral, stylesAmbilNomor} from '../Style';
+import {stylesGeneral, stylesAmbilNomor} from '../../Style';
 import {Provider as PaperProvider, DataTable} from 'react-native-paper';
 import {SelectList} from 'react-native-dropdown-select-list';
-import {MainNavbar} from '../MainNavbar';
+import {MainNavbar} from '../../MainNavbar';
 import { useRoute } from '@react-navigation/native';
-import { daftar } from '../../App';
-import { makeContext } from '../UseContext';
 import moment from 'moment';
 import 'moment/locale/id'
+import { makeContext } from '../../UseContext';
+import { daftar } from '../../../App';
 const numberOfItemsPerPageList = [5];
 
 export const AmbilNomor = ({navigation}) => {
