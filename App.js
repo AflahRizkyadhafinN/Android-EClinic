@@ -13,14 +13,16 @@ import {About} from './components/pages/pasien/About';
 import {Pendaftaran} from './components/pages/pasien/Pendaftaran';
 import {AmbilNomor} from './components/pages/pasien/AmbilNomor';
 import {NomorAntrian} from './components/pages/pasien/NomorAntrian';
+import {Riwayat} from './components/pages/pasien/Riwayat';
+import {Hasil} from './components/pages/pasien/Hasil';
+import {ConfirmDiagnosa} from './components/pages/dokter/ConfirmDiagnosa';
+import {PilihDokter} from './components/pages/dokter/PilihDokter';
+import {Diagnosa} from './components/pages/dokter/Diagnosa';
+
+import {DokterData} from './components/DokterContext';
 import {Alert} from 'react-native';
 import {UserData} from './components/UseContext';
 import Keychain from 'react-native-keychain';
-import {Hasil} from './components/pages/pasien/Hasil';
-import {DokterData} from './components/DokterContext';
-import {Riwayat} from './components/pages/pasien/Riwayat';
-import {PilihDokter} from './components/pages/dokter/PilihDokter';
-import {ConfirmDiagnosa} from './components/pages/dokter/ConfirmDiagnosa';
 
 export const API_URL = 'http://10.10.10.91:5000';
 const Stack = createNativeStackNavigator();
@@ -44,7 +46,7 @@ function App() {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
           }}>
           <Stack.Navigator
-            initialRouteName="Login"
+            initialRouteName="ResetPassword"
             screenOptions={{headerShown: false, animation: 'none'}}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
@@ -66,6 +68,7 @@ function App() {
             <Stack.Screen name="Riwayat" component={Riwayat} />
             <Stack.Screen name="PilihDokter" component={PilihDokter} />
             <Stack.Screen name="ConfirmDiagnosa" component={ConfirmDiagnosa} />
+            <Stack.Screen name="Diagnosa" component={Diagnosa} />
           </Stack.Navigator>
         </NavigationContainer>
       </UserData>

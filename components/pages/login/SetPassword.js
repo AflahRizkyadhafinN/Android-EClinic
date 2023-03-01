@@ -12,6 +12,7 @@ import {Icon} from '../../Icon';
 import {stylesGeneral, stylesRPassword} from '../../Style';
 import {useRoute} from '@react-navigation/native';
 import {insert} from '../../../App';
+import {Button} from 'react-native-paper';
 
 export const SetPassword = ({navigation}) => {
   const route = useRoute();
@@ -64,11 +65,14 @@ export const SetPassword = ({navigation}) => {
         placeholder="Confirm Password"
         secureTextEntry={true}
         autoCorrect={false}></TextInput>
-      <TouchableOpacity
-        style={[stylesGeneral.buttonContainer, stylesRPassword.button]}
-        onPress={() => CheckPass(sPassword, sConfirm)}>
-        <Text style={stylesRPassword.buttonLogin}>Save password</Text>
-      </TouchableOpacity>
+      <Button
+        mode="contained"
+        buttonColor="black"
+        textColor="#dfdfdf"
+        style={{marginTop: 10, borderRadius: 6}}
+        labelStyle={stylesRPassword.buttonLogin}>
+        Save Password
+      </Button>
     </View>
   );
 };

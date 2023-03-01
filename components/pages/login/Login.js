@@ -15,6 +15,7 @@ import Keychain from 'react-native-keychain';
 import {Loading} from '../../Loading';
 import {useContext} from 'react';
 import {makeContext} from '../../UseContext';
+import {Button} from 'react-native-paper';
 
 export const Login = ({navigation}) => {
   const [token, setToken] = useState('');
@@ -169,29 +170,33 @@ export const Login = ({navigation}) => {
         />
         <TouchableWithoutFeedback
           onPress={() => navigation.navigate('ForgetPassword')}>
-          <Text style={stylesLogin.FPassword}>Forgot Password</Text>
+          <Text>Forgot Password</Text>
         </TouchableWithoutFeedback>
       </View>
 
       <View style={stylesLogin.flexButtonContainer}>
-        <TouchableOpacity
-          style={[stylesGeneral.buttonContainer, stylesLogin.loginButton]}
+        <Button
+          mode="contained"
+          style={{borderRadius: 6}}
+          contentStyle={{paddingHorizontal: 30}}
+          buttonColor={'black'}
+          textColor={'#dfdfdf'}
           onPress={() =>
             login(nik, pass, remember, navigation).then(res => {
               setRememberLoggedIn(true);
             })
           }>
-          <Text style={[stylesLogin.buttonTitle, stylesLogin.loginTitle]}>
-            Login
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[stylesGeneral.buttonContainer, stylesLogin.registerButton]}
+          Login
+        </Button>
+        <Button
+          mode="contained"
+          style={{borderRadius: 6}}
+          contentStyle={{paddingHorizontal: 30}}
+          buttonColor={'#dfdfdf'}
+          textColor={'black'}
           onPress={() => navigation.navigate('Register')}>
-          <Text style={[stylesLogin.buttonTitle, stylesLogin.registerTitle]}>
-            Register
-          </Text>
-        </TouchableOpacity>
+          Register
+        </Button>
       </View>
     </View>
   );
