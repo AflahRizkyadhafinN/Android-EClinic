@@ -12,6 +12,7 @@ const Op = Sequelize.Op;
 const {body, validationResult} = require('express-validator');
 
 exports.klinik = (req, res) => {
+  //dapatkan data klinik setelah klien memilih klinik
   klinik.findOne({where : {nama_klinik: req.body.klinik}}).then(data_klinik => {
     if (!data_klinik) {
       return res.status(404).json({
@@ -32,10 +33,24 @@ exports.klinik = (req, res) => {
   });
 };
 
+exports.getKeahlian = (req, res) => {
+  keahlian
+    .findAll() 
+    .then(result => {
+      if (result) {;
+        return res.json(result);
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+};
+
+//kode kode setelah ini mengambil data spesifik tergantung klinik yang dipilih
 exports.getPoliklinik = (req, res) => {
   klinik
     .findOne({
-      where: {nama_klinik: 'klinik123'},
+      where: {nama_klinik: 'klinik123'}, //akan diubah setelah ada fungsi untuk memilih klinik
       include: [
         {
           model: klinik_poliklinik,
@@ -43,7 +58,6 @@ exports.getPoliklinik = (req, res) => {
           include: [
             {
               model: poliklinik,
-              // required: true,
               attributes: ['poliklinik_id', 'nama'],
             },
           ],
@@ -80,7 +94,6 @@ exports.getDokter = (req, res) => {
           nest: true,
           include: {
             model: keahlian,
-            // where: {nama_keahlian: req.body.keahlian},
             attributes: ['nama_keahlian'],
           },
         },
@@ -99,21 +112,8 @@ exports.getDokter = (req, res) => {
     });
 };
 
-exports.getKeahlian = (req, res) => {
-  keahlian
-    .findAll() 
-    .then(result => {
-      if (result) {;
-        return res.json(result);
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
-};
 
-
-exports.ambilNomor = (req, res) => {
+exports.antrianDokter = (req, res) => {
   klinik
     .findAll({
       where: {
@@ -134,7 +134,6 @@ exports.ambilNomor = (req, res) => {
           nest: true,
           include: {
             model: keahlian,
-            // where: {nama_keahlian: req.body.keahlian},
             attributes: ['nama_keahlian'],
           },
         },

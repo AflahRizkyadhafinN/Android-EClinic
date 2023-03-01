@@ -13,8 +13,8 @@ exports.updatetoken = (req, res, next) => {
       return res.status(401).json({alert: 'Authentication Gagal'});
     }
     const gettoken = authHeader.split(' ')[1];
-    user_controls.findOne({where: {jwt_token: gettoken}}).then(data => {
-      if (data) {
+    user_controls.findOne({where: {jwt_token: gettoken}}).then(data => { //mengecek dengan token user yang didapat setelah login
+      if (data) { //user_controls.findOne({where: {jwt_token: gettoken}}) setiap kode seperti ini berfungsi sama
         let decodedToken;
         try {
           decodedToken = jwt.verify(gettoken, secret_key);
@@ -26,9 +26,9 @@ exports.updatetoken = (req, res, next) => {
         if (!decodedToken) {
           res.status(401).json({alert: 'Unauthorized'});
         } else {
-          const token = jwt.sign({nik: req.body.nik}, secret_key, {
-            expiresIn: '30m',
-          });
+          const token = jwt.sign({nik: req.body.nik}, secret_key, {  //generate token untuk meng update data yang berlaku 30 menit
+            expiresIn: '30m', //(batas waktu edit profile 30menit)
+          }); 
           if (token) {
             res.status(200).json({token: token});
           } else {
@@ -42,6 +42,8 @@ exports.updatetoken = (req, res, next) => {
   };
   
   exports.update = (req, res, next) => {
+    //TODO: tambah validasi data dengan express-validator
+
     const authHeader = req.get('Authorization');
     if (!authHeader) {
       return res.status(401).json({alert: 'Authentication Gagal'});
@@ -107,6 +109,7 @@ exports.updatetoken = (req, res, next) => {
   };
   
   exports.profilerefresh = (req, res, next) => {
+    //refresh data yang tersimpan pada client dengan data terbaru
     data.findOne({where: {pasen_id: req.body}}).then(nik => {
       if(nik){
         res.status(200).json({

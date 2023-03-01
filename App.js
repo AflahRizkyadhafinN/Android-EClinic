@@ -15,18 +15,15 @@ import {AmbilNomor} from './components/pages/pasien/AmbilNomor';
 import {NomorAntrian} from './components/pages/pasien/NomorAntrian';
 import {Riwayat} from './components/pages/pasien/Riwayat';
 import {Hasil} from './components/pages/pasien/Hasil';
-import {ConfirmDiagnosa} from './components/pages/dokter/ConfirmDiagnosa';
-import {PilihDokter} from './components/pages/dokter/PilihDokter';
-import {Diagnosa} from './components/pages/dokter/Diagnosa';
-
-import {DokterData} from './components/DokterContext';
+import {ConfirmDiagnosa} from './components/pages/Dokter/ConfirmDiagnosa';
+import {PilihDokter} from './components/pages/Dokter/PilihDokter';
+import {Diagnosa} from './components/pages/Dokter/Diagnosa';
 import {Alert} from 'react-native';
 import {UserData} from './components/UseContext';
 import Keychain from 'react-native-keychain';
-import {Hasil} from './components/pages/Hasil';
-import {Riwayat} from './components/pages/Riwayat';
 import {KlinikNama} from './components/KlinikContext';
 import DeviceInfo from 'react-native-device-info';
+PilihDokter
 
 export const API_URL = 'http://10.10.10.91:5000';
 const Stack = createNativeStackNavigator();
@@ -50,7 +47,7 @@ function App() {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
           }}>
           <Stack.Navigator
-            initialRouteName="ResetPassword"
+            initialRouteName="Login"
             screenOptions={{headerShown: false, animation: 'none'}}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
@@ -229,7 +226,7 @@ export function getListDokter(nama, namaKlinik, navigation) {
 }
 
 export async function authenticate(userdata, navigation) {
-  let deviceName = await DeviceInfo.getDevice()
+  let deviceName = await DeviceInfo.getUserAgent()
   const payload = 
   {
     deviceName

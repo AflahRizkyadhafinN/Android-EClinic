@@ -26,7 +26,7 @@ exports.daftar = (req, res) => {
         pendaftaran.create({
             pasien_id : req.body.pasien_id,
             dokter_id : req.body.dokter_id,
-            nomor_pendaftaran : Math.floor(Math.random() * 10000)
+            nomor_pendaftaran : Math.floor(Math.random() * 10000)  //nomor pendaftaran merupakan angka acak maks 4 digit
         }).then(data => {
             return res.status(200).json({alert: 'Daftar Berhasil'})
         })
@@ -54,7 +54,7 @@ exports.nomorPendaftaran = (req, res) => {
         },
         order: [ [ 'tanggal_pendaftaran', 'DESC' ]],
     }
-    ).then(data => {
+    ).then(data => { //ambil no pendaftaran yang baru dibuat oleh klien
             return res.status(200).json({noDaftar: data.nomor_pendaftaran, tanggal_pendaftaran: data.tanggal_pendaftaran})
         })
       })

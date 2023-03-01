@@ -4,8 +4,9 @@ import {MainNavbar} from '../../MainNavbar';
 import {stylesGeneral, stylesAbout} from '../../Style';
 import {useRoute} from '@react-navigation/native';
 import {Icon} from '@rneui/themed';
-import { klinikContext } from '../KlinikContext';
-import { API_URL } from '../../App';
+import { API_URL } from '../../../App';
+import { klinikContext } from '../../KlinikContext';
+
 
 export const About = ({navigation}) => {
     const {klinik} = useContext(klinikContext)

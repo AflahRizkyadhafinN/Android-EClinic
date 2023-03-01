@@ -44,7 +44,7 @@ app.post('/logout', login.logout);
 app.get('/wilayah', data.wilayah);
 app.post('/klinik', klinik.klinik);
 app.get('/poliklinik', klinik.getPoliklinik);
-app.post('/ambil', klinik.ambilNomor);
+app.post('/ambil', klinik.antrianDokter);
 app.post('/dokter', klinik.getDokter)
 app.get('/keahlian', klinik.getKeahlian)
 app.get('/darah', data.getGolonganDarah)

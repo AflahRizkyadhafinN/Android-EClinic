@@ -16,6 +16,7 @@ import {Loading} from '../../Loading';
 import {useContext} from 'react';
 import {makeContext} from '../../UseContext';
 import {Button} from 'react-native-paper';
+import DeviceInfo from 'react-native-device-info';
 
 export const Login = ({navigation}) => {
   const [token, setToken] = useState('');
@@ -28,6 +29,7 @@ export const Login = ({navigation}) => {
   const {setUserData} = useContext(makeContext);
 
   async function login(nik, pass, remember, navigation) {
+
     const payload = {
       nik,
       pass,

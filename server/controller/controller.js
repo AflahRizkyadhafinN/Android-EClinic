@@ -27,7 +27,7 @@ exports.wilayah = (req, res) => {
     let currentProv = null;
     const result = [];
 
-    for (const item of data) {
+    for (const item of data) {  //sortir wilayah menjadi {provinsi, kota, kecamatan, kelurahan, kodewilayah}
       if (item.id_level_wilayah === '1') {
         currentProv = item.nama;
       } else if (item.id_level_wilayah === '2') {
