@@ -17,6 +17,7 @@ import {makeContext} from '../../UseContext';
 import {API_URL} from '../../../App';
 import DoubleTapToClose from '../../CloseApp';
 import {Icon} from '@rneui/themed';
+import {Button} from 'react-native-paper';
 
 export const Dashboard = ({navigation, isInitialScreen}) => {
   const route = useRoute();
@@ -164,7 +165,7 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      {isInitialScreen && <DoubleTapToClose navigation={navigation}/>}
+      {isInitialScreen && <DoubleTapToClose navigation={navigation} />}
       {/* <DoubleTapToClose /> */}
       <MainNavbar navigation={navigation} />
       <Text style={[stylesGeneral.title, stylesDashboard.title]}>
@@ -187,11 +188,15 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
           </Text>
         </View>
       </View>
-      <TouchableOpacity
-        style={stylesDashboard.buttonPendaftaran}
+      <Button
+        mode="contained"
+        buttonColor="black"
+        textColor="white"
+        style={{borderRadius: 6, marginTop: 10}}
+        labelStyle={stylesDashboard.buttonTitlePendaftaran}
         onPress={() => navigation.navigate('Pendaftaran')}>
-        <Text style={stylesDashboard.buttonTitlePendaftaran}>Pendaftaran</Text>
-      </TouchableOpacity>
+        Pendaftaran
+      </Button>
       <View style={stylesDashboard.statistikContainer1}>
         <Text style={stylesDashboard.statistikTitle}>Statistik pasien</Text>
       </View>

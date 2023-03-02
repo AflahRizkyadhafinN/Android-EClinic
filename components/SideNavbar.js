@@ -4,6 +4,7 @@ import {stylesDNavbar} from './Style';
 import {logout} from '../App';
 import {makeContext} from './UseContext';
 import {Icon} from '@rneui/themed';
+import {Button} from 'react-native-paper';
 
 export const SideNavbar = ({navigation}) => {
   const {userdata} = useContext(makeContext);
@@ -19,11 +20,15 @@ export const SideNavbar = ({navigation}) => {
           />
           <Text style={stylesDNavbar.iconTitle}>E-Clinic</Text>
         </View>
-        <TouchableOpacity
-          style={stylesDNavbar.buttonContainer}
+        <Button
+          mode="contained"
+          buttonColor="#00096E"
+          textColor="white"
+          style={{borderRadius: 6, width: '80%', marginTop: 20}}
+          labelStyle={stylesDNavbar.buttonTitle}
           onPress={() => navigation.navigate('Pendaftaran')}>
-          <Text style={stylesDNavbar.buttonTitle}>Pendaftaran</Text>
-        </TouchableOpacity>
+          Pendaftaran
+        </Button>
         <TouchableOpacity
           style={[stylesDNavbar.menuContainer, {marginTop: 40}]}
           onPress={() => {

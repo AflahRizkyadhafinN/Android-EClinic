@@ -11,6 +11,7 @@ import {stylesGeneral, stylesAmbilNomor} from '../../Style';
 import {Provider as PaperProvider, DataTable} from 'react-native-paper';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {MainNavbar} from '../../MainNavbar';
+import {Button} from 'react-native-paper';
 
 const numberOfItemsPerPageList = [5];
 
@@ -125,16 +126,16 @@ export const AmbilNomor = ({navigation}) => {
             dropdownTextStyles={stylesAmbilNomor.selectListTextActive}
           />
         </View>
-        <TouchableOpacity
-          disabled={pressNomor}
+        <Button
+          mode="contained"
           onPress={() => navigation.navigate('NomorAntrian')}
-          style={
-            pressNomor
-              ? stylesAmbilNomor.nomorButtonContainer
-              : stylesAmbilNomor.nomorButtonContainerActive
-          }>
-          <Text style={stylesAmbilNomor.nomorTitle}>Ambil Nomor</Text>
-        </TouchableOpacity>
+          disabled={pressNomor}
+          style={{borderRadius: 6, marginTop: 6}}
+          buttonColor={pressNomor ? 'grey' : '#00096E'}
+          textColor={'white'}
+          labelStyle={stylesAmbilNomor.nomorTitle}>
+          Ambil Nomor
+        </Button>
         <View style={stylesAmbilNomor.ketPasienContainer}>
           <Text style={stylesAmbilNomor.ketPasienJumlah}>Pasien Terdaftar</Text>
           <PaperProvider>

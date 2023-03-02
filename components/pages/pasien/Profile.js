@@ -18,6 +18,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Modal from 'react-native-modal';
 import {SideNavbar} from '../../SideNavbar';
 import {Icon} from '@rneui/themed';
+import {Button} from 'react-native-paper';
 
 export const Profile = ({navigation}) => {
   const {userdata, setUserData} = useContext(makeContext);
@@ -339,8 +340,16 @@ export const Profile = ({navigation}) => {
           // value={jeniskelamin}
           // onChangeText={(text) => setJenisKelamin(text)}
         />
-        <TouchableOpacity
-          style={stylesProfile.submitButton}
+        <Button
+          mode="contained"
+          style={{
+            borderRadius: 6,
+            marginTop: 20,
+            marginHorizontal: 10,
+            paddingVertical: 5,
+          }}
+          buttonColor="black"
+          textColor="white"
           onPress={() =>
             getUpdateToken().then(token => {
               if (token) {
@@ -349,10 +358,18 @@ export const Profile = ({navigation}) => {
               }
             })
           }>
-          <Text style={stylesProfile.submitTitle}>Edit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={stylesProfile.submitButton}
+          Edit
+        </Button>
+        <Button
+          mode="contained"
+          style={{
+            borderRadius: 6,
+            marginTop: 20,
+            marginHorizontal: 10,
+            paddingVertical: 5,
+          }}
+          buttonColor="black"
+          textColor="white"
           onPress={() => {
             update(
               id,
@@ -376,8 +393,8 @@ export const Profile = ({navigation}) => {
               setEdit(false);
             });
           }}>
-          <Text style={stylesProfile.submitTitle}>Simpan</Text>
-        </TouchableOpacity>
+          Simpan
+        </Button>
       </View>
     </ScrollView>
   );

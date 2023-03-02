@@ -107,7 +107,6 @@ export const stylesFPassword = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '600',
     fontSize: 18,
-    color: '#dfdfdf',
   },
 
   input: {
@@ -122,16 +121,10 @@ export const stylesRPassword = StyleSheet.create({
     textAlign: 'left',
   },
 
-  button: {
-    backgroundColor: 'black',
-    marginTop: 30,
-  },
-
   buttonLogin: {
     textAlign: 'center',
     fontWeight: '600',
     fontSize: 18,
-    color: '#dfdfdf',
   },
 
   input: {
@@ -176,7 +169,6 @@ export const stylesRegister = {
   },
 
   buttonTitle: {
-    color: '#dfdfdf',
     textAlign: 'center',
     fontWeight: '600',
     fontSize: 15,
@@ -280,15 +272,7 @@ export const stylesDashboard = StyleSheet.create({
     color: 'black',
   },
 
-  buttonPendaftaran: {
-    backgroundColor: 'black',
-    padding: 10,
-    marginTop: 15,
-    borderRadius: 7,
-  },
-
   buttonTitlePendaftaran: {
-    color: 'white',
     textAlign: 'center',
     fontSize: 20,
     fontWeight: '600',
@@ -390,19 +374,9 @@ export const stylesDNavbar = StyleSheet.create({
     marginLeft: 15,
   },
 
-  buttonContainer: {
-    backgroundColor: '#00096E',
-    width: '80%',
-    paddingHorizontal: 10,
-    paddingVertical: 7,
-    borderRadius: 8,
-    marginTop: 20,
-  },
-
   buttonTitle: {
     fontSize: 20,
-    fontWeight: '700',
-    color: 'white',
+    fontWeight: '600',
     textAlign: 'center',
   },
 
@@ -426,7 +400,7 @@ export const stylesProfile = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: 'black',
-    zIndex: -2
+    zIndex: -2,
   },
   textInput: {
     marginTop: 5,
@@ -873,22 +847,7 @@ export const stylesAmbilNomor = StyleSheet.create({
     backgroundColor: '#CDCDCD',
   },
 
-  nomorButtonContainer: {
-    backgroundColor: '#CDCDCD',
-    marginTop: 5,
-    borderRadius: 6,
-    paddingVertical: 10,
-  },
-
-  nomorButtonContainerActive: {
-    backgroundColor: '#00096E',
-    marginTop: 5,
-    borderRadius: 6,
-    paddingVertical: 10,
-  },
-
   nomorTitle: {
-    color: 'white',
     fontSize: 20,
     fontWeight: '600',
     textAlign: 'center',
@@ -1020,7 +979,8 @@ export const stylesHasil = StyleSheet.create({
   diagnosa: {
     borderWidth: 1,
     borderColor: 'black',
-    borderRadius: 6,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
     marginTop: 20,
     padding: 10,
     fontSize: 17,
@@ -1031,9 +991,10 @@ export const stylesHasil = StyleSheet.create({
 
   obatContainer: {
     borderWidth: 1,
+    borderTopWidth: 0,
     borderColor: 'black',
-    borderRadius: 6,
-    borderTopRightRadius: 0,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
     padding: 10,
   },
 
