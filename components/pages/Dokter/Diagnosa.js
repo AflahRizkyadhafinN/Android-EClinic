@@ -11,6 +11,7 @@ import {stylesGeneral, stylesHasil} from '../../Style';
 import {Icon} from '@rneui/themed';
 import Modal from 'react-native-modal';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {Button} from 'react-native-paper';
 
 export const Diagnosa = ({navigation}) => {
   const {width} = 100 % +10;
@@ -24,7 +25,6 @@ export const Diagnosa = ({navigation}) => {
     {label: 'Promag', value: 'promag'},
   ]);
 
-  console.log(catatan);
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
@@ -166,7 +166,11 @@ export const Diagnosa = ({navigation}) => {
             </View>
           </View>
         </Modal>
-        <View style={stylesHasil.obatContainer}>
+        <View
+          style={[
+            stylesHasil.obatContainer,
+            {borderTopWidth: 1, borderTopLeftRadius: 6},
+          ]}>
           <Text style={stylesHasil.obatTanggal}>30 Januari 2023</Text>
           <DataTable
             style={{marginHorizontal: -10, width: width, marginBottom: -11}}>
@@ -241,28 +245,24 @@ export const Diagnosa = ({navigation}) => {
             }}
           />
         </View>
-        <View
+        <Button
+          mode="contained"
           style={{
-            backgroundColor: '#00096E',
-            padding: 15,
             borderRadius: 6,
             marginTop: 10,
-            width: '55%',
+            width: '80%',
             alignSelf: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ConfirmDiagnosa')}>
-            <Text
-              style={{
-                fontSize: 15,
-                fontWeight: '700',
-                color: 'white',
-                textAlign: 'center',
-              }}>
-              Berikan hasil Diagnosis
-            </Text>
-          </TouchableOpacity>
-        </View>
+          }}
+          buttonColor="#00096E"
+          textColor="white"
+          labelStyle={{
+            fontSize: 15,
+            fontWeight: '600',
+            textAlign: 'center',
+          }}
+          onPress={() => navigation.navigate('ConfirmDiagnosa')}>
+          Berikan hasil diagnosis
+        </Button>
       </View>
     </ScrollView>
   );

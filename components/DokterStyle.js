@@ -86,16 +86,4 @@ export const cDiagnosaStyles = StyleSheet.create({
     borderBottomRightRadius: 6,
     padding: 10,
   },
-
-  buttonText: {
-    backgroundColor: '#00096E',
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '700',
-    textAlign: 'center',
-    width: '50%',
-    alignSelf: 'center',
-    paddingVertical: 5,
-    borderRadius: 6,
-  },
 });

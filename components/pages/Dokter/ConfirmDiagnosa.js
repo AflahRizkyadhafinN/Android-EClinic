@@ -2,8 +2,9 @@ import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {stylesGeneral} from '../../Style';
 import {cDiagnosaStyles} from '../../DokterStyle';
+import {Button} from 'react-native-paper';
 
-export const ConfirmDiagnosa = () => {
+export const ConfirmDiagnosa = ({navigation}) => {
   return (
     <View style={stylesGeneral.container}>
       <View style={cDiagnosaStyles.firstContainer}>
@@ -15,7 +16,20 @@ export const ConfirmDiagnosa = () => {
         </Text>
       </View>
       <TouchableOpacity style={cDiagnosaStyles.buttonContainer}>
-        <Text style={cDiagnosaStyles.buttonText}>Kembali</Text>
+        <Button
+          mode="contained"
+          buttonColor="#00096E"
+          textColor="white"
+          style={{
+            borderRadius: 6,
+            marginVertical: 10,
+            width: '50%',
+            alignSelf: 'center',
+          }}
+          labelStyle={{fontSize: 15, fontWeight: '600'}}
+          onPress={() => navigation.navigate('Diagnosa')}>
+          Kembali
+        </Button>
       </TouchableOpacity>
     </View>
   );

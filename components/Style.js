@@ -486,20 +486,6 @@ export const stylesProfile = StyleSheet.create({
     borderBottomRightRadius: 0,
     borderRightWidth: 0,
   },
-
-  submitButton: {
-    backgroundColor: 'black',
-    paddingVertical: 15,
-    width: '95%',
-    alignSelf: 'center',
-    marginTop: 20,
-    borderRadius: 10,
-  },
-
-  submitTitle: {
-    color: 'white',
-    textAlign: 'center',
-  },
 });
 
 export const stylesDokter = StyleSheet.create({
