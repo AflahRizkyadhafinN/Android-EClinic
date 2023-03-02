@@ -110,6 +110,7 @@ exports.signup = [
                   data.findOne({where : {email: req.body.email}}).then(user => {
                     user_controls.create({
                       id_user: user.pasen_id,
+                      level: 1
                     })
                   })
                   res.status(200).json({alert: 'Berhasil membuat akun'});

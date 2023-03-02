@@ -41,9 +41,21 @@ exports.updatetoken = (req, res, next) => {
     });
   };
   
-  exports.update = (req, res, next) => {
-    //TODO: tambah validasi data dengan express-validator
-
+  exports.update = [
+          //TODO: tambah validasi data dengan express-validator
+          body('rw').isLength({max: 3}).withMessage('RT/RW Tidak Valid').isNumeric(),
+          body('rt').isLength({max: 3}).withMessage('RT/RW Tidak Valid').isNumeric(),
+          body('alamat').escape(true),
+          body('kodepos').isNumeric().isLength({max: 5}).escape(true),
+          body('tempatlahir').escape(true),
+          body('namalengkap').escape(true),
+    (req, res, next) => {
+      const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json({alert: errors.array().map(items => items.msg)[0]});
+    }
     const authHeader = req.get('Authorization');
     if (!authHeader) {
       return res.status(401).json({alert: 'Authentication Gagal'});
@@ -74,7 +86,7 @@ exports.updatetoken = (req, res, next) => {
             !req.body.tempatLahir
           ) {
             return res.status(400).json({alert: 'Tolong lengkapi data anda'});
-          } else {
+          } 
             data
               .update(
                 {
@@ -100,13 +112,12 @@ exports.updatetoken = (req, res, next) => {
               .then(() => {
                 res.status(200).json({alert: 'Berhasil merubah data'});
               });
-          }
         }
       } else {
         res.status(404).json({alert: 'Akun terhubung pada perangkat lain'})
       }
     });
-  };
+  }]
   
   exports.profilerefresh = (req, res, next) => {
     //refresh data yang tersimpan pada client dengan data terbaru

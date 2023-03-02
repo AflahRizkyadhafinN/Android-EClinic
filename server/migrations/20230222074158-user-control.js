@@ -48,6 +48,11 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true
       },
+      level: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 1
+      }
     }, {
       tableName: 'user_controls',
       schema: 'users',
