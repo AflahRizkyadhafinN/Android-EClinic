@@ -15,20 +15,23 @@ import {Icon} from '@rneui/themed';
 export const MainNavbar = props => {
   const {userdata} = useContext(makeContext);
   const [open, setOpen] = React.useState(false);
-  const {navigation} = props;
-  const type = '';
+  const {navigation, type} = props;
+  // const type = props.type;
+  // const type = '';
+
+  // console.log(props.menuType + '1');
 
   return (
     <View style={stylesDashboard.header}>
       <Modal
-        isVisible={true}
+        isVisible={open}
         onBackdropPress={() => setOpen(false)}
         style={{margin: 0}}
         animationIn={'slideInLeft'}
         animationOut={'slideOutLeft'}
         animationInTiming={1200}
         animationOutTiming={1200}>
-        <SideNavbar navigation={navigation} />
+        <SideNavbar navigation={navigation} type={props.menuType} />
       </Modal>
       <TouchableWithoutFeedback onPress={() => setOpen(true)}>
         <View style={stylesDashboard.menuContainer}>

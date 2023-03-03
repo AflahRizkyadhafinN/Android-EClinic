@@ -8,7 +8,7 @@ export const Riwayat = ({navigation}) => {
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar navigation={navigation} />
+        <MainNavbar navigation={navigation} menuType={'default'} />
         <Text style={stylesRiwayat.title}>Riwayat</Text>
         <Text style={stylesRiwayat.bulan}>Januari 2023</Text>
         <TouchableOpacity>

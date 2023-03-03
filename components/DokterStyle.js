@@ -4,7 +4,7 @@ import './Style';
 
 export const pilihDokterStyles = StyleSheet.create({
   title: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: '700',
     color: 'black',
   },

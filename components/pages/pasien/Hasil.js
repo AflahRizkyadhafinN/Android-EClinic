@@ -9,7 +9,7 @@ export const Hasil = ({navigation}) => {
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar navigation={navigation} />
+        <MainNavbar navigation={navigation} menuType={'default'} />
         <Text style={stylesHasil.title}>Hasil</Text>
         <View style={stylesHasil.identitasContainer}>
           <Text style={stylesHasil.identitasText}>

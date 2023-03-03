@@ -12,6 +12,7 @@ import {Icon} from '@rneui/themed';
 import Modal from 'react-native-modal';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Button} from 'react-native-paper';
+import {MainNavbar} from '../../MainNavbar';
 
 export const Diagnosa = ({navigation}) => {
   const {width} = 100 % +10;
@@ -28,6 +29,7 @@ export const Diagnosa = ({navigation}) => {
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
+        <MainNavbar navigation={navigation} />
         <Text style={stylesHasil.title}>Hasil</Text>
         <View style={stylesHasil.identitasContainer}>
           <Text style={stylesHasil.identitasText}>

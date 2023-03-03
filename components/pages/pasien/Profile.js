@@ -15,10 +15,8 @@ import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import {API_URL, getUpdateToken, update} from '../../../App';
 import {makeContext} from '../../UseContext';
 import DropDownPicker from 'react-native-dropdown-picker';
-import Modal from 'react-native-modal';
-import {SideNavbar} from '../../SideNavbar';
-import {Icon} from '@rneui/themed';
 import {Button} from 'react-native-paper';
+import {MainNavbar} from '../../MainNavbar';
 
 export const Profile = ({navigation}) => {
   const {userdata, setUserData} = useContext(makeContext);
@@ -137,30 +135,7 @@ export const Profile = ({navigation}) => {
   return (
     <ScrollView nestedScrollEnabled={true}>
       <View style={stylesGeneral.container}>
-        <View style={stylesDashboard.header}>
-          <Modal
-            isVisible={open}
-            onBackdropPress={() => setOpen(false)}
-            style={{margin: 0}}
-            animationIn={'slideInLeft'}
-            animationOut={'slideOutLeft'}
-            animationInTiming={1200}
-            animationOutTiming={1200}>
-            <SideNavbar navigation={navigation} />
-          </Modal>
-          <TouchableWithoutFeedback onPress={() => setOpen(true)}>
-            <View style={stylesDashboard.menuContainer}>
-              <Icon
-                name="menu"
-                type="entypo"
-                color={'#00096E'}
-                size={40}
-                style={{alignContent: 'center'}}
-              />
-              <Text style={stylesDashboard.menu}>Menu</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+        <MainNavbar navigation={navigation} menuType={'default'} />
         <TouchableOpacity disabled={!edit}>
           <Image
             source={require('../../image/PhotoProfile.png')}

@@ -7,7 +7,7 @@ export const NomorAntrian = ({navigation}) => {
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar navigation={navigation} />
+        <MainNavbar navigation={navigation} menuType={'default'} />
         <Text style={stylesNomorAntrian.title}>Antrian</Text>
         <View style={stylesNomorAntrian.antrianContainer}>
           <View style={stylesNomorAntrian.antrianNomorContainer}>

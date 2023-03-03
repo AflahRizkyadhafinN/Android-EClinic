@@ -6,11 +6,14 @@ import {makeContext} from './UseContext';
 import {Icon} from '@rneui/themed';
 import {Button} from 'react-native-paper';
 
-export const SideNavbar = ({navigation}) => {
+export const SideNavbar = ({navigation, type}) => {
   const {userdata} = useContext(makeContext);
   const id = userdata.id;
-  const type = 'default';
   let listMenu;
+
+  // console.log(props.type + '2');
+  // console.log(props);
+  // console.log(type);
 
   {
     if (type === 'default') {
