@@ -7,10 +7,7 @@ export const stylesGeneral = StyleSheet.create({
     padding: 20,
   },
 
-  buttonContainer: {
-    paddingVertical: 12,
-    paddingHorizontal: 60,
-    marginHorizontal: 0,
+  button: {
     borderRadius: 6,
   },
 

@@ -16,11 +16,12 @@ export const MainNavbar = props => {
   const {userdata} = useContext(makeContext);
   const [open, setOpen] = React.useState(false);
   const {navigation} = props;
+  const type = '';
 
   return (
     <View style={stylesDashboard.header}>
       <Modal
-        isVisible={open}
+        isVisible={true}
         onBackdropPress={() => setOpen(false)}
         style={{margin: 0}}
         animationIn={'slideInLeft'}
@@ -47,19 +48,20 @@ export const MainNavbar = props => {
           onPress={() => <SideNavbar />}>
           <Text style={stylesDashboard.menuLoginButtonTitle}>Login</Text>
         </TouchableOpacity> */}
-
-        <TouchableWithoutFeedback
-          onPress={() => navigation.navigate('Profile')}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={stylesDashboard.accountName}>
-              {userdata.namalengkap}
-            </Text>
-            <Image
-              style={stylesDashboard.accountImage}
-              source={require('./image/PhotoProfile.png')}
-            />
-          </View>
-        </TouchableWithoutFeedback>
+        {type === 'default' ? (
+          <TouchableWithoutFeedback
+            onPress={() => navigation.navigate('Profile')}>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={stylesDashboard.accountName}>
+                {userdata.namalengkap}
+              </Text>
+              <Image
+                style={stylesDashboard.accountImage}
+                source={require('./image/PhotoProfile.png')}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        ) : undefined}
       </View>
     </View>
   );

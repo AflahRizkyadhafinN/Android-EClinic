@@ -25,6 +25,7 @@ import Keychain from 'react-native-keychain';
 import {KlinikNama} from './components/KlinikContext';
 import DeviceInfo from 'react-native-device-info';
 
+import {SideNavbar} from './components/SideNavbar';
 export const API_URL = 'http://10.10.10.91:5000';
 const Stack = createNativeStackNavigator();
 
@@ -47,7 +48,7 @@ function App() {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
           }}>
           <Stack.Navigator
-            initialRouteName="PilihDokter"
+            initialRouteName="Dashboard"
             screenOptions={{headerShown: false, animation: 'none'}}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
@@ -70,6 +71,7 @@ function App() {
             <Stack.Screen name="PilihDokter" component={PilihDokter} />
             <Stack.Screen name="ConfirmDiagnosa" component={ConfirmDiagnosa} />
             <Stack.Screen name="Diagnosa" component={Diagnosa} />
+            <Stack.Screen name="SideNavbar" component={SideNavbar} />
           </Stack.Navigator>
         </NavigationContainer>
       </UserData>

@@ -1,5 +1,6 @@
 import {color} from '@rneui/base';
 import {StyleSheet} from 'react-native';
+import './Style';
 
 export const pilihDokterStyles = StyleSheet.create({
   title: {
