@@ -23,7 +23,6 @@ import {UserData} from './components/UseContext';
 import Keychain from 'react-native-keychain';
 import {KlinikNama} from './components/KlinikContext';
 import DeviceInfo from 'react-native-device-info';
-PilihDokter
 
 export const API_URL = 'http://10.10.10.91:5000';
 const Stack = createNativeStackNavigator();

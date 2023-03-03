@@ -4,15 +4,31 @@ import {stylesGeneral, stylesNomorAntrian} from '../../Style';
 import {MainNavbar} from '../../MainNavbar';
 import { API_URL } from '../../../App';
 import { makeContext } from '../../UseContext';
-import Keychain from'react-native-keychain';
+import Keychain from'react-native-keychain'
+
 export const NomorAntrian = ({navigation}) => {
   const {userdata} = useContext(makeContext);
   const [noAntrian, setNoAntrian] = useState(0)
   const [tanggalDaftar, setTanggalDaftar] = useState('')
+  const socket = new WebSocket(`ws://10.10.10.91:8080`)
+socket.onopen = () =>{
+  socket.send(JSON.stringify({
+    type: 'subscribe',
+    channel: 'confirmation'
+  }))
+  console.log('open')
+}
+
+  socket.onmessage = event => {
+    const data = JSON.parse(event.data)
+    console.log(data)
+  }
+
+
   useEffect(() => {
     async function daftar(){
       const jwt = await Keychain.getGenericPassword();
-      const keyToken = jwt.password;
+      const keyToken = jwt.password
       const payload = {
         pasien_id : userdata.id,
       };
