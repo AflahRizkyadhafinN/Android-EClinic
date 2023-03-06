@@ -11,10 +11,6 @@ export const SideNavbar = ({navigation, type}) => {
   const id = userdata.id;
   let listMenu;
 
-  // console.log(props.type + '2');
-  // console.log(props);
-  // console.log(type);
-
   {
     if (type === 'default') {
       listMenu = [
@@ -37,6 +33,15 @@ export const SideNavbar = ({navigation, type}) => {
           nama: 'About',
           icon: {name: 'information', type: 'material-community'},
           nav: 'About',
+        },
+      ];
+    }
+    if (type === 'dokterPage') {
+      listMenu = [
+        {
+          nama: 'Pilih Dokter',
+          icon: {name: 'doctor', type: 'fontisto'},
+          nav: 'PilihDokter',
         },
       ];
     }
@@ -68,8 +73,9 @@ export const SideNavbar = ({navigation, type}) => {
           <Text style={stylesDNavbar.iconTitle}>E-Clinic</Text>
         </View>
         {buttonDaftar()}
-        {type === 'default'
-          ? listMenu.map((data, index) => {
+        {type === undefined
+          ? undefined
+          : listMenu.map((data, index) => {
               return (
                 <TouchableOpacity
                   style={[
@@ -89,8 +95,7 @@ export const SideNavbar = ({navigation, type}) => {
                   <Text style={stylesDNavbar.menuTitle}>{data.nama}</Text>
                 </TouchableOpacity>
               );
-            })
-          : undefined}
+            })}
       </View>
       <View>
         {/* <TouchableOpacity

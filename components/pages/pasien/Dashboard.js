@@ -167,7 +167,11 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       }>
       {isInitialScreen && <DoubleTapToClose navigation={navigation} />}
       {/* <DoubleTapToClose /> */}
-      <MainNavbar navigation={navigation} menuType={'default'} />
+      <MainNavbar
+        navigation={navigation}
+        type={'default'}
+        menuType={'default'}
+      />
       <Text style={[stylesGeneral.title, stylesDashboard.title]}>
         Dashboard
       </Text>

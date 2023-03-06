@@ -1025,6 +1025,12 @@ export const stylesHasil = StyleSheet.create({
     borderLeftWidth: 1,
     paddingLeft: 10,
   },
+
+  button: {
+    borderRadius: 6,
+    marginTop: 10,
+    width: '40%',
+  },
 });
 
 export const stylesRiwayat = StyleSheet.create({
@@ -1062,5 +1068,91 @@ export const stylesRiwayat = StyleSheet.create({
     fontSize: 15,
     fontWeight: '400',
     color: 'black',
+  },
+});
+
+export const stylesCPembayaran = StyleSheet.create({
+  textContainer: {
+    borderWidth: 1,
+    borderRadius: 6,
+    padding: 10,
+    marginTop: '50%',
+  },
+
+  title: {
+    fontSize: 35,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  descTop: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'center',
+    borderBottomWidth: 1,
+    marginHorizontal: -10,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+  },
+
+  descBottom: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#2A2A2A',
+    textAlign: 'center',
+    marginHorizontal: -10,
+    paddingHorizontal: 10,
+    paddingTop: 10,
+  },
+});
+
+export const stylesBPembayaran = StyleSheet.create({
+  mainContainer: {
+    borderRadius: 6,
+    borderWidth: 1,
+    padding: 10,
+    marginTop: '50%',
+  },
+
+  title: {
+    fontSize: 25,
+    fontWeight: '700',
+    color: 'black',
+    paddingBottom: 10,
+    marginHorizontal: -10,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    textAlign: 'center',
+  },
+
+  secondContainer: {
+    borderBottomWidth: 1,
+    marginHorizontal: -10,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    marginBottom: 10,
+  },
+
+  ketContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  text: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  thirdContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+
+  button: {
+    paddingHorizontal: 20,
+    borderRadius: 6,
   },
 });

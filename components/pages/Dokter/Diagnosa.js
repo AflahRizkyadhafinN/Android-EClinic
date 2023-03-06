@@ -29,8 +29,8 @@ export const Diagnosa = ({navigation}) => {
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar navigation={navigation} />
-        <Text style={stylesHasil.title}>Hasil</Text>
+        <MainNavbar navigation={navigation} menuType={'dokterPage'} />
+        <Text style={stylesHasil.title}>Diagnosa</Text>
         <View style={stylesHasil.identitasContainer}>
           <Text style={stylesHasil.identitasText}>
             Nama pasien : Zeke Yeager
@@ -204,6 +204,7 @@ export const Diagnosa = ({navigation}) => {
                     borderRadius: 6,
                     margin: 0,
                   }}
+                  onPress={() => {}}
                 />
               </DataTable.Cell>
             </DataTable.Row>

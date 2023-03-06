@@ -9,7 +9,7 @@ export const ConfirmDiagnosa = ({navigation}) => {
   return (
     <ScrollView>
       <View style={stylesGeneral.container}>
-        <MainNavbar navigation={navigation} />
+        <MainNavbar navigation={navigation} menuType={'dokterPage'} />
         <View style={{marginTop: '60%'}}>
           <View style={cDiagnosaStyles.firstContainer}>
             <Text style={cDiagnosaStyles.fcText}>

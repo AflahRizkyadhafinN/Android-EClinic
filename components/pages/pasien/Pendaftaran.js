@@ -36,7 +36,11 @@ export const Pendaftaran = ({navigation}) => {
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar navigation={navigation} menuType={'default'} />
+        <MainNavbar
+          navigation={navigation}
+          type={'default'}
+          menuType={'default'}
+        />
         <Text style={stylesPendaftaran.title}>Poliklinik</Text>
         <Text style={stylesPendaftaran.subTitle}>poliklinik</Text>
         <View style={stylesPendaftaran.buttonMainContainer}>

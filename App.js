@@ -1,12 +1,16 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Dashboard} from './components/pages/pasien/Dashboard';
+
+// Import Page Login
 import {ForgetPassword} from './components/pages/login/ForgetPassword';
 import {Login} from './components/pages/login/Login';
 import {Register} from './components/pages/login/Register';
 import {ResetPassword} from './components/pages/login/ResetPassword';
 import {SetPassword} from './components/pages/login/SetPassword';
+
+// Import Page Pasien
+import {Dashboard} from './components/pages/pasien/Dashboard';
 import {Profile} from './components/pages/pasien/Profile';
 import {Dokter} from './components/pages/pasien/Dokter';
 import {About} from './components/pages/pasien/About';
@@ -15,6 +19,10 @@ import {AmbilNomor} from './components/pages/pasien/AmbilNomor';
 import {NomorAntrian} from './components/pages/pasien/NomorAntrian';
 import {Riwayat} from './components/pages/pasien/Riwayat';
 import {Hasil} from './components/pages/pasien/Hasil';
+import {ConfirmPembayaran} from './components/pages/pasien/ConfirmPembayaran';
+import {BuktiPembayaran} from './components/pages/pasien/BuktiPembayaran';
+
+// Import Page Dokter
 import {ConfirmDiagnosa} from './components/pages/dokter/ConfirmDiagnosa';
 import {PilihDokter} from './components/pages/dokter/PilihDokter';
 import {Diagnosa} from './components/pages/dokter/Diagnosa';
@@ -25,7 +33,6 @@ import Keychain from 'react-native-keychain';
 import {KlinikNama} from './components/KlinikContext';
 import DeviceInfo from 'react-native-device-info';
 
-import {SideNavbar} from './components/SideNavbar';
 export const API_URL = 'http://10.10.10.91:5000';
 const Stack = createNativeStackNavigator();
 
@@ -48,7 +55,7 @@ function App() {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
           }}>
           <Stack.Navigator
-            initialRouteName="PilihDokter"
+            initialRouteName="Login"
             screenOptions={{headerShown: false, animation: 'none'}}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
@@ -71,7 +78,11 @@ function App() {
             <Stack.Screen name="PilihDokter" component={PilihDokter} />
             <Stack.Screen name="ConfirmDiagnosa" component={ConfirmDiagnosa} />
             <Stack.Screen name="Diagnosa" component={Diagnosa} />
-            <Stack.Screen name="SideNavbar" component={SideNavbar} />
+            <Stack.Screen
+              name="ConfirmPembayaran"
+              component={ConfirmPembayaran}
+            />
+            <Stack.Screen name="BuktiPembayaran" component={BuktiPembayaran} />
           </Stack.Navigator>
         </NavigationContainer>
       </UserData>

@@ -103,7 +103,11 @@ export const Dokter = ({navigation}) => {
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar navigation={navigation} menuType={'default'} />
+        <MainNavbar
+          navigation={navigation}
+          type={'default'}
+          menuType={'default'}
+        />
         <Text style={stylesDokter.mainTitle}>Dokter</Text>
         <TextInput
           style={stylesDokter.searchDokter}

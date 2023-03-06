@@ -38,7 +38,8 @@
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-vertical-progress": "^1.0.2"
+    "react-native-vertical-progress": "^1.0.2",
+    "react-number-format": "^5.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

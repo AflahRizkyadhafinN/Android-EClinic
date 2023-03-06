@@ -24,9 +24,9 @@ export const PilihDokter = ({navigation}) => {
   ]);
 
   return (
-    <ScrollView>
+    <ScrollView nestedScrollEnabled={true}>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar navigation={navigation} />
+        <MainNavbar navigation={navigation} menuType={'dokterPage'} />
         <Text style={pilihDokterStyles.title}>Diagnosa</Text>
         <View style={{marginTop: '60%', justifyContent: 'space-between'}}>
           <View style={pilihDokterStyles.mainContainer}>
@@ -34,6 +34,7 @@ export const PilihDokter = ({navigation}) => {
             <View style={pilihDokterStyles.secondContainer}>
               <View style={{zIndex: 1}}>
                 <DropDownPicker
+                  listMode="SCROLLVIEW"
                   items={namaDokter}
                   open={open}
                   setOpen={setOpen}
