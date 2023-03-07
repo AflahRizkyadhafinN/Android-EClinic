@@ -1002,7 +1002,6 @@ export const stylesHasil = StyleSheet.create({
 
   tableHeader: {
     backgroundColor: 'black',
-    borderWidth: 1,
   },
 
   tableHeaderText: {
@@ -1023,7 +1022,6 @@ export const stylesHasil = StyleSheet.create({
 
   centerBorder: {
     borderLeftWidth: 1,
-    paddingLeft: 10,
   },
 
   button: {
