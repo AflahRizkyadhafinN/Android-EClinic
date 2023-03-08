@@ -8,22 +8,35 @@ import {
   Pressable,
 } from 'react-native';
 import {stylesGeneral, stylesAmbilNomor} from '../../Style';
-import {Provider as PaperProvider, DataTable} from 'react-native-paper';
+import {DataTable, useTheme, DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {MainNavbar} from '../../MainNavbar';
 import { useRoute } from '@react-navigation/native';
 import moment from 'moment';
 import 'moment/locale/id'
 import { makeContext } from '../../UseContext';
-import { daftar } from '../../../App';
+import { API_URL, daftar } from '../../../App';
+import { klinikContext } from '../../KlinikContext';
+import { color } from '@rneui/base';
 const numberOfItemsPerPageList = [5];
-
+  
 export const AmbilNomor = ({navigation}) => {
+  
   const [namaDokter, setNamaDokter] = useState([])
-  const [klinik, setKlinik] = useState('..')
+  const [keahlian, setKeahlian] = useState('..')
   const route = useRoute()
   const {userdata} = useContext(makeContext);
-
+  const {klinik} = useContext(klinikContext)
+  const [namaPasien, setNamaPasien] = useState([])
+  const [waktu, setWaktu] = useState('Hari ini');
+  const [hari, setHari] = useState(moment().locale('id').format('dddd, DD MMMM YYYY'));
+  const [pressNomor, setPressNomor] = useState(true);
+  const [pressWaktu, setPressWaktu] = useState(false);
+  const [dokter, setDokter] = useState('');
+  const [page, setPage] = useState(0);
+  const [numberOfItemsPerPage, onItemsPerPageChange] = useState(
+    numberOfItemsPerPageList[0],
+  );
   useEffect(() => {
     async function getNamaDokter() {
       const list = route.params.jsonRes
@@ -34,51 +47,47 @@ export const AmbilNomor = ({navigation}) => {
       let namaKlinik = list.map(item => {
         return item.keahlian;
        });
-      setKlinik(namaKlinik[0].nama_keahlian)
+      setKeahlian(namaKlinik[0].nama_keahlian)
       setNamaDokter(dokterArray);
     }
-
+    
     getNamaDokter();
   }, []);
-  
-  
-  // const namaDokter = [
-  //   {
-  //     nama: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-  //     value: 'Dr. Abdul Azis Rani, Sp.PD-KGEH',
-  //   },
-  //   {
-  //     nama: 'Dr. Abirianty Priandani Araminta, Sp.PD',
-  //     value: 'Dr. Abirianty Priandani Araminta, Sp.PD',
-  //   },
-  //   {nama: 'Dr. Tjoeng Lioni Sp.PD', value: 'Dr. Tjoeng Lioni Sp.PD'},
-  // ];
+  useEffect(() => {
+    function getListPasien() {
+      const payload = {
+        dokter, 
+        klinik,
+        hari
+      }
+      fetch(`${API_URL}/antrian`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(payload)
+      }).then(async (res) => {
+        const list = await res.json()
+        const namaPasien = list.map((item, index) => {
+          let i = index + 1
+          return {nama: item.namaPasien, key : i}
+        })
+      setNamaPasien(namaPasien);
+      })
+    }
+    if(!dokter) return
+    getListPasien()
+    console.log('jalan');
+  }, [dokter, setDokter, hari])
 
-  const namaPasien = [
-    {nama: 'Faisal', key: '1'},
-    {nama: 'Vicky', key: '2'},
-    {nama: 'David', key: '3'},
-    {nama: 'rakha', key: '4'},
-    {nama: 'Lucy', key: '5'},
-    {nama: 'Rebeca', key: '6'},
-  ];
-  const [waktu, setWaktu] = useState('Hari ini');
-  const [hari, setHari] = useState(moment().locale('id').format('dddd, DD MMMM YYYY'));
-  const [pressNomor, setPressNomor] = useState(true);
-  const [pressWaktu, setPressWaktu] = useState(false);
-  const [dokter, setDokter] = useState('');
-
-  const [page, setPage] = useState(0);
-  const [numberOfItemsPerPage, onItemsPerPageChange] = useState(
-    numberOfItemsPerPageList[0],
-  );
   const from = page * numberOfItemsPerPage;
-  const to = Math.min((page + 1) * numberOfItemsPerPage, namaPasien.length);
+  const to = Math.min((page + 1) * numberOfItemsPerPage, namaPasien?.length);
 
   const tableRow = namaPasien => (
     <DataTable.Row key={namaPasien.key}>
-      <DataTable.Cell>{namaPasien.key}</DataTable.Cell>
-      <DataTable.Cell>{namaPasien.nama}</DataTable.Cell>
+      <DataTable.Cell >{namaPasien.key}</DataTable.Cell>
+      <DataTable.Cell >{namaPasien.nama}</DataTable.Cell>
     </DataTable.Row>
   );
 
@@ -90,7 +99,7 @@ export const AmbilNomor = ({navigation}) => {
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
         <MainNavbar navigation={navigation} />
-        <Text style={stylesAmbilNomor.title}>{klinik}</Text>
+        <Text style={stylesAmbilNomor.title}>{keahlian}</Text>
         <View style={stylesAmbilNomor.buttonHBContainer}>
           <TouchableOpacity
             style={
@@ -154,7 +163,7 @@ export const AmbilNomor = ({navigation}) => {
         </View>
         <TouchableOpacity
           disabled={pressNomor}
-          onPress={() => daftar(userdata.id, dokter, navigation)}
+          onPress={() => daftar(userdata.id, dokter, klinik, hari, navigation)}
           style={
             pressNomor
               ? stylesAmbilNomor.nomorButtonContainer
@@ -164,25 +173,27 @@ export const AmbilNomor = ({navigation}) => {
         </TouchableOpacity>
         <View style={stylesAmbilNomor.ketPasienContainer}>
           <Text style={stylesAmbilNomor.ketPasienJumlah}>Pasien Terdaftar</Text>
-          <PaperProvider>
+          <PaperProvider theme={{
+            ...DefaultTheme,
+            dark : false,
+            }}>
             <DataTable>
               <DataTable.Header>
-                <DataTable.Title>No</DataTable.Title>
-                <DataTable.Title>Nama</DataTable.Title>
+                <DataTable.Title textStyle={{color: 'black'}}>No</DataTable.Title>
+                <DataTable.Title textStyle={{color: 'black'}}>Nama</DataTable.Title>
               </DataTable.Header>
-              {namaPasien
-                .slice(
+              {namaPasien?.slice(
                   page * numberOfItemsPerPage,
                   page * numberOfItemsPerPage + numberOfItemsPerPage,
                 )
                 .map(row => tableRow(row))}
-              <DataTable.Pagination
+              <DataTable.Pagination 
                 page={page}
                 numberOfPages={Math.ceil(
-                  namaPasien.length / numberOfItemsPerPage,
+                  namaPasien?.length / numberOfItemsPerPage,
                 )}
                 onPageChange={page => setPage(page)}
-                label={`${from + 1}-${to} of ${namaPasien.length}`}
+                label={`${from + 1}-${to} of ${namaPasien?.length}`}
                 onItemsPerPageChange={onItemsPerPageChange}
               />
             </DataTable>

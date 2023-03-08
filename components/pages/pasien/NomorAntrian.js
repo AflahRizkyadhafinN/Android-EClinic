@@ -11,20 +11,7 @@ export const NomorAntrian = ({navigation}) => {
   const [noAntrian, setNoAntrian] = useState(0)
   const [tanggalDaftar, setTanggalDaftar] = useState('')
   const socket = new WebSocket(`ws://10.10.10.91:8080`)
-socket.onopen = () =>{
-  socket.send(JSON.stringify({
-    type: 'subscribe',
-    channel: 'confirmation'
-  }))
-  console.log('open')
-}
-
-  socket.onmessage = event => {
-    const data = JSON.parse(event.data)
-    console.log(data)
-  }
-
-
+  const [confirm, setConfirm] = useState()
   useEffect(() => {
     async function daftar(){
       const jwt = await Keychain.getGenericPassword();
@@ -52,6 +39,45 @@ socket.onopen = () =>{
   daftar()
   },[])
 
+  useEffect(() => {
+    socket.onopen = () =>{
+      socket.send(JSON.stringify({
+        data: noAntrian,
+        channel: 'confirmation'
+      }))
+    }
+  }, [noAntrian])
+  
+  socket.onclose = () => {
+
+    console.log('closed');
+  }
+
+  socket.onmessage = event => {
+    const data = JSON.parse(event.data)
+    setConfirm(data.data)
+  }
+
+  function TextKonfirmasi() {
+    if (!confirm) {
+      return (
+        <Text
+        style={stylesNomorAntrian.arahan}>
+        Berikan nomor pendaftaran pada petugas klinik yang anda daftar untuk
+        mendapat antrian
+      </Text>
+      )
+    }
+    return (
+      <Text
+      style={stylesNomorAntrian.arahan}
+      onPress={() => {navigation.navigate('AmbilNomor'); socket.close()}}>
+      Tekan untuk meliihat nomor antrian anda
+    </Text>
+    )
+  }
+
+
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
@@ -61,16 +87,14 @@ socket.onopen = () =>{
           <View style={stylesNomorAntrian.antrianNomorContainer}>
             <Text style={stylesNomorAntrian.antrianNomor}>{noAntrian}</Text>
           </View>
-          <Text style={stylesNomorAntrian.antrianNama}>Hai {userdata.namalengkap}</Text>
+          <Text style={stylesNomorAntrian.antrianNama}>
+            Hai {userdata.namalengkap}
+          </Text>
           <Text style={stylesNomorAntrian.antrianWaktu}>
             {`Kamu mendaftar pada ${tanggalDaftar}`}
           </Text>
         </View>
-        <Text
-          style={stylesNomorAntrian.arahan}
-          onPress={() => navigation.navigate('Hasil')}>
-          Berikan nomor pendaftaran pada petugas klinik yang anda daftar untuk mendapat antrian
-        </Text>
+        <TextKonfirmasi />
       </View>
     </ScrollView>
   );

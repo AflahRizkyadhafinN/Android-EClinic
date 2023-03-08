@@ -3,6 +3,7 @@ import React, {useContext, useState, useEffect} from 'react';
 import {View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {ScrollView} from 'react-native-gesture-handler';
+import { API_URL } from '../../../App';
 import { klinikContext } from '../../KlinikContext';
 import {MainNavbar} from '../../MainNavbar';
 import {stylesGeneral, stylesDokter} from '../../Style';
@@ -69,8 +70,6 @@ export const Dokter = ({navigation}) => {
     getListKeahlian();
     getListDokter();
   }, []);
-
-  const hurufKe = cariDokter.length;
 
   useEffect(() => {
     const filterKeahlian = keahlianList.filter(data => {

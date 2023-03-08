@@ -18,7 +18,7 @@ import {Hasil} from './components/pages/pasien/Hasil';
 import {ConfirmDiagnosa} from './components/pages/Dokter/ConfirmDiagnosa';
 import {PilihDokter} from './components/pages/Dokter/PilihDokter';
 import {Diagnosa} from './components/pages/Dokter/Diagnosa';
-import {Alert} from 'react-native';
+import {Alert, Linking, Text} from 'react-native';
 import {UserData} from './components/UseContext';
 import Keychain from 'react-native-keychain';
 import {KlinikNama} from './components/KlinikContext';
@@ -35,13 +35,38 @@ const isCurrentScreenInitialOne = state => {
   return state.index === 1;
 };
 
+
 function App() {
   const [isInitialScreen, setIsInitialScreen] = useState(true);
-
+  useEffect(() => {
+    // THIS IS THE MAIN POINT OF THIS ANSWER
+    const navigateToInitialUrl = async () => {
+      const initialUrl = await Linking.getInitialURL()
+      if (initialUrl) {
+        await Linking.openURL(initialUrl)
+      }
+    }
+    navigateToInitialUrl()
+  }, [])
+  const config = {
+    screens: {
+      ResetPassword: {
+        path: 'resetPassword/:id',
+        parse: {
+          id: (id) => id,
+        },
+      },
+    },
+  };
+  const linking = {
+    prefixes : ['eclinic://', 'http://www.eclinic.com'],
+    config
+  }
   return (
     <KlinikNama>
       <UserData>
         <NavigationContainer
+        linking={linking}
           onStateChange={state => {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
           }}>
@@ -96,7 +121,6 @@ export async function insert(email, sPassword, sNik, sNamaLengkap, navigation) {
       try {
         const jsonRes = await res.json();
         if (res.status !== 200) {
-          console.log(jsonRes.alert);
           Alert.alert(jsonRes.alert);
         } else if (res.status === 200) {
           Alert.alert(jsonRes.alert);
@@ -110,7 +134,6 @@ export async function insert(email, sPassword, sNik, sNamaLengkap, navigation) {
       console.log(err);
     });
 
-  console.log(payload);
 }
 
 export function setpass(email, sNik, sNamaLengkap, navigation) {
@@ -175,7 +198,6 @@ export function exitLogout(id) {
   const payload = {
     id,
   };
-  console.log(id);
   fetch(`${API_URL}/logout`, {
     method: 'POST',
     headers: {
@@ -221,37 +243,8 @@ export function getListDokter(nama, namaKlinik, navigation) {
       console.log(err);
     }
   });
-  console.log(payload);
 }
 
-export async function authenticate(userdata, navigation) {
-  let deviceName = await DeviceInfo.getUserAgent()
-  const payload = 
-  {
-    deviceName
-  }
-  fetch(`${API_URL}/auth`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${userdata.token}`,
-    },
-    body: JSON.stringify(payload),
-  }).then(async res => {
-    try {
-      const jsonRes = await res.json();
-      if (res.status === 200) {
-        Alert.alert(jsonRes.alert);
-        navigation.navigate('Dashboard');
-      } else {
-        Alert.alert(jsonRes.alert);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  });
-}
 
 export async function getUpdateToken() {
   const jwt = await Keychain.getGenericPassword();
@@ -268,7 +261,6 @@ export async function getUpdateToken() {
     const dataRes = await res.json();
     const token = dataRes.token;
     if (res.status === 200) {
-      console.log(dataRes);
       return token;
     } else {
       Alert.alert(dataRes.alert);
@@ -278,12 +270,14 @@ export async function getUpdateToken() {
   }
 }
 
-export async function daftar(pasien_id, dokter_id, navigation){
+export async function daftar(pasien_id, dokter_id, klinik, hari, navigation){
   const jwt = await Keychain.getGenericPassword();
   const keyToken = jwt.password;
   const payload = {
     pasien_id,
-    dokter_id
+    dokter_id,
+    klinik,
+    hari
   };
   fetch(`${API_URL}/daftar`, {
     method: 'POST',

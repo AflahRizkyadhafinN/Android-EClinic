@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   TextInput,
   View,
@@ -6,12 +6,31 @@ import {
   useWindowDimensions,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {Icon} from '../../Icon';
 import {stylesGeneral, stylesFPassword} from '../../Style';
 import {Button} from 'react-native-paper';
+import { API_URL } from '../../../App';
 
 export const ForgetPassword = ({navigation}) => {
+  const [email, setEmail] = useState('')
+
+  function forgotPassword () {
+    const payload = {email}
+    fetch(`${API_URL}/forgotPassword`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload)
+    }).then(async (res) => {
+      const dataRes = await res.json();
+      Alert.alert(dataRes.alert)
+    })
+  }
+
   return (
     <View style={[stylesGeneral.container]}>
       <Icon />
@@ -26,14 +45,15 @@ export const ForgetPassword = ({navigation}) => {
       </Text>
       <TextInput
         style={[stylesGeneral.input, stylesFPassword.input]}
-        placeholder="Email address or mobile number"></TextInput>
+        onChangeText={(text) => setEmail(text)}
+        placeholder="Alamat Email"></TextInput>
       <Button
         mode="contained"
         style={{borderRadius: 6}}
         labelStyle={stylesFPassword.buttonLogin}
         buttonColor="black"
         textColor="white"
-        onPress={() => {}}>
+        onPress={() => forgotPassword()}>
         Send reset link
       </Button>
     </View>

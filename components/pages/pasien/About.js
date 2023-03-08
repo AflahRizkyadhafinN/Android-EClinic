@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import {View, ScrollView, Text, Image, TouchableOpacity} from 'react-native';
 import {MainNavbar} from '../../MainNavbar';
 import {stylesGeneral, stylesAbout} from '../../Style';
-import {useRoute} from '@react-navigation/native';
 import {Icon} from '@rneui/themed';
 import { API_URL } from '../../../App';
 import { klinikContext } from '../../KlinikContext';
+import { loadOptions } from '@babel/core';
 
 
 export const About = ({navigation}) => {
@@ -15,7 +15,7 @@ export const About = ({navigation}) => {
       function getKlinik() {
         const payload = {
           klinik,
-        };
+        };å
         fetch(`${API_URL}/klinik`, {
           method: 'POST',
           headers: {
@@ -36,8 +36,7 @@ export const About = ({navigation}) => {
       }
       getKlinik()
     }, [])
-    console.log(dataKlinik)
-  const route = useRoute();
+
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>

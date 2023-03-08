@@ -42,7 +42,7 @@ export const SetPassword = ({navigation}) => {
       <Text style={[stylesGeneral.title, {textAlign: 'left'}]}>
         Set Password
       </Text>
-      <Text style={stylesRPassword.subtitle}>Please choose your password</Text>
+      <Text style={stylesRPassword.subtitle}>Masukan password</Text>
       <TextInput
         style={[
           stylesGeneral.input,
@@ -70,6 +70,7 @@ export const SetPassword = ({navigation}) => {
         buttonColor="black"
         textColor="#dfdfdf"
         style={{marginTop: 10, borderRadius: 6}}
+        onPress={() => CheckPass(sPassword, sConfirm)}
         labelStyle={stylesRPassword.buttonLogin}>
         Save Password
       </Button>

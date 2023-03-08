@@ -36,7 +36,7 @@ export const PilihDokter = () => {
               setValue={setValue}
               setItems={setNamaDokter}
               searchable={true}
-              containerStyle={{height: open ? 250 : 50}}
+              containerStyle={{height: open ? 250 : 50}} 
               style={pilihDokterStyles.dropdown}
               labelStyle={pilihDokterStyles.dropdownLabel}
               listItemLabelStyle={pilihDokterStyles.dropdownList}
