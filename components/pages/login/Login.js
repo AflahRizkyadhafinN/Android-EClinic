@@ -55,10 +55,10 @@ export const Login = ({navigation}) => {
             : await Keychain.setGenericPassword('forgot', jsonRes.token);
           setUserData(jsonRes);
           ToastAndroid.show(jsonRes.alert, ToastAndroid.SHORT);
-          if(jsonRes.level === 1) {
-            navigation.navigate('Dashboard');
-          } else if (jsonRes.level === 2) {
+          if (jsonRes.level === 2) {
             navigation.navigate('PilihDokter');
+          }else {
+            navigation.navigate('Dashboard');
           }
         } else {
           Alert.alert(jsonRes.alert);
@@ -101,10 +101,10 @@ export const Login = ({navigation}) => {
           if (res.status === 200) {
             setRememberLoggedIn(true);
             setUserData(userdata);
-            if(jsonRes.level === 1) {
-              navigation.navigate('Dashboard');
-            } else if (jsonRes.level === 2) {
+             if (jsonRes.level === 2) {
               navigation.navigate('PilihDokter');
+            }else {
+              navigation.navigate('Dashboard');
             }
             setLoading(false);
           } else {
