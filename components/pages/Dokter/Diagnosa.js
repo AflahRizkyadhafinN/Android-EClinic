@@ -30,6 +30,7 @@ export const Diagnosa = ({navigation}) => {
     {nama: 'Promag', jumlah: 1, harga: 10000},
     {nama: 'Parasetamol', jumlah: 3, harga: 13000},
     {nama: 'Ibu Profen', jumlah: 5, harga: 5000},
+    {nama: 'Panadol', jumlah: 2, harga: 0},
   ];
 
   let jumlah = 0;
@@ -42,6 +43,9 @@ export const Diagnosa = ({navigation}) => {
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
         <MainNavbar navigation={navigation} menuType={'dokterPage'} />
         <Text style={stylesHasil.title}>Diagnosa</Text>
+        <View style={stylesHasil.identitasContainer}>
+          <Text style={stylesHasil.identitasText}>Dr. Faisal Muslim</Text>
+        </View>
         <View style={stylesHasil.identitasContainer}>
           <Text style={stylesHasil.identitasText}>
             Nama pasien : Zeke Yeager

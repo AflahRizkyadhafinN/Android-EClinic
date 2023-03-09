@@ -142,7 +142,7 @@ export const AmbilNomor = ({navigation}) => {
         </Button>
         <View style={stylesAmbilNomor.ketPasienContainer}>
           <Text style={stylesAmbilNomor.ketPasienJumlah}>Pasien Terdaftar</Text>
-          <PaperProvider>
+          <PaperProvider theme={{dark: false}}>
             <DataTable>
               <DataTable.Header>
                 <DataTable.Title>No</DataTable.Title>

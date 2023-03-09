@@ -24,7 +24,6 @@ import {BuktiPembayaran} from './components/pages/pasien/BuktiPembayaran';
 
 // Import Page Dokter
 import {ConfirmDiagnosa} from './components/pages/dokter/ConfirmDiagnosa';
-import {PilihDokter} from './components/pages/dokter/PilihDokter';
 import {Diagnosa} from './components/pages/dokter/Diagnosa';
 
 import {Alert} from 'react-native';
@@ -55,7 +54,7 @@ function App() {
             setIsInitialScreen(isCurrentScreenInitialOne(state));
           }}>
           <Stack.Navigator
-            initialRouteName="Diagnosa"
+            initialRouteName="Login"
             screenOptions={{headerShown: false, animation: 'none'}}>
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
@@ -75,7 +74,6 @@ function App() {
             <Stack.Screen name="Hasil" component={Hasil} />
             <Stack.Screen name="NomorAntrian" component={NomorAntrian} />
             <Stack.Screen name="Riwayat" component={Riwayat} />
-            <Stack.Screen name="PilihDokter" component={PilihDokter} />
             <Stack.Screen name="ConfirmDiagnosa" component={ConfirmDiagnosa} />
             <Stack.Screen name="Diagnosa" component={Diagnosa} />
             <Stack.Screen
