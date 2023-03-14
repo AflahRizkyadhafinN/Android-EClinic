@@ -53,7 +53,7 @@ export const Profile = ({navigation}) => {
     {label: 'Laki-laki', value: 'Laki-laki'},
     {label: 'Perempuan', value: 'Perempuan'},
   ];
-  const route = useRoute();
+
   const id = userdata.id;
   const [namalengkap, setNamaLengkap] = useState(userdata.namalengkap);
   const [nik, setNik] = useState(userdata.nik);
@@ -70,8 +70,8 @@ export const Profile = ({navigation}) => {
   const [kodepos, setKodePos] = useState(userdata.kodepos);
   const [kodewilayah, setKodeWilayah] = useState(userdata.kodewilayah);
   const [tanggal, setTanggal] = useState(userdata.tanggalLahir);
-  const [open, setOpen] = React.useState(false);
-
+  const [profilePic, setProfilePic] = useState(userdata.profilePic);
+  console.log(profilePic);
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     if (event.type == 'set') {
@@ -103,9 +103,9 @@ export const Profile = ({navigation}) => {
   };
 
   function isigender() {
-    if (jeniskelamin === 'Laki-laki') {
+    if (jeniskelamin === 'L') {
       return 0;
-    } else if (jeniskelamin === 'Perempuan') {
+    } else if (jeniskelamin === 'P') {
       return 1;
     } else {
       return -1;
@@ -138,8 +138,11 @@ export const Profile = ({navigation}) => {
         <MainNavbar navigation={navigation} menuType={'default'} />
         <TouchableOpacity disabled={!edit}>
           <Image
-            source={require('../../image/PhotoProfile.png')}
+            source={{
+              uri: profilePic
+            }}
             style={stylesProfile.photoProfile}
+            defaultSource={require('../../image/PhotoProfile.png')}
           />
         </TouchableOpacity>
         <Text style={stylesProfile.profileTitle}>Nama</Text>

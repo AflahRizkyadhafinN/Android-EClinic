@@ -1,25 +1,21 @@
-import React, {useState} from 'react';
+import React, {useCallback, useContext, useEffect, useMemo, useState} from 'react';
 import {
   View,
   ScrollView,
   Text,
   TouchableOpacity,
-  Image,
-  Pressable,
 } from 'react-native';
 import {stylesGeneral, stylesAmbilNomor} from '../../Style';
-import {DataTable, useTheme, DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
+import {DataTable, useTheme, DefaultTheme, Button, Provider as PaperProvider} from 'react-native-paper';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {MainNavbar} from '../../MainNavbar';
-import { useRoute } from '@react-navigation/native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import moment from 'moment';
 import 'moment/locale/id'
 import { makeContext } from '../../UseContext';
 import { API_URL, daftar } from '../../../App';
 import { klinikContext } from '../../KlinikContext';
-import { color } from '@rneui/base';
 const numberOfItemsPerPageList = [5];
-  
 export const AmbilNomor = ({navigation}) => {
   
   const [namaDokter, setNamaDokter] = useState([])
@@ -37,61 +33,71 @@ export const AmbilNomor = ({navigation}) => {
   const [numberOfItemsPerPage, onItemsPerPageChange] = useState(
     numberOfItemsPerPageList[0],
   );
-  useEffect(() => {
-    async function getNamaDokter() {
-      const list = route.params.jsonRes
+  const [cachedList, setCachedList] = useState([]);
 
-      let dokterArray = await list.map(item => {
-        return {key: item.dokter_id, value: item.nama_dokter};
-      });
-      let namaKlinik = list.map(item => {
-        return item.keahlian;
-       });
-      setKeahlian(namaKlinik[0].nama_keahlian)
-      setNamaDokter(dokterArray);
+  const getNamaDokter = useCallback(async () => {
+    let list;
+    if (cachedList.length > 0) {
+      list = cachedList;
+    } else {
+      list = route.params?.jsonRes;
+      setCachedList(list);
     }
-    
-    getNamaDokter();
-  }, []);
+  
+    const dokterArray = await list.map(item => {
+      return { key: item.dokter_id, value: item.nama_dokter };
+    });
+    const namaKlinik = list.map(item => {
+      return item.keahlian;
+    });
+    setKeahlian(namaKlinik[0].nama_keahlian);
+    setNamaDokter(dokterArray);
+  }, [cachedList, route.params?.jsonRes]);
+  
   useEffect(() => {
-    function getListPasien() {
-      const payload = {
-        dokter, 
-        klinik,
-        hari
-      }
+    getNamaDokter();
+  }, [getNamaDokter])
+  
+  const payload = useMemo(() => ({ dokter, klinik, hari }), [dokter, klinik, hari]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (!dokter) return;
+
       fetch(`${API_URL}/antrian`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        body: JSON.stringify(payload)
-      }).then(async (res) => {
-        const list = await res.json()
-        const namaPasien = list.map((item, index) => {
-          let i = index + 1
-          return {nama: item.namaPasien, key : i}
-        })
-      setNamaPasien(namaPasien);
+        body: JSON.stringify(payload),
       })
-    }
-    if(!dokter) return
-    getListPasien()
-    console.log('jalan');
-  }, [dokter, setDokter, hari])
+        .then(res => res.json())
+        .then(list => {
+          const namaPasien = list.map((item, index) => ({
+            nama: item.namaPasien,
+            key: index + 1,
+          }));
+          setNamaPasien(namaPasien);
+        })
+        .catch(error => {
+          console.error(error)
+        });
+    }, [dokter, klinik, hari]),
+  );
+
 
   const from = page * numberOfItemsPerPage;
   const to = Math.min((page + 1) * numberOfItemsPerPage, namaPasien?.length);
 
-  const tableRow = namaPasien => (
+  const tableRow = useCallback((namaPasien) => (
     <DataTable.Row key={namaPasien.key}>
-      <DataTable.Cell >{namaPasien.key}</DataTable.Cell>
-      <DataTable.Cell >{namaPasien.nama}</DataTable.Cell>
+      <DataTable.Cell>{namaPasien.key}</DataTable.Cell>
+      <DataTable.Cell>{namaPasien.nama}</DataTable.Cell>
     </DataTable.Row>
-  );
+  ), []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPage(0);
   }, [numberOfItemsPerPage]);
 
@@ -117,7 +123,7 @@ export const AmbilNomor = ({navigation}) => {
             }
             onPress={() => {
               setWaktu('Hari ini'),
-                setHari('Selasa, 30 Januari 2022'),
+                setHari(moment().locale('id').format('dddd, DD MMMM YYYY')),
                 setPressWaktu(false);
             }}>
             <Text style={stylesAmbilNomor.buttonHBTitle}>Hari ini</Text>
@@ -134,7 +140,7 @@ export const AmbilNomor = ({navigation}) => {
             }
             onPress={() => {
               setWaktu('Besok'),
-                setHari('Rabu, 31 Januari 2022'),
+                setHari(moment().locale('id').add(1, 'day').calendar({nextDay: 'dddd, DD MMMM YYYY'})),
                 setPressWaktu(true);
             }}>
             <Text style={stylesAmbilNomor.buttonHBTitle}>Besok</Text>
@@ -148,10 +154,10 @@ export const AmbilNomor = ({navigation}) => {
           </Text>
           <Text style={stylesAmbilNomor.dokterNamaTitle}>Pilih Dokter</Text>
           <SelectList
-            setSelected={value => setSelected(value)}
+            setSelected={value => setDokter(value)}
             onSelect={() => setPressNomor(false)}
             data={namaDokter}
-            save="value"
+            save="key"
             notFoundText={true}
             placeholder={'Dokter'}
             search={false}

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {stylesDashboard} from './Style';
 import {
   View,
@@ -14,8 +14,10 @@ import {Icon} from '@rneui/themed';
 
 export const MainNavbar = props => {
   const {userdata} = useContext(makeContext);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const {navigation, type} = props;
+  const [profilePic, setProfilePic] = useState(userdata.profilePic);
+
   // const type = props.type;
   // const type = '';
 
@@ -59,8 +61,11 @@ export const MainNavbar = props => {
                 {userdata.namalengkap}
               </Text>
               <Image
+                source={{
+                  uri: profilePic,
+                }}
+                defaultSource={require('./image/PhotoProfile.png')}
                 style={stylesDashboard.accountImage}
-                source={require('./image/PhotoProfile.png')}
               />
             </View>
           </TouchableWithoutFeedback>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,40 +13,111 @@ import Modal from 'react-native-modal';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Button} from 'react-native-paper';
 import {MainNavbar} from '../../MainNavbar';
+import { makeContext } from '../../UseContext';
+import { API_URL } from '../../../App';
+import { klinikContext } from '../../KlinikContext';
+import moment from 'moment';
+import 'moment/locale/id'
 
 export const Diagnosa = ({navigation}) => {
   const {width} = 100 % +10;
-  const [catatan, setCatatan] = useState();
+  const [catatan, setCatatan] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [openObat, setOPenObat] = useState();
-  const [valueObat, setValueObat] = useState();
-
+  const [valueObat, setValueObat] = useState()
+  const [banyak, setBanyak] = useState()
+  const {userdata} = useContext(makeContext)
+  const {klinik} = useContext(klinikContext)
+  const [dataPasien, setDataPasien] = useState({namaPasien: 'Tidak ada pasien saat ini'})
+  const hari = moment().locale('id').format('dddd, DD MMMM YYYY')
   const [obat, setObat] = useState([
-    {label: 'Parasetamol', value: 'paracetamol'},
-    {label: 'Promag', value: 'promag'},
+    {label: 'Parasetamol', value: 'paracetamol', harga: 4000},
+    {label: 'Promag', value: 'promag', harga: 5000},
+    {label: 'Ibu Profen', value: 'ibuprofen', harga: 1000}
   ]);
+  const [pilihObat, setPilihObat] = useState([])
 
-  const pilihObat = [
-    {nama: 'Promag', jumlah: 1, harga: 10000},
-    {nama: 'Parasetamol', jumlah: 3, harga: 13000},
-    {nama: 'Ibu Profen', jumlah: 5, harga: 5000},
-  ];
-
-  let jumlah = 0;
+  useEffect(() => {
+    const payload = {
+      klinik,
+      hari,
+      dokter: userdata.namalengkap
+    }
+    function getPasien(){
+      setDataPasien('Loading...')
+      fetch(`${API_URL}/pasien`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        body: JSON.stringify(payload),
+      })
+      .then( res =>  res.json())
+      .then((list) => {
+        setDataPasien(list[0])
+      })
+    }
+    getPasien()
+  },[])
+  let jumlah = 0
   pilihObat.map(data => {
-    return (jumlah += data.jumlah * data.harga);
-  });
+    return (jumlah += data.jumlah * data.harga)
+  })
+  function addToArr() {
+    filterData.map(item => {
+      const existingItem = pilihObat.find(obj => obj.nama === item.label);
+      if (existingItem) {
+        existingItem.jumlah += parseInt(banyak, 10) 
+      } else {
+        pilihObat.push({
+          nama: item.label,
+          jumlah: parseInt(banyak, 10) || 1,
+          harga: item.harga,
+        })
+      }
+    })
+  }
+
+  function sendDiagnosa() {
+    const payload = {
+      pilihObat,
+      pasien_id: dataPasien.pasien_id,
+      catatan
+    }
+
+    fetch(`${API_URL}/diagnosa`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    body: JSON.stringify(payload),
+  })
+  }
+
+  let filterData = obat.filter(item =>
+    item.value.includes(valueObat),
+  );
 
   return (
+    
     <ScrollView>
+
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
         <MainNavbar navigation={navigation} menuType={'dokterPage'} />
         <Text style={stylesHasil.title}>Diagnosa</Text>
-        <View style={stylesHasil.identitasContainer}>
-          <Text style={stylesHasil.identitasText}>
-            Nama pasien : Zeke Yeager
-          </Text>
-        </View>
+        {dataPasien.namaPasien ? (
+          <View style={stylesHasil.identitasContainer}>
+            <Text style={stylesHasil.identitasText}>
+              {`Nama pasien : ${dataPasien.namaPasien}`}
+            </Text>
+          </View>
+        ) : (
+          <View style={stylesHasil.identitasContainer}>
+            <Text style={stylesHasil.identitasText}>{`Loading...`}</Text>
+          </View>
+        )}
         <View style={stylesHasil.identitasContainer}>
           <TextInput
             placeholder="Penyakit pasien"
@@ -58,6 +129,7 @@ export const Diagnosa = ({navigation}) => {
             }}
           />
         </View>
+
         <Icon
           name="plus"
           type="foundation"
@@ -107,6 +179,7 @@ export const Diagnosa = ({navigation}) => {
                 onPress={() => setOpenModal(false)}
               />
             </View>
+            
             <Text style={{fontSize: 20, fontWeight: '700', color: 'black'}}>
               Nama Obat
             </Text>
@@ -122,10 +195,12 @@ export const Diagnosa = ({navigation}) => {
                 containerStyle={{height: openObat ? 150 : 50}}
               />
             </View>
+            
             <Text style={{fontSize: 20, fontWeight: '700', color: 'black'}}>
               Jumlah
             </Text>
             <TextInput
+              onChangeText={text => setBanyak(text)}
               placeholder="Jumlah"
               keyboardType="numeric"
               style={{
@@ -148,7 +223,7 @@ export const Diagnosa = ({navigation}) => {
                   paddingVertical: 5,
                   borderRadius: 6,
                 }}
-                onPress>
+                onPress={() => setOpenModal(false)}>
                 <Text
                   style={{
                     fontSize: 20,
@@ -160,6 +235,11 @@ export const Diagnosa = ({navigation}) => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
+                onPress={() => {
+                  addToArr();
+                  console.log(pilihObat);
+                  setOpenModal(false);
+                }}
                 style={{
                   backgroundColor: '#00096E',
                   width: '45%',
@@ -184,7 +264,7 @@ export const Diagnosa = ({navigation}) => {
             stylesHasil.obatContainer,
             {borderTopWidth: 1, borderTopLeftRadius: 6},
           ]}>
-          <Text style={stylesHasil.obatTanggal}>30 Januari 2023</Text>
+          <Text style={stylesHasil.obatTanggal}>{hari}</Text>
           <DataTable
             style={{
               marginHorizontal: -10,
@@ -297,8 +377,7 @@ export const Diagnosa = ({navigation}) => {
           <TextInput
             placeholder="Catatan Dokter"
             multiline={true}
-            value={catatan}
-            onChangeText={e => setCatatan(e)}
+            onChangeText={text => setCatatan(text)}
             style={{
               padding: 0,
               fontSize: 15,
@@ -322,7 +401,7 @@ export const Diagnosa = ({navigation}) => {
             fontWeight: '600',
             textAlign: 'center',
           }}
-          onPress={() => navigation.navigate('ConfirmDiagnosa')}>
+          onPress={() => sendDiagnosa()}>
           Berikan hasil diagnosis
         </Button>
       </View>

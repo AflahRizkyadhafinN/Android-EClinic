@@ -101,7 +101,7 @@ export const Login = ({navigation}) => {
           if (res.status === 200) {
             setRememberLoggedIn(true);
             setUserData(userdata);
-             if (jsonRes.level === 2) {
+             if (userdata.level === 2) {
               navigation.navigate('PilihDokter');
             }else {
               navigation.navigate('Dashboard');

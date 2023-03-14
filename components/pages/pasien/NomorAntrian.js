@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import {stylesGeneral, stylesNomorAntrian} from '../../Style';
 import {MainNavbar} from '../../MainNavbar';
@@ -12,90 +12,88 @@ export const NomorAntrian = ({navigation}) => {
   const [tanggalDaftar, setTanggalDaftar] = useState('')
   const socket = new WebSocket(`ws://10.10.10.91:8080`)
   const [confirm, setConfirm] = useState()
-  useEffect(() => {
-    async function daftar(){
-      const jwt = await Keychain.getGenericPassword();
-      const keyToken = jwt.password
-      const payload = {
-        pasien_id : userdata.id,
-      };
+  const daftar = useCallback(async () => {
+    const jwt = await Keychain.getGenericPassword();
+    const keyToken = jwt.password
+    const payload = {
+      pasien_id : userdata.id,
+    };
     console.log(payload);
-      fetch(`${API_URL}/nodaftar`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${keyToken}`,
-        },
-        body: JSON.stringify(payload),
-      }).then(async res => {
-        const dataRes = await res.json()
-        setNoAntrian(dataRes.noDaftar)
-        setTanggalDaftar(dataRes.tanggal_pendaftaran)
-      }).catch(err => {
-        console.log(err);
-      })
-    }
-  daftar()
-  },[])
+    fetch(`${API_URL}/nodaftar`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${keyToken}`,
+      },
+      body: JSON.stringify(payload),
+    }).then(async res => {
+      const dataRes = await res.json()
+      setNoAntrian(dataRes.noDaftar)
+      setTanggalDaftar(dataRes.tanggal_pendaftaran)
+    }).catch(err => {
+      console.log(err);
+    })
+  }, [userdata.id])
 
   useEffect(() => {
-    socket.onopen = () =>{
+    socket.onopen = () => {
       socket.send(JSON.stringify({
         data: noAntrian,
         channel: 'confirmation'
       }))
     }
-  }, [noAntrian])
-  
-  socket.onclose = () => {
 
-    console.log('closed');
-  }
+    socket.onclose = () => {
+      console.log('closed');
+    }
 
-  socket.onmessage = event => {
-    const data = JSON.parse(event.data)
-    setConfirm(data.data)
-  }
+    socket.onmessage = event => {
+      const data = JSON.parse(event.data)
+      setConfirm(data.data)
+    }
+  }, [noAntrian, socket])
 
-  function TextKonfirmasi() {
+  useEffect(() => {
+    daftar()
+  }, [daftar])
+
+  const TextKonfirmasi = useCallback(function TextKonfirmasi() {
     if (!confirm) {
       return (
-        <Text
-        style={stylesNomorAntrian.arahan}>
-        Berikan nomor pendaftaran pada petugas klinik yang anda daftar untuk
-        mendapat antrian
-      </Text>
-      )
+        <Text style={stylesNomorAntrian.arahan}>
+          Berikan nomor pendaftaran pada petugas klinik yang anda daftar untuk
+          mendapat antrian
+        </Text>
+      );
     }
     return (
       <Text
-      style={stylesNomorAntrian.arahan}
-      onPress={() => {navigation.navigate('AmbilNomor'); socket.close()}}>
-      Tekan untuk meliihat nomor antrian anda
-    </Text>
-    )
-  }
+        style={stylesNomorAntrian.arahan}
+        onPress={() => {
+          navigation.navigate('AmbilNomor');
+          socket.close();
+        }}>
+        Tekan untuk melihat nomor antrian anda
+      </Text>
+    );
+  }, [confirm]);
 
 
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar
-          navigation={navigation}
-          type={'default'}
-          menuType={'default'}
-        />
-        <Text style={stylesNomorAntrian.title}>Antrian</Text>
+        <MainNavbar navigation={navigation} />
+        <Text style={stylesNomorAntrian.title}>Pendaftaran</Text>
         <View style={stylesNomorAntrian.antrianContainer}>
           <View style={stylesNomorAntrian.antrianNomorContainer}>
-            <Text style={stylesNomorAntrian.antrianNomor}>001</Text>
+            <Text style={stylesNomorAntrian.antrianNomor}>{noAntrian}</Text>
           </View>
           <Text style={stylesNomorAntrian.antrianNama}>
             Hai {userdata.namalengkap}
           </Text>
           <Text style={stylesNomorAntrian.antrianWaktu}>
-            Kamu mendaftar pada 30 Januari 2022
+            {`Kamu mendaftar pada ${tanggalDaftar}`}
           </Text>
         </View>
         <TextKonfirmasi />

@@ -18,9 +18,6 @@ export const Dokter = ({navigation}) => {
   const [cariDokter, setCariDokter] = useState('');
   const [cariKeahlian, setCariKeahlian] = useState('');
   const [outKeahlian, setOutKeahlian] = useState();
-  const [cariDokter, setCariDokter] = useState('');
-  const [dokter, setDokter] = useState([]);
-  const [keahlianList, setKeahlianList] = useState([]);
   const {klinik} = useContext(klinikContext);
 
   useEffect(() => {
@@ -75,15 +72,6 @@ export const Dokter = ({navigation}) => {
     getListKeahlian();
     getListDokter();
   }, []);
-          setKeahlianList(keahlianArray);
-        } catch (err) {
-          console.log(err);
-        }
-      });
-    }
-    getListKeahlian();
-    getListDokter();
-  }, []);
 
   useEffect(() => {
     const filterKeahlian = keahlianList.filter(data => {
@@ -109,6 +97,8 @@ export const Dokter = ({navigation}) => {
       </View>
     );
   };
+
+  if(!dokter) return
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>

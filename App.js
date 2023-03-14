@@ -23,15 +23,16 @@ import {ConfirmPembayaran} from './components/pages/pasien/ConfirmPembayaran';
 import {BuktiPembayaran} from './components/pages/pasien/BuktiPembayaran';
 
 // Import Page Dokter
-import {ConfirmDiagnosa} from './components/pages/dokter/ConfirmDiagnosa';
-import {PilihDokter} from './components/pages/dokter/PilihDokter';
-import {Diagnosa} from './components/pages/dokter/Diagnosa';
+import {ConfirmDiagnosa} from './components/pages/Dokter/ConfirmDiagnosa';
+import {PilihDokter} from './components/pages/Dokter/PilihDokter';
+import {Diagnosa} from './components/pages/Dokter/Diagnosa';
 
 import {Alert} from 'react-native';
 import {UserData} from './components/UseContext';
 import Keychain from 'react-native-keychain';
 import {KlinikNama} from './components/KlinikContext';
 import DeviceInfo from 'react-native-device-info';
+import { Linking } from 'react-native';
 
 export const API_URL = 'http://10.10.10.91:5000';
 const Stack = createNativeStackNavigator();
