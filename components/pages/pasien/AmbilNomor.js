@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   ScrollView,
@@ -91,14 +91,18 @@ export const AmbilNomor = ({navigation}) => {
     </DataTable.Row>
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     setPage(0);
   }, [numberOfItemsPerPage]);
 
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar navigation={navigation} />
+        <MainNavbar
+          navigation={navigation}
+          type={'default'}
+          menuType={'default'}
+        />
         <Text style={stylesAmbilNomor.title}>{keahlian}</Text>
         <View style={stylesAmbilNomor.buttonHBContainer}>
           <TouchableOpacity
@@ -113,7 +117,7 @@ export const AmbilNomor = ({navigation}) => {
             }
             onPress={() => {
               setWaktu('Hari ini'),
-                setHari(moment().locale('id').format('dddd, DD MMMM YYYY')),
+                setHari('Selasa, 30 Januari 2022'),
                 setPressWaktu(false);
             }}>
             <Text style={stylesAmbilNomor.buttonHBTitle}>Hari ini</Text>
@@ -130,7 +134,7 @@ export const AmbilNomor = ({navigation}) => {
             }
             onPress={() => {
               setWaktu('Besok'),
-                setHari(moment().locale('id').add(1, 'day').calendar({nextDay: 'dddd, DD MMMM YYYY'})),
+                setHari('Rabu, 31 Januari 2022'),
                 setPressWaktu(true);
             }}>
             <Text style={stylesAmbilNomor.buttonHBTitle}>Besok</Text>
@@ -144,10 +148,10 @@ export const AmbilNomor = ({navigation}) => {
           </Text>
           <Text style={stylesAmbilNomor.dokterNamaTitle}>Pilih Dokter</Text>
           <SelectList
-            setSelected={value => setDokter(value)}
+            setSelected={value => setSelected(value)}
             onSelect={() => setPressNomor(false)}
             data={namaDokter}
-            save="key"
+            save="value"
             notFoundText={true}
             placeholder={'Dokter'}
             search={false}
@@ -161,16 +165,16 @@ export const AmbilNomor = ({navigation}) => {
             dropdownTextStyles={stylesAmbilNomor.selectListTextActive}
           />
         </View>
-        <TouchableOpacity
-          disabled={pressNomor}
+        <Button
+          mode="contained"
           onPress={() => daftar(userdata.id, dokter, klinik, hari, navigation)}
-          style={
-            pressNomor
-              ? stylesAmbilNomor.nomorButtonContainer
-              : stylesAmbilNomor.nomorButtonContainerActive
-          }>
-          <Text style={stylesAmbilNomor.nomorTitle}>Daftar</Text>
-        </TouchableOpacity>
+          disabled={pressNomor}
+          style={{borderRadius: 6, klinik, hari, marginTop: 6}}
+          buttonColor={pressNomor ? 'grey' : '#00096E'}
+          textColor={'white'}
+          labelStyle={stylesAmbilNomor.nomorTitle}>
+          Ambil Nomor
+        </Button>
         <View style={stylesAmbilNomor.ketPasienContainer}>
           <Text style={stylesAmbilNomor.ketPasienJumlah}>Pasien Terdaftar</Text>
           <PaperProvider theme={{

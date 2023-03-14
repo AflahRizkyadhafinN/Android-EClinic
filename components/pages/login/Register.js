@@ -65,7 +65,7 @@ export const Register = ({navigation}) => {
       <Button
         mode="contained"
         buttonColor="black"
-        textColor="white"
+        textColor="#dfdfdf"
         labelStyle={stylesRegister.buttonTitle}
         style={{borderRadius: 6, marginTop: 10}}
         onPress={() => setpass(email, sNik, sNamaLengkap, navigation)}>

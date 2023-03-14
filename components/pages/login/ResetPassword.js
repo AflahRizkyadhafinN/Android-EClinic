@@ -84,7 +84,7 @@ export const ResetPassword = ({navigation}) => {
       <Button
         mode="contained"
         buttonColor="black"
-        textColor="white"
+        textColor="#dfdfdf"
         style={{borderRadius: 6, marginTop: 10}}
         labelStyle={stylesRPassword.buttonLogin}
         onPress={() => CheckPass()}>

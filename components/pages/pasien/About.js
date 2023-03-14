@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import {View, ScrollView, Text, Image, TouchableOpacity} from 'react-native';
 import {MainNavbar} from '../../MainNavbar';
 import {stylesGeneral, stylesAbout} from '../../Style';
@@ -15,7 +15,7 @@ export const About = ({navigation}) => {
       function getKlinik() {
         const payload = {
           klinik,
-        };å
+        };
         fetch(`${API_URL}/klinik`, {
           method: 'POST',
           headers: {
@@ -40,14 +40,18 @@ export const About = ({navigation}) => {
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar navigation={navigation} />
+        <MainNavbar
+          navigation={navigation}
+          type={'default'}
+          menuType={'default'}
+        />
         <Image
           style={stylesAbout.clinicIcon}
           source={require('../../image/logo.png')}
         />
-        <Text style={stylesAbout.clinicName}>{dataKlinik.namaKlinik}</Text>
+        <Text style={stylesAbout.clinicName}>E-Clinic</Text>
         <Text style={stylesAbout.clinicAddress}>
-          {`${dataKlinik.alamat}, ${dataKlinik.kode_pos} `}
+          Jl. Lorem No.9 Cigajah Bandung, Jawa barat 40171
         </Text>
         <View style={stylesAbout.contactContainer}>
           <Text style={stylesAbout.contactTitle}>Hubungi kami di :</Text>
@@ -58,7 +62,7 @@ export const About = ({navigation}) => {
               color={'#000'}
               size={50}
             />
-            <Text style={stylesAbout.contactDescription}>{dataKlinik.no_kontak}</Text>
+            <Text style={stylesAbout.contactDescription}>083245678934</Text>
           </View>
           <View style={stylesAbout.contactDescContainer}>
             <Icon
@@ -67,7 +71,7 @@ export const About = ({navigation}) => {
               color={'#000'}
               size={50}
             />
-            <Text style={stylesAbout.contactDescription}>{dataKlinik.no_wa}</Text>
+            <Text style={stylesAbout.contactDescription}>083237568013</Text>
           </View>
           <View style={stylesAbout.contactDescContainer}>
             <Icon
@@ -77,7 +81,7 @@ export const About = ({navigation}) => {
               size={50}
             />
             <Text style={stylesAbout.contactDescription}>
-            {dataKlinik.email}
+              EClinic123@gmail.com
             </Text>
           </View>
         </View>

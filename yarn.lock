@@ -7078,7 +7078,7 @@
   dependencies:
     "moment" ">= 2.9.0"
 
-"moment@^2.22.2", "moment@>= 2.9.0":
+"moment@^2.22.2", "moment@^2.29.4", "moment@>= 2.9.0":
   "integrity" "sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w=="
   "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.4.tgz"
   "version" "2.29.4"
@@ -7987,7 +7987,7 @@
     "shell-quote" "^1.6.1"
     "ws" "^7"
 
-"react-dom@^18.2.0":
+"react-dom@^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^18.2.0":
   "integrity" "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   "version" "18.2.0"
@@ -8066,6 +8066,11 @@
     "flow-parser" "^0.185.0"
     "jscodeshift" "^0.13.1"
     "nullthrows" "^1.1.1"
+
+"react-native-device-info@^10.4.0":
+  "integrity" "sha512-Z37e0HtpBvfkPRgv4xN7lXpvmJyzjwCXSFTXEkw6m2UgnnIsWlOD02Avu4hJXBlIMMazaW3ZLKal3o9h3AYvCw=="
+  "resolved" "https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-10.4.0.tgz"
+  "version" "10.4.0"
 
 "react-native-dropdown-picker@^5.4.4":
   "integrity" "sha512-MGsFc3Oi6Rc94WoJk3oOGfPe6IVscCrWn1DRCUDB508U4Wmd2b+EYONpsgiXQ89ESoBcOE3qQR6gkY2CVxoC+Q=="
@@ -8149,9 +8154,9 @@
     "lodash" "^4.17.15"
 
 "react-native-reanimated@*":
-  "integrity" "sha512-DquSbl7P8j4SAmc+kRdd75Ianm8G+IYQ9T4AQ6lrpLVeDkhZmjWI0wkutKWnp6L7c5XNVUrFDUf69dwETLCItQ=="
-  "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.14.4.tgz"
-  "version" "2.14.4"
+  "integrity" "sha512-zesX0VwzqUjcD6aY+jlDLqZWMn/nUx8RfIRHUMEn0NzcFHXk3TnMkWL2K/gx4k6NOMhtaBAx866ShRtR+i1hgQ=="
+  "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-3.0.1.tgz"
+  "version" "3.0.1"
   dependencies:
     "@babel/plugin-transform-object-assign" "^7.16.7"
     "@babel/preset-typescript" "^7.16.7"
@@ -8375,6 +8380,13 @@
     "@react-navigation/core" "^3.7.9"
     "@react-navigation/native" "^3.8.4"
 
+"react-number-format@^5.1.4":
+  "integrity" "sha512-QV7QHzHrk9ZS9V0bWkIwu6ywiXJt0www4/cXWEVEgwaNqthmOZl/Cf5O0ukEPlGZJJr06Jh3+CM4rZsvXn8cOg=="
+  "resolved" "https://registry.npmjs.org/react-number-format/-/react-number-format-5.1.4.tgz"
+  "version" "5.1.4"
+  dependencies:
+    "prop-types" "^15.7.2"
+
 "react-proxy@^1.1.7":
   "integrity" "sha512-46GkBpZD97R/vV+iw+u6aFACzIHOst9gCl41d5K5vepPBz2i2gqHmXQJWKXsrUsSOdylKahN3sd9taswFN8Wzw=="
   "resolved" "https://registry.npmjs.org/react-proxy/-/react-proxy-1.1.8.tgz"
@@ -8413,7 +8425,7 @@
     "global" "^4.3.0"
     "react-proxy" "^1.1.7"
 
-"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^18.2.0", "react@>= 16.x.x", "react@>=15.0.0", "react@>=16.0", "react@>=16.3.0", "react@>=16.8", "react@>=17.0.0", "react@18.2.0":
+"react@*", "react@^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^18.2.0", "react@>= 16.x.x", "react@>=15.0.0", "react@>=16.0", "react@>=16.3.0", "react@>=16.8", "react@>=17.0.0", "react@18.2.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"

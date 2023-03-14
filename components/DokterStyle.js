@@ -1,9 +1,10 @@
 import {color} from '@rneui/base';
 import {StyleSheet} from 'react-native';
+import './Style';
 
 export const pilihDokterStyles = StyleSheet.create({
   title: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: '700',
     color: 'black',
   },
@@ -54,15 +55,6 @@ export const pilihDokterStyles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  buttonContainer: {
-    marginTop: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 6,
-    backgroundColor: '#00096E',
-    paddingVertical: 5,
-  },
-
   buttonLabel: {
     textAlign: 'center',
     fontSize: 20,
@@ -94,17 +86,5 @@ export const cDiagnosaStyles = StyleSheet.create({
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
     padding: 10,
-  },
-
-  buttonText: {
-    backgroundColor: '#00096E',
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '700',
-    textAlign: 'center',
-    width: '50%',
-    alignSelf: 'center',
-    paddingVertical: 5,
-    borderRadius: 6,
   },
 });

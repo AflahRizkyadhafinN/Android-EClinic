@@ -11,6 +11,8 @@ import {stylesGeneral, stylesHasil} from '../../Style';
 import {Icon} from '@rneui/themed';
 import Modal from 'react-native-modal';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {Button} from 'react-native-paper';
+import {MainNavbar} from '../../MainNavbar';
 
 export const Diagnosa = ({navigation}) => {
   const {width} = 100 % +10;
@@ -24,11 +26,22 @@ export const Diagnosa = ({navigation}) => {
     {label: 'Promag', value: 'promag'},
   ]);
 
-  console.log(catatan);
+  const pilihObat = [
+    {nama: 'Promag', jumlah: 1, harga: 10000},
+    {nama: 'Parasetamol', jumlah: 3, harga: 13000},
+    {nama: 'Ibu Profen', jumlah: 5, harga: 5000},
+  ];
+
+  let jumlah = 0;
+  pilihObat.map(data => {
+    return (jumlah += data.jumlah * data.harga);
+  });
+
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <Text style={stylesHasil.title}>Hasil</Text>
+        <MainNavbar navigation={navigation} menuType={'dokterPage'} />
+        <Text style={stylesHasil.title}>Diagnosa</Text>
         <View style={stylesHasil.identitasContainer}>
           <Text style={stylesHasil.identitasText}>
             Nama pasien : Zeke Yeager
@@ -61,7 +74,11 @@ export const Diagnosa = ({navigation}) => {
           }}
           onPress={() => setOpenModal(true)}
         />
-        <Modal isVisible={openModal}>
+        <Modal
+          isVisible={openModal}
+          onBackdropPress={() => setOpenModal(false)}
+          animationIn={'fadeIn'}
+          animationOut={'fadeOut'}>
           <View
             style={{
               backgroundColor: 'white',
@@ -162,54 +179,107 @@ export const Diagnosa = ({navigation}) => {
             </View>
           </View>
         </Modal>
-        <View style={stylesHasil.obatContainer}>
+        <View
+          style={[
+            stylesHasil.obatContainer,
+            {borderTopWidth: 1, borderTopLeftRadius: 6},
+          ]}>
           <Text style={stylesHasil.obatTanggal}>30 Januari 2023</Text>
           <DataTable
-            style={{marginHorizontal: -10, width: width, marginBottom: -11}}>
+            style={{
+              marginHorizontal: -10,
+              width: width,
+              marginBottom: -11,
+            }}>
             <DataTable.Header style={stylesHasil.tableHeader}>
-              <DataTable.Title textStyle={stylesHasil.tableHeaderText}>
+              <DataTable.Title
+                textStyle={stylesHasil.tableHeaderText}
+                style={{justifyContent: 'center', flex: 3}}>
                 Nama Obat
               </DataTable.Title>
-              <DataTable.Title textStyle={stylesHasil.tableHeaderText}>
+              <DataTable.Title
+                textStyle={[stylesHasil.tableHeaderText]}
+                style={{
+                  justifyContent: 'center',
+                  flex: 2,
+                  borderLeftWidth: 1,
+                  borderRightWidth: 1,
+                  borderColor: 'white',
+                }}>
                 Jumlah
               </DataTable.Title>
+              <DataTable.Title
+                textStyle={[stylesHasil.tableHeaderText]}
+                style={{justifyContent: 'center', flex: 1}}>
+                Action
+              </DataTable.Title>
             </DataTable.Header>
-            <DataTable.Row>
-              <DataTable.Cell style={{flex: 1.5}}>
-                Metformin (biguanid)
-              </DataTable.Cell>
-              <DataTable.Cell style={stylesHasil.centerBorder}>
-                1
-              </DataTable.Cell>
-              <DataTable.Cell style={[stylesHasil.centerBorder, {flex: -1}]}>
-                <Icon
-                  name="minus-circle"
-                  type="foundation"
-                  size={25}
-                  color={'white'}
-                  style={{
-                    backgroundColor: '#DD4445',
-                    paddingHorizontal: 12,
-                    paddingVertical: 2,
-                    borderRadius: 6,
-                    margin: 0,
-                  }}
-                />
-              </DataTable.Cell>
-            </DataTable.Row>
+            {pilihObat.map((data, index) => {
+              return (
+                <DataTable.Row key={index}>
+                  <DataTable.Cell style={{flex: 3}}>{data.nama}</DataTable.Cell>
+                  <DataTable.Cell
+                    style={[
+                      stylesHasil.centerBorder,
+                      {
+                        flex: 2,
+                        borderRightWidth: 1,
+                        justifyContent: 'center',
+                      },
+                    ]}>
+                    {data.jumlah}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    style={[
+                      stylesHasil.centerBorder,
+                      {
+                        flex: 1,
+                        justifyContent: 'center',
+                      },
+                    ]}>
+                    <Icon
+                      name="minus-circle"
+                      type="foundation"
+                      size={25}
+                      color={'white'}
+                      style={{
+                        backgroundColor: '#DD4445',
+                        paddingHorizontal: 12,
+                        paddingVertical: 2,
+                        borderRadius: 6,
+                        margin: 0,
+                      }}
+                      onPress={() => {}}
+                    />
+                  </DataTable.Cell>
+                </DataTable.Row>
+              );
+            })}
             <DataTable.Row
               style={[
                 stylesHasil.tableJumlah,
-                {borderBottomLeftRadius: 6, borderBottomRightRadius: 6},
+                {
+                  borderBottomLeftRadius: 6,
+                  borderBottomRightRadius: 6,
+                },
               ]}>
-              <DataTable.Cell textStyle={stylesHasil.tableJumlahText}>
+              <DataTable.Cell
+                numberOfLines={1}
+                textStyle={stylesHasil.tableJumlahText}
+                style={{flex: 3}}>
                 Jumlah :
               </DataTable.Cell>
               <DataTable.Cell
-                style={[stylesHasil.centerBorder]}
+                style={[
+                  stylesHasil.centerBorder,
+                  {flex: 2, justifyContent: 'center'},
+                ]}
                 textStyle={stylesHasil.tableJumlahText}>
-                Rp 99.000
+                Rp {jumlah}
               </DataTable.Cell>
+              <DataTable.Cell
+                style={[stylesHasil.centerBorder, {flex: 1}]}
+                textStyle={stylesHasil.tableJumlahText}></DataTable.Cell>
             </DataTable.Row>
           </DataTable>
         </View>
@@ -237,28 +307,24 @@ export const Diagnosa = ({navigation}) => {
             }}
           />
         </View>
-        <View
+        <Button
+          mode="contained"
           style={{
-            backgroundColor: '#00096E',
-            padding: 15,
             borderRadius: 6,
             marginTop: 10,
-            width: '55%',
+            width: '80%',
             alignSelf: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ConfirmDiagnosa')}>
-            <Text
-              style={{
-                fontSize: 15,
-                fontWeight: '700',
-                color: 'white',
-                textAlign: 'center',
-              }}>
-              Berikan hasil Diagnosis
-            </Text>
-          </TouchableOpacity>
-        </View>
+          }}
+          buttonColor="#00096E"
+          textColor="white"
+          labelStyle={{
+            fontSize: 15,
+            fontWeight: '600',
+            textAlign: 'center',
+          }}
+          onPress={() => navigation.navigate('ConfirmDiagnosa')}>
+          Berikan hasil diagnosis
+        </Button>
       </View>
     </ScrollView>
   );

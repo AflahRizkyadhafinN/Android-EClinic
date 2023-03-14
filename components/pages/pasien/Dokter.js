@@ -7,10 +7,15 @@ import { API_URL } from '../../../App';
 import { klinikContext } from '../../KlinikContext';
 import {MainNavbar} from '../../MainNavbar';
 import {stylesGeneral, stylesDokter} from '../../Style';
+import {Button} from 'react-native-paper';
 
 export const Dokter = ({navigation}) => {
+  const [select, setSelected] = React.useState('');
   const route = useRoute();
   const [color, setColor] = useState(true);
+  const [dokter, setDokter] = useState([]);
+  const [keahlianList, setKeahlianList] = useState([]);
+  const [cariDokter, setCariDokter] = useState('');
   const [cariKeahlian, setCariKeahlian] = useState('');
   const [outKeahlian, setOutKeahlian] = useState();
   const [cariDokter, setCariDokter] = useState('');
@@ -70,6 +75,15 @@ export const Dokter = ({navigation}) => {
     getListKeahlian();
     getListDokter();
   }, []);
+          setKeahlianList(keahlianArray);
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    }
+    getListKeahlian();
+    getListDokter();
+  }, []);
 
   useEffect(() => {
     const filterKeahlian = keahlianList.filter(data => {
@@ -95,12 +109,15 @@ export const Dokter = ({navigation}) => {
       </View>
     );
   };
-
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar navigation={navigation} />
-        <Text style={stylesDokter.mainTitle}>Dokter {klinik}</Text>
+        <MainNavbar
+          navigation={navigation}
+          type={'default'}
+          menuType={'default'}
+        />
+        <Text style={stylesDokter.mainTitle}>{klinik}</Text>
         <TextInput
           style={stylesDokter.searchDokter}
           placeholder="Nama Dokter"
@@ -113,6 +130,7 @@ export const Dokter = ({navigation}) => {
             setColor(false);
           }}
           data={keahlianList}
+          select={cariKeahlian}
           save="key"
           search={false}
           notFoundText={true}

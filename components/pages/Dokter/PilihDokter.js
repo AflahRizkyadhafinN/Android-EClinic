@@ -4,8 +4,10 @@ import {stylesGeneral, stylesProfile} from '../../Style';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useState} from 'react';
 import {pilihDokterStyles} from '../../DokterStyle';
+import {Button} from 'react-native-paper';
+import {MainNavbar} from '../../MainNavbar';
 
-export const PilihDokter = () => {
+export const PilihDokter = ({navigation}) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [namaDokter, setNamaDokter] = useState([
@@ -22,33 +24,45 @@ export const PilihDokter = () => {
   ]);
 
   return (
-    <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-      <Text style={pilihDokterStyles.title}>Diagnosa</Text>
-      <View style={pilihDokterStyles.mainContainer}>
-        <Text style={pilihDokterStyles.menuTitle}>Nama Dokter</Text>
-        <View style={pilihDokterStyles.secondContainer}>
-          <View style={{zIndex: 1}}>
-            <DropDownPicker
-              items={namaDokter}
-              open={open}
-              setOpen={setOpen}
-              value={value}
-              setValue={setValue}
-              setItems={setNamaDokter}
-              searchable={true}
-              containerStyle={{height: open ? 250 : 50}} 
-              style={pilihDokterStyles.dropdown}
-              labelStyle={pilihDokterStyles.dropdownLabel}
-              listItemLabelStyle={pilihDokterStyles.dropdownList}
-              dropDownContainerStyle={pilihDokterStyles.dropdownContainer}
-              placeholderStyle={{color: 'grey'}}
-            />
+    <ScrollView nestedScrollEnabled={true}>
+      <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
+        <MainNavbar navigation={navigation} menuType={'dokterPage'} />
+        <Text style={pilihDokterStyles.title}>Diagnosa</Text>
+        <View style={{marginTop: '60%', justifyContent: 'space-between'}}>
+          <View style={pilihDokterStyles.mainContainer}>
+            <Text style={pilihDokterStyles.menuTitle}>Nama Dokter</Text>
+            <View style={pilihDokterStyles.secondContainer}>
+              <View style={{zIndex: 1}}>
+                <DropDownPicker
+                  listMode="SCROLLVIEW"
+                  items={namaDokter}
+                  open={open}
+                  setOpen={setOpen}
+                  value={value}
+                  setValue={setValue}
+                  setItems={setNamaDokter}
+                  searchable={true}
+                  containerStyle={{height: open ? 250 : 50}} 
+                  style={pilihDokterStyles.dropdown}
+                  labelStyle={pilihDokterStyles.dropdownLabel}
+                  listItemLabelStyle={pilihDokterStyles.dropdownList}
+                  dropDownContainerStyle={pilihDokterStyles.dropdownContainer}
+                  placeholderStyle={{color: 'grey'}}
+                />
+              </View>
+              <Button
+                mode="contained"
+                style={{borderRadius: 6, marginTop: 10}}
+                buttonColor="#00096E"
+                textColor="white"
+                labelStyle={pilihDokterStyles.label}
+                onPress={() => navigation.navigate('Diagnosa')}>
+                Masuk
+              </Button>
+            </View>
           </View>
-          <TouchableOpacity style={pilihDokterStyles.buttonContainer}>
-            <Text style={pilihDokterStyles.buttonLabel}>Masuk</Text>
-          </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };

@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   ScrollView,
   View,
@@ -7,7 +7,6 @@ import {
   Image,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  RefreshControl,
 } from 'react-native';
 import {stylesGeneral, stylesProfile, stylesDashboard} from '../../Style';
 import RadioForm from 'react-native-simple-radio-button';
@@ -16,18 +15,45 @@ import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
 import {API_URL, getUpdateToken, update} from '../../../App';
 import {makeContext} from '../../UseContext';
 import DropDownPicker from 'react-native-dropdown-picker';
-import Modal from 'react-native-modal';
-import { Alert } from 'react-native';
-import {SideNavbar} from '../../SideNavbar';
-import {Icon} from '@rneui/themed';
+import {Button} from 'react-native-paper';
+import {MainNavbar} from '../../MainNavbar';
 
 export const Profile = ({navigation}) => {
   const {userdata, setUserData} = useContext(makeContext);
+  const [selected, setSelected] = React.useState('');
   const [edit, setEdit] = React.useState(false);
   const [openP, setOpenP] = useState(false);
   const [openGD, setOpenGD] = useState(false);
   const [valueP, setValueP] = useState(null);
   const [valueGD, setValueGD] = useState(null);
+
+  const [listpekerjaan, setListPekerjaan] = useState([
+    {label: 'Guru', value: 'guru'},
+    {label: 'Tentara', value: 'tentara'},
+    {label: 'Pedagang', value: 'pedagang'},
+    {label: 'Polisi', value: 'polisi'},
+    {label: 'Penyanyi', value: 'penyanyi'},
+    {label: 'Pelajar', value: 'pelajar'},
+    {label: 'Petani', value: 'petani'},
+    {label: 'Pegawai Swasta', value: 'pegawaiswasta'},
+    {label: 'Pegawai Negeri', value: 'pegawainegeri'},
+  ]);
+  const GDarah = [
+    {label: 'A', value: 'A'},
+    {label: 'A-', value: 'A-'},
+    {label: 'B', value: 'B'},
+    {label: 'B-', value: 'B-'},
+    {label: 'AB', value: 'AB'},
+    {label: 'AB-', value: 'AB-'},
+    {label: 'O', value: 'O'},
+    {label: 'O-', value: 'O-'},
+  ];
+
+  const Gender = [
+    {label: 'Laki-laki', value: 'Laki-laki'},
+    {label: 'Perempuan', value: 'Perempuan'},
+  ];
+  const route = useRoute();
   const id = userdata.id;
   const [namalengkap, setNamaLengkap] = useState(userdata.namalengkap);
   const [nik, setNik] = useState(userdata.nik);
@@ -43,42 +69,8 @@ export const Profile = ({navigation}) => {
   const [token, setToken] = useState('');
   const [kodepos, setKodePos] = useState(userdata.kodepos);
   const [kodewilayah, setKodeWilayah] = useState(userdata.kodewilayah);
-  const [wilayah, setWilayah] = useState([]);
   const [tanggal, setTanggal] = useState(userdata.tanggalLahir);
-  const [open, setOpen] = useState(false);
-  const [navbarOpen, setNavbarOpen] = useState(false);
-  const [debouncer, setDebouncer] = useState('');
-
-  const [listpekerjaan, setListPekerjaan] = useState([
-    {label: 'Guru', value: 'guru'},
-    {label: 'Tentara', value: 'tentara'},
-    {label: 'Pedagang', value: 'pedagang'},
-    {label: 'Polisi', value: 'polisi'},
-    {label: 'Penyanyi', value: 'penyanyi'},
-    {label: 'Pelajar', value: 'pelajar'},
-    {label: 'Petani', value: 'petani'},
-    {label: 'Pegawai Swasta', value: 'pegawaiswasta'},
-    {label: 'Pegawai Negeri', value: 'pegawainegeri'},
-  ]);
-  const [GDarah, setGDarah] = useState([]);
-
-  const Gender = [
-    {label: 'Laki-laki', value: 'Laki-laki'},
-    {label: 'Perempuan', value: 'Perempuan'},
-  ];
-
-  useEffect(() => {
-    function getGolonganDarah(){
-      fetch(`${API_URL}/darah`).then(async res => {
-        const data = await res.json();
-        setGDarah(data.map(item => {return {
-          label: item.nama,
-          value: item.golongan_darah_id,
-        }}))
-      })
-    }
-    getGolonganDarah()
-  }, [])
+  const [open, setOpen] = React.useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -140,72 +132,10 @@ export const Profile = ({navigation}) => {
       }
     });
   }
-
-  function debounce(func, delay) {
-    let timeoutId;
-    return function (...args) {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-      timeoutId = setTimeout(() => {
-        func.apply(this, args);
-      }, delay);
-    };
-  }
-
-  const changeTextDebouncer = debounce(text => {
-    setDebouncer(text);
-  }, 1000);
-
-  useEffect(() => {
-    if (debouncer.length > 0) {
-      console.log(debouncer);
-      fetch(`${API_URL}/wilayah?query=${debouncer}`)
-        .then(async res => {
-          try {
-            const wilayahRes = await res.json();
-            const wilayahArray = wilayahRes.map(item => {
-              return {
-                label: `${item.Kelurahan},  ${item.Kecamatan}, ${item.KabupatenKota}, ${item.Provinsi}`,
-                value: item.kodeWilayah,
-              };
-            });
-            setWilayah(wilayahArray);
-          } catch (err) {
-            console.error(err);
-          }
-        })
-        .catch(error => console.error(error));
-    }
-  }, [debouncer]);
-
   return (
     <ScrollView nestedScrollEnabled={true}>
       <View style={stylesGeneral.container}>
-        <View style={stylesDashboard.header}>
-          <Modal
-            isVisible={navbarOpen}
-            onBackdropPress={() => setNavbarOpen(false)}
-            style={{margin: 0}}
-            animationIn={'slideInLeft'}
-            animationOut={'slideOutLeft'}
-            animationInTiming={1200}
-            animationOutTiming={1200}>
-            <SideNavbar navigation={navigation} />
-          </Modal>
-          <TouchableWithoutFeedback onPress={() => setNavbarOpen(true)}>
-            <View style={stylesDashboard.menuContainer}>
-              <Icon
-                name="menu"
-                type="entypo"
-                color={'#00096E'}
-                size={40}
-                style={{alignContent: 'center'}}
-              />
-              <Text style={stylesDashboard.menu}>Menu</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+        <MainNavbar navigation={navigation} menuType={'default'} />
         <TouchableOpacity disabled={!edit}>
           <Image
             source={require('../../image/PhotoProfile.png')}
@@ -295,7 +225,7 @@ export const Profile = ({navigation}) => {
           </TextInput>
         </TouchableOpacity>
         <Text style={stylesProfile.profileTitle}>Golongan Darah</Text>
-        <View style={{zIndex: 4000}}>
+        <View style={{zIndex: 1}}>
           <DropDownPicker
             items={GDarah}
             open={openGD}
@@ -314,7 +244,7 @@ export const Profile = ({navigation}) => {
                 ? stylesProfile.dropdownLabelActive
                 : stylesProfile.dropdownLabel
             }
-            containerStyle={{height: openGD ? 250 : 50}}
+            containerStyle={{height: openP ? 250 : 50}}
             iconContainerStyle={stylesProfile.dropdownIconContainer}
             dropDownContainerStyle={stylesProfile.dropdownContainer}
             listItemLabelStyle={stylesProfile.dropdownListLabel}
@@ -325,14 +255,6 @@ export const Profile = ({navigation}) => {
             }
           />
         </View>
-          <Text style={stylesProfile.profileTitle}>Alamat</Text>
-          <TextInput
-            style={stylesProfile.textInput}
-            value={alamat}
-            onChangeText={text => setAlamat(text)}
-            placeholder="Alamat"
-            editable={edit}
-          />
         <View style={{flexDirection: 'row'}}>
           <View style={{width: '50%'}}>
             <Text style={stylesProfile.profileTitle}>RW</Text>
@@ -364,35 +286,13 @@ export const Profile = ({navigation}) => {
           editable={edit}
         />
         <Text style={stylesProfile.profileTitle}>Kode wilayah</Text>
-        <View>
-          <DropDownPicker
-            open={open}
-            value={kodewilayah}
-            items={wilayah}
-            setOpen={setOpen}
-            setValue={setKodeWilayah}
-            searchable={true}
-            listMode="MODAL"
-            modalAnimationType="slide"
-            disableLocalSearch={true}
-            searchPlaceholder="Cari kelurahan anda"
-            placeholder="Isi Kode Wilayah"
-            textStyle={
-              edit
-                ? stylesProfile.dropdownTextActive
-                : stylesProfile.dropdownText
-            }
-            labelStyle={
-              edit
-                ? stylesProfile.dropdownLabelActive
-                : stylesProfile.dropdownLabel
-            }
-            style={stylesProfile.dropdown}
-            placeholderStyle={stylesProfile.dropdownPlaceholder}
-            disabled={!edit}
-            onChangeSearchText={changeTextDebouncer}
-          />
-        </View>
+        <TextInput
+          style={stylesProfile.textInput}
+          value={kodewilayah}
+          onChangeText={text => setKodeWilayah(text)}
+          placeholder="Kode wilayah"
+          editable={edit}
+        />
         <Text style={stylesProfile.profileTitle}>Gender</Text>
         <RadioForm
           formHorizontal={true}
@@ -409,15 +309,22 @@ export const Profile = ({navigation}) => {
             borderRadius: 6,
             paddingVertical: 10,
             justifyContent: 'center',
-            zIndex: -10,
           }}
           labelStyle={{marginRight: 15}}
           editable={edit}
           // value={jeniskelamin}
           // onChangeText={(text) => setJenisKelamin(text)}
         />
-        <TouchableOpacity
-          style={stylesProfile.submitButton}
+        <Button
+          mode="contained"
+          style={{
+            borderRadius: 6,
+            marginTop: 20,
+            marginHorizontal: 10,
+            paddingVertical: 5,
+          }}
+          buttonColor="black"
+          textColor="white"
           onPress={() =>
             getUpdateToken().then(token => {
               if (token) {
@@ -426,10 +333,18 @@ export const Profile = ({navigation}) => {
               }
             })
           }>
-          <Text style={stylesProfile.submitTitle}>Edit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={stylesProfile.submitButton}
+          Edit
+        </Button>
+        <Button
+          mode="contained"
+          style={{
+            borderRadius: 6,
+            marginTop: 20,
+            marginHorizontal: 10,
+            paddingVertical: 5,
+          }}
+          buttonColor="black"
+          textColor="white"
           onPress={() => {
             update(
               id,
@@ -448,25 +363,13 @@ export const Profile = ({navigation}) => {
               tanggal,
               token,
               navigation,
-            ).then(async res => {
-              try {
-                const jsonRes = await res.json();
-                if (res.status !== 200) {
-                  Alert.alert(jsonRes.alert);
-                  return
-                } else if (res.status === 200) {
-                  Alert.alert(jsonRes.alert);
-                  // profilerefresh(id);
-                  // setEdit(false);
-                  return
-                }
-              } catch (e) {
-                console.log(e);
-              }
+            ).then(() => {
+              profilerefresh(id);
+              setEdit(false);
             });
           }}>
-          <Text style={stylesProfile.submitTitle}>Simpan</Text>
-        </TouchableOpacity>
+          Simpan
+        </Button>
       </View>
     </ScrollView>
   );

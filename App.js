@@ -1,12 +1,16 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Dashboard} from './components/pages/pasien/Dashboard';
+
+// Import Page Login
 import {ForgetPassword} from './components/pages/login/ForgetPassword';
 import {Login} from './components/pages/login/Login';
 import {Register} from './components/pages/login/Register';
 import {ResetPassword} from './components/pages/login/ResetPassword';
 import {SetPassword} from './components/pages/login/SetPassword';
+
+// Import Page Pasien
+import {Dashboard} from './components/pages/pasien/Dashboard';
 import {Profile} from './components/pages/pasien/Profile';
 import {Dokter} from './components/pages/pasien/Dokter';
 import {About} from './components/pages/pasien/About';
@@ -15,10 +19,15 @@ import {AmbilNomor} from './components/pages/pasien/AmbilNomor';
 import {NomorAntrian} from './components/pages/pasien/NomorAntrian';
 import {Riwayat} from './components/pages/pasien/Riwayat';
 import {Hasil} from './components/pages/pasien/Hasil';
-import {ConfirmDiagnosa} from './components/pages/Dokter/ConfirmDiagnosa';
-import {PilihDokter} from './components/pages/Dokter/PilihDokter';
-import {Diagnosa} from './components/pages/Dokter/Diagnosa';
-import {Alert, Linking, Text} from 'react-native';
+import {ConfirmPembayaran} from './components/pages/pasien/ConfirmPembayaran';
+import {BuktiPembayaran} from './components/pages/pasien/BuktiPembayaran';
+
+// Import Page Dokter
+import {ConfirmDiagnosa} from './components/pages/dokter/ConfirmDiagnosa';
+import {PilihDokter} from './components/pages/dokter/PilihDokter';
+import {Diagnosa} from './components/pages/dokter/Diagnosa';
+
+import {Alert} from 'react-native';
 import {UserData} from './components/UseContext';
 import Keychain from 'react-native-keychain';
 import {KlinikNama} from './components/KlinikContext';
@@ -94,6 +103,11 @@ function App() {
             <Stack.Screen name="PilihDokter" component={PilihDokter} />
             <Stack.Screen name="ConfirmDiagnosa" component={ConfirmDiagnosa} />
             <Stack.Screen name="Diagnosa" component={Diagnosa} />
+            <Stack.Screen
+              name="ConfirmPembayaran"
+              component={ConfirmPembayaran}
+            />
+            <Stack.Screen name="BuktiPembayaran" component={BuktiPembayaran} />
           </Stack.Navigator>
         </NavigationContainer>
       </UserData>
@@ -287,16 +301,18 @@ export async function daftar(pasien_id, dokter_id, klinik, hari, navigation){
       Authorization: `Bearer ${keyToken}`,
     },
     body: JSON.stringify(payload),
-  }).then(async res => {
-    const dataRes = await res.json()
-    if(res.status !== 200){
-      return Alert.alert(dataRes.alert)
-    }
-    Alert.alert(dataRes.alert)
-    navigation.navigate('NomorAntrian')
-  }).catch(err => {
-    console.log(err);
   })
+    .then(async res => {
+      const dataRes = await res.json();
+      if (res.status !== 200) {
+        return Alert.alert(dataRes.alert);
+      }
+      Alert.alert(dataRes.alert);
+      navigation.navigate('NomorAntrian');
+    })
+    .catch(err => {
+      console.log(err);
+    });
 }
 
 export async function update(
