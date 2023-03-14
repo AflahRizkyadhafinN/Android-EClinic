@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Alert,
+  ToastAndroid,
 } from 'react-native';
 import {stylesGeneral, stylesLogin} from '../../Style';
 import {Icon} from '../../Icon';
@@ -16,6 +17,7 @@ import {Loading} from '../../Loading';
 import {useContext} from 'react';
 import {makeContext} from '../../UseContext';
 import {Button} from 'react-native-paper';
+import DeviceInfo from 'react-native-device-info';
 
 export const Login = ({navigation}) => {
   const [token, setToken] = useState('');
@@ -27,58 +29,44 @@ export const Login = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const {setUserData} = useContext(makeContext);
 
-  async function login(nik, pass, remember, navigation) {
+  async function login() {
+    let deviceName = await DeviceInfo.getUserAgent();
+
     const payload = {
       nik,
       pass,
       remember,
+      deviceName,
     };
 
-    if (remember === true) {
-      const res = fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify(payload),
-      }).then(async res => {
-        try {
-          const jsonRes = await res.json();
-          if (res.status === 200) {
-            await Keychain.setGenericPassword('remember', jsonRes.token);
-            setUserData(jsonRes);
-            authenticate(jsonRes, navigation);
+    fetch(`${API_URL}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+    }).then(async res => {
+      try {
+        const jsonRes = await res.json();
+        if (res.status === 200) {
+          remember
+            ? await Keychain.setGenericPassword('remember', jsonRes.token)
+            : await Keychain.setGenericPassword('forgot', jsonRes.token);
+          setUserData(jsonRes);
+          ToastAndroid.show(jsonRes.alert, ToastAndroid.SHORT);
+          if (jsonRes.level === 2) {
+            navigation.navigate('PilihDokter');
           } else {
-            Alert.alert(jsonRes.alert);
+            navigation.navigate('Dashboard');
           }
-        } catch (err) {
-          console.log(err);
+        } else {
+          Alert.alert(jsonRes.alert);
         }
-      });
-    } else {
-      const res = fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify(payload),
-      }).then(async res => {
-        try {
-          const jsonRes = await res.json();
-          if (res.status === 200) {
-            await Keychain.setGenericPassword('forgot', jsonRes.token);
-            setUserData(jsonRes);
-            authenticate(jsonRes, navigation);
-          } else {
-            Alert.alert(jsonRes.alert);
-          }
-        } catch (err) {
-          console.log(err);
-        }
-      });
-    }
+      } catch (err) {
+        console.log(err);
+      }
+    });
   }
 
   const retrieveJwt = async () => {
@@ -107,22 +95,30 @@ export const Login = ({navigation}) => {
 
   useEffect(() => {
     if (rememberlogin === 'remember' && !rememberloggedin) {
-      remembermelogin(token, navigation).then(async res => {
-        try {
-          const userdata = await res.json();
-          if (res.status === 200) {
-            setRememberLoggedIn(true);
-            setUserData(userdata);
-            navigation.navigate('Dashboard');
-            setLoading(false);
-          } else {
-            Alert.alert(userdata.alert);
-            setLoading(false);
+      remembermelogin(token, navigation)
+        .then(async res => {
+          try {
+            const userdata = await res.json();
+            if (res.status === 200) {
+              setRememberLoggedIn(true);
+              setUserData(userdata);
+              if (jsonRes.level === 2) {
+                navigation.navigate('PilihDokter');
+              } else {
+                navigation.navigate('Dashboard');
+              }
+              setLoading(false);
+            } else {
+              Alert.alert(userdata.alert);
+              setLoading(false);
+            }
+          } catch (err) {
+            console.log(err);
           }
-        } catch (err) {
-          console.log(err);
-        }
-      });
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
   }, [token, rememberlogin]);
 

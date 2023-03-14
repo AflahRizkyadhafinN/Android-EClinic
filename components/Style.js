@@ -460,7 +460,6 @@ export const stylesProfile = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 150 / 2,
-    marginTop: 20,
   },
 
   date: {
@@ -482,6 +481,34 @@ export const stylesProfile = StyleSheet.create({
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
     borderRightWidth: 0,
+  },
+
+  photoProfileModal: {
+    margin: 0,
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+
+  photoProfileModalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+
+  photoProfileButtonContainer: {
+    borderBottomWidth: 1,
+    borderColor: 'grey',
+    paddingVertical: 10,
+  },
+
+  photoProfileButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#00096E',
+    textAlign: 'center',
   },
 });
 

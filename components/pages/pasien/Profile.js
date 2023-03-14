@@ -17,6 +17,9 @@ import {makeContext} from '../../UseContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Button} from 'react-native-paper';
 import {MainNavbar} from '../../MainNavbar';
+import ImagePicker from 'react-native-image-crop-picker';
+import Modal from 'react-native-modal';
+import {white} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 export const Profile = ({navigation}) => {
   const {userdata, setUserData} = useContext(makeContext);
@@ -70,7 +73,8 @@ export const Profile = ({navigation}) => {
   const [kodepos, setKodePos] = useState(userdata.kodepos);
   const [kodewilayah, setKodeWilayah] = useState(userdata.kodewilayah);
   const [tanggal, setTanggal] = useState(userdata.tanggalLahir);
-  const [open, setOpen] = React.useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [openSelectedImage, setOpenSelectedImage] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -132,13 +136,91 @@ export const Profile = ({navigation}) => {
       }
     });
   }
+
+  const handleOpenGallery = () => {
+    ImagePicker.openPicker({
+      mediaType: 'photo',
+      cropping: true,
+      width: 150,
+      height: 150,
+      showCropFrame: false,
+    }).then(data => {
+      setSelectedImage(data.path);
+    });
+  };
+
+  const handleOpenCamera = () => {
+    ImagePicker.openCamera({
+      mediaType: 'photo',
+      cropping: true,
+      width: 150,
+      height: 150,
+      showCropFrame: false,
+    }).then(data => {
+      setSelectedImage(data.path);
+    });
+  };
+
   return (
     <ScrollView nestedScrollEnabled={true}>
       <View style={stylesGeneral.container}>
         <MainNavbar navigation={navigation} menuType={'default'} />
-        <TouchableOpacity disabled={!edit}>
+        <Modal
+          isVisible={openSelectedImage}
+          onBackdropPress={() => setOpenSelectedImage(false)}
+          style={stylesProfile.photoProfileModal}
+          animationIn={'slideInUp'}
+          animationOut={'slideOutDown'}
+          animationInTiming={500}
+          animationOutTiming={500}>
+          <View style={{backgroundColor: 'white'}}>
+            <Text style={stylesProfile.photoProfileModalTitle}>
+              Ubah foto profile
+            </Text>
+            <TouchableOpacity style={stylesProfile.photoProfileButtonContainer}>
+              <Text
+                style={stylesProfile.photoProfileButtonText}
+                onPress={() => {
+                  handleOpenGallery();
+                  setOpenSelectedImage(false);
+                }}>
+                Pilih dari galeri
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={stylesProfile.photoProfileButtonContainer}>
+              <Text
+                style={stylesProfile.photoProfileButtonText}
+                onPress={() => {
+                  handleOpenCamera();
+                  setOpenSelectedImage(false);
+                }}>
+                Buka kamera
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={stylesProfile.photoProfileButtonContainer}>
+              <Text
+                style={stylesProfile.photoProfileButtonText}
+                onPress={() => setOpenSelectedImage(false)}>
+                Cancel
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+        <TouchableOpacity
+          disabled={!edit}
+          onPress={() => setOpenSelectedImage(true)}
+          style={{
+            width: 150,
+            height: 150,
+            marginTop: 20,
+            alignSelf: 'center',
+          }}>
           <Image
-            source={require('../../image/PhotoProfile.png')}
+            source={
+              selectedImage === null
+                ? require('../../image/PhotoProfile.png')
+                : {uri: selectedImage}
+            }
             style={stylesProfile.photoProfile}
           />
         </TouchableOpacity>

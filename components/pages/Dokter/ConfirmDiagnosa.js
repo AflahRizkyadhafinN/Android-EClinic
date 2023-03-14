@@ -24,13 +24,8 @@ export const ConfirmDiagnosa = ({navigation}) => {
               mode="contained"
               buttonColor="#00096E"
               textColor="white"
-              style={{
-                borderRadius: 6,
-                marginVertical: 10,
-                width: '50%',
-                alignSelf: 'center',
-              }}
-              labelStyle={{fontSize: 15, fontWeight: '600'}}
+              style={cDiagnosaStyles.button}
+              labelStyle={cDiagnosaStyles.buttonLabel}
               onPress={() => navigation.navigate('Diagnosa')}>
               Kembali
             </Button>
