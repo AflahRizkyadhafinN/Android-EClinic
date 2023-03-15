@@ -149,13 +149,18 @@ export const Diagnosa = ({navigation}) => {
               </DataTable.Title>
               <DataTable.Title
                 textStyle={[stylesHasil.tableHeaderText]}
-                style={{justifyContent: 'center', flex: 1}}>
+                style={{
+                  justifyContent: 'center',
+                  flex: 1,
+                  marginRight: -10,
+                  marginLeft: 10,
+                }}>
                 Action
               </DataTable.Title>
             </DataTable.Header>
             {pilihObat.map((data, index) => {
               return (
-                <DataTable.Row key={index}>
+                <DataTable.Row key={index} style={{marginTop: -1}}>
                   <DataTable.Cell style={{flex: 3}}>{data.nama}</DataTable.Cell>
                   <DataTable.Cell
                     style={[
@@ -170,10 +175,11 @@ export const Diagnosa = ({navigation}) => {
                   </DataTable.Cell>
                   <DataTable.Cell
                     style={[
-                      stylesHasil.centerBorder,
                       {
                         flex: 1,
                         justifyContent: 'center',
+                        marginRight: -10,
+                        paddingLeft: 10,
                       },
                     ]}>
                     <Icon
