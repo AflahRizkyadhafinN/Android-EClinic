@@ -41,7 +41,7 @@ export const Diagnosa = ({navigation}) => {
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar navigation={navigation} menuType={'dokterPage'} />
+        <MainNavbar navigation={navigation} />
         <Text style={stylesHasil.title}>Diagnosa</Text>
         <View style={stylesHasil.identitasContainer}>
           <Text style={stylesHasil.identitasText}>Dr. Faisal Muslim</Text>

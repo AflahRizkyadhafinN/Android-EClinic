@@ -23,6 +23,8 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
   const route = useRoute();
   const [refreshing, setRefreshing] = React.useState(false);
   const [member, setMember] = useState('0');
+  const [hasilActive, setHasilActive] = useState(true);
+
   const StatistikArrow = () => {
     return (
       <View style={stylesDashboard.statistikArrowContainer}>
@@ -192,6 +194,35 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
           </Text>
         </View>
       </View>
+      {hasilActive === true ? (
+        <View
+          style={{
+            borderWidth: 1,
+            flexDirection: 'row',
+            marginTop: 10,
+          }}>
+          <Icon
+            name="check"
+            type="entypo"
+            backgroundColor={'#229930'}
+            color="white"
+            style={{flex: 1, justifyContent: 'center', padding: 10}}
+          />
+          <TouchableOpacity
+            style={{flex: 1, padding: 10, backgroundColor: '#2ECC40'}}>
+            <Text
+              style={{
+                fontSize: 17,
+                fontWeight: '600',
+                color: 'white',
+                textAlign: 'center',
+              }}
+              onPress={() => navigation.navigate('Hasil')}>
+              Pemeriksaan telah selesai, klik disini untuk melihat hasil
+            </Text>
+          </TouchableOpacity>
+        </View>
+      ) : undefined}
       <Button
         mode="contained"
         buttonColor="black"
