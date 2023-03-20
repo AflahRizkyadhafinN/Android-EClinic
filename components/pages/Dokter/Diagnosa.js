@@ -1,10 +1,11 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
   ScrollView,
   TextInput,
   TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
 import {Provider, DataTable} from 'react-native-paper';
 import {stylesGeneral, stylesHasil} from '../../Style';
@@ -18,6 +19,7 @@ import { API_URL } from '../../../App';
 import { klinikContext } from '../../KlinikContext';
 import moment from 'moment';
 import 'moment/locale/id'
+import { useFocusEffect } from '@react-navigation/native';
 
 export const Diagnosa = ({navigation}) => {
   const {width} = 100 % +10;
@@ -28,7 +30,7 @@ export const Diagnosa = ({navigation}) => {
   const [banyak, setBanyak] = useState()
   const {userdata} = useContext(makeContext)
   const {klinik} = useContext(klinikContext)
-  const [dataPasien, setDataPasien] = useState({namaPasien: 'Tidak ada pasien saat ini'})
+  const [dataPasien, setDataPasien] = useState({})
   const hari = moment().locale('id').format('dddd, DD MMMM YYYY')
   const [obat, setObat] = useState([
     {label: 'Parasetamol', value: 'paracetamol', harga: 4000},
@@ -37,29 +39,35 @@ export const Diagnosa = ({navigation}) => {
   ]);
   const [pilihObat, setPilihObat] = useState([])
 
-  useEffect(() => {
-    const payload = {
-      klinik,
-      hari,
-      dokter: userdata.namalengkap
-    }
-    function getPasien(){
-      setDataPasien('Loading...')
-      fetch(`${API_URL}/pasien`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-        body: JSON.stringify(payload),
-      })
-      .then( res =>  res.json())
-      .then((list) => {
-        setDataPasien(list[0])
-      })
-    }
-    getPasien()
-  },[])
+  useFocusEffect(
+    useCallback(() => {
+      const payload = {
+        klinik,
+        hari,
+        dokter: userdata.namalengkap
+      }
+      function getPasien(){
+        fetch(`${API_URL}/dokter/pasien`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json',
+            },
+          body: JSON.stringify(payload),
+        })
+        .then( res =>  res.json())
+        .then((list) => {
+          if(list[0] === undefined) {
+            return setDataPasien({namaPasien: 'Tidak ada pasien saat ini'})
+          }
+          setDataPasien(list[0])
+        })
+      }
+      getPasien()
+    },[])
+  )
+
+
   let jumlah = 0
   pilihObat.map(data => {
     return (jumlah += data.jumlah * data.harga)
@@ -83,16 +91,26 @@ export const Diagnosa = ({navigation}) => {
     const payload = {
       pilihObat,
       pasien_id: dataPasien.pasien_id,
+      dokter_id: dataPasien.dokter_id,
+      antrian_id: dataPasien.Antrian_id,
       catatan
     }
 
-    fetch(`${API_URL}/diagnosa`, {
+    fetch(`${API_URL}/dokter/diagnosa`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        Authorization: `Bearer ${userdata.token}`
       },
     body: JSON.stringify(payload),
+  }).then(async res => {
+   const list = await res.json()
+   if(res.status === 200){
+    navigation.navigate('ConfirmDiagnosa')
+    return ToastAndroid.show(list.alert, ToastAndroid.SHORT);
+   }
+   return ToastAndroid.show(list.alert, ToastAndroid.SHORT);
   })
   }
 
@@ -107,7 +125,7 @@ export const Diagnosa = ({navigation}) => {
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
         <MainNavbar navigation={navigation} menuType={'dokterPage'} />
         <Text style={stylesHasil.title}>Diagnosa</Text>
-        {dataPasien.namaPasien ? (
+        {dataPasien?.namaPasien ? (
           <View style={stylesHasil.identitasContainer}>
             <Text style={stylesHasil.identitasText}>
               {`Nama pasien : ${dataPasien.namaPasien}`}
@@ -115,7 +133,7 @@ export const Diagnosa = ({navigation}) => {
           </View>
         ) : (
           <View style={stylesHasil.identitasContainer}>
-            <Text style={stylesHasil.identitasText}>{`Loading...`}</Text>
+            <Text style={stylesHasil.identitasText}>{'Loading...'}</Text>
           </View>
         )}
         <View style={stylesHasil.identitasContainer}>
@@ -394,6 +412,7 @@ export const Diagnosa = ({navigation}) => {
             width: '80%',
             alignSelf: 'center',
           }}
+          disabled={!dataPasien?.Antrian_id ? true : false}
           buttonColor="#00096E"
           textColor="white"
           labelStyle={{

@@ -16,7 +16,7 @@ export const Riwayat = ({navigation}) => {
         <Text style={stylesRiwayat.title}>Riwayat</Text>
         <Text style={stylesRiwayat.bulan}>Januari 2023</Text>
         <TouchableWithoutFeedback
-          onPress={() => navigation.navigate('Hasil', {ket: 'Riwayat'})}>
+          onPress={() => navigation.navigate('Hasil')}>
           <View style={stylesRiwayat.ketContainer}>
             <Text style={stylesRiwayat.ketTanggal}>1 Januari 2023</Text>
             <Text style={stylesRiwayat.ketPenyakit}>

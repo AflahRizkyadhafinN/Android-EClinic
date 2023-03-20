@@ -16,7 +16,7 @@ export const About = ({navigation}) => {
         const payload = {
           klinik,
         };
-        fetch(`${API_URL}/klinik`, {
+        fetch(`${API_URL}/klinik/klinik`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

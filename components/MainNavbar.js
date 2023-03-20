@@ -18,11 +18,6 @@ export const MainNavbar = props => {
   const {navigation, type} = props;
   const [profilePic, setProfilePic] = useState(userdata.profilePic);
 
-  // const type = props.type;
-  // const type = '';
-
-  // console.log(props.menuType + '1');
-
   return (
     <View style={stylesDashboard.header}>
       <Modal
@@ -61,10 +56,7 @@ export const MainNavbar = props => {
                 {userdata.namalengkap}
               </Text>
               <Image
-                source={{
-                  uri: profilePic,
-                }}
-                defaultSource={require('./image/PhotoProfile.png')}
+                source={profilePic ? {uri: profilePic} : require('./image/PhotoProfile.png') }
                 style={stylesDashboard.accountImage}
               />
             </View>

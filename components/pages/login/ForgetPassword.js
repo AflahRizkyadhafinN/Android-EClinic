@@ -18,7 +18,7 @@ export const ForgetPassword = ({navigation}) => {
 
   function forgotPassword () {
     const payload = {email}
-    fetch(`${API_URL}/forgotPassword`, {
+    fetch(`${API_URL}/data/forgotPassword`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

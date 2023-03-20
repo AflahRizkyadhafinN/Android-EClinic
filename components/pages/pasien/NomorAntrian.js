@@ -10,7 +10,7 @@ export const NomorAntrian = ({navigation}) => {
   const {userdata} = useContext(makeContext);
   const [noAntrian, setNoAntrian] = useState(0)
   const [tanggalDaftar, setTanggalDaftar] = useState('')
-  const socket = new WebSocket(`ws://10.10.10.91:8080`)
+  const socket = new WebSocket(`ws://10.10.10.102:8080`)
   const [confirm, setConfirm] = useState()
   const daftar = useCallback(async () => {
     const jwt = await Keychain.getGenericPassword();
@@ -18,8 +18,7 @@ export const NomorAntrian = ({navigation}) => {
     const payload = {
       pasien_id : userdata.id,
     };
-    console.log(payload);
-    fetch(`${API_URL}/nodaftar`, {
+    fetch(`${API_URL}/daftar/nodaftar`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +44,7 @@ export const NomorAntrian = ({navigation}) => {
     }
 
     socket.onclose = () => {
-      console.log('closed');
+      console.log('closed')
     }
 
     socket.onmessage = event => {
@@ -71,7 +70,7 @@ export const NomorAntrian = ({navigation}) => {
       <Text
         style={stylesNomorAntrian.arahan}
         onPress={() => {
-          navigation.navigate('AmbilNomor');
+          navigation.navigate('AmbilNomor', {confirm});
           socket.close();
         }}>
         Tekan untuk melihat nomor antrian anda

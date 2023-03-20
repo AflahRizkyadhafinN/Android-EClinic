@@ -114,7 +114,7 @@ export const Profile = ({navigation}) => {
 
   async function profilerefresh(id) {
     fetch(`${API_URL}/profilerefresh`, {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',

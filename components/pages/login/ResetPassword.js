@@ -26,7 +26,7 @@ export const ResetPassword = ({navigation}) => {
       password,
     };
     if (password === confirm) {
-      fetch(`${API_URL}/setPassword`, {
+      fetch(`${API_URL}/data/setPassword`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

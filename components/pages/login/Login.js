@@ -39,7 +39,7 @@ export const Login = ({navigation}) => {
       deviceName,
     };
 
-    fetch(`${API_URL}/login`, {
+    fetch(`${API_URL}/login/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

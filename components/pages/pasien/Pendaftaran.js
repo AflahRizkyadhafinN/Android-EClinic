@@ -13,7 +13,7 @@ export const Pendaftaran = ({navigation}) => {
 
  useEffect(() => {
   function getPoliklinik() { 
-    fetch(`${API_URL}/poliklinik`)
+    fetch(`${API_URL}/klinik/poliklinik/${klinik}`)
       .then(async (res) => {
         try{
           const poliRes = await res.json()

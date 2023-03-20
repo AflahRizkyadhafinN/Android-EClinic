@@ -1,13 +1,47 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import {Provider, DataTable} from 'react-native-paper';
 import {stylesGeneral, stylesHasil} from '../../Style';
 import {MainNavbar} from '../../MainNavbar';
 import {Button} from 'react-native-paper';
+import { API_URL } from '../../../App';
+import { makeContext } from '../../UseContext';
 
 export const Hasil = ({route, navigation}) => {
-  const keterangan = route.params === undefined ? undefined : route.params.ket;
   const {width} = 100 % +10;
+  const [confirmBayar, setConfirmBayar] = useState(false)
+  const diagnosaId = route.params.diagnosaId
+  const [dataDiagnosa, setDataDiagnosa] = useState({})
+  const [dataObat, setDataObat] = useState([])
+  const {userdata} = useContext(makeContext)
+  useEffect(() => {
+    fetch(`${API_URL}/pasien/diagnosa/${diagnosaId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${userdata.token}` 
+      },
+    })
+      .then(res => res.json())
+      .then(list => {
+        setDataObat(list[0].obat_pasien);
+        console.log(list);
+        const diagnosa = list.map(item => {
+          return {
+            namaPasien: item.userdatum.namalengkap,
+            namaDokter: item.dokter.nama_dokter,
+            tanggal: item.tanggal_diagnosis,
+          };
+        });
+        setDataDiagnosa(diagnosa[0]);
+      });
+  }, []);
+
+  let jumlah = 0
+  dataObat?.map(data => {
+    return (jumlah += data.jumlah * data.harga)
+  })
 
   return (
     <ScrollView>
@@ -18,58 +52,69 @@ export const Hasil = ({route, navigation}) => {
           menuType={'default'}
         />
         <Text style={stylesHasil.title}>Hasil</Text>
-        <View style={stylesHasil.identitasContainer}>
-          <Text style={stylesHasil.identitasText}>
-            Nama pasien : Zeke Yeager
-          </Text>
-          <Text style={stylesHasil.identitasText}>
-            Nama dokter : Grisha Yeager
-          </Text>
-        </View>
-        <Text style={stylesHasil.diagnosa}>
-          Kamu didiagnosis menderita penyakit Diabetes
-        </Text>
-        <View style={stylesHasil.obatContainer}>
-          <Text style={stylesHasil.obatTanggal}>30 Januari 2023</Text>
-          <DataTable
-            style={{marginHorizontal: -10, width: width, marginBottom: -11}}>
-            <DataTable.Header style={stylesHasil.tableHeader}>
-              <DataTable.Title textStyle={stylesHasil.tableHeaderText}>
-                Nama Obat
-              </DataTable.Title>
-              <DataTable.Title textStyle={stylesHasil.tableHeaderText}>
-                Jumlah
-              </DataTable.Title>
-            </DataTable.Header>
-            <DataTable.Row>
-              <DataTable.Cell>Metformin (biguanid)</DataTable.Cell>
-              <DataTable.Cell style={stylesHasil.centerBorder}>
-                1
-              </DataTable.Cell>
-            </DataTable.Row>
-            <DataTable.Row
-              style={[
-                stylesHasil.tableJumlah,
-                {borderBottomLeftRadius: 6, borderBottomRightRadius: 6},
-              ]}>
-              <DataTable.Cell textStyle={stylesHasil.tableJumlahText}>
-                Jumlah :
-              </DataTable.Cell>
-              <DataTable.Cell
-                style={stylesHasil.centerBorder}
-                textStyle={stylesHasil.tableJumlahText}>
-                Rp 99.000
-              </DataTable.Cell>
-            </DataTable.Row>
-          </DataTable>
-        </View>
+              <View style={stylesHasil.identitasContainer}>
+                <Text style={stylesHasil.identitasText}>
+                  Nama pasien : {dataDiagnosa.namaPasien}
+                </Text>
+                <Text style={stylesHasil.identitasText}>
+                  Nama dokter : {dataDiagnosa.namaDokter}
+                </Text>
+              </View>
+              <Text style={stylesHasil.diagnosa}>
+                Kamu didiagnosis menderita penyakit Diabetes
+              </Text>
+              <View style={stylesHasil.obatContainer}>
+                <Text style={stylesHasil.obatTanggal}>{dataDiagnosa.tanggal}</Text>
+
+                <DataTable
+                  style={{
+                    marginHorizontal: -10,
+                    width: width,
+                    marginBottom: -11,
+                  }}>
+                  <DataTable.Header style={stylesHasil.tableHeader}>
+                    <DataTable.Title textStyle={stylesHasil.tableHeaderText}>
+                      Nama Obat
+                    </DataTable.Title>
+                    <DataTable.Title textStyle={stylesHasil.tableHeaderText}>
+                      Jumlah
+                    </DataTable.Title>
+                  </DataTable.Header>
+                  {dataObat?.map((item, index) => {
+                  return (
+                  <DataTable.Row key={index}>
+                    <DataTable.Cell>
+                      {item.obat_nama}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={stylesHasil.centerBorder}>
+                      {item.jumlah}
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                  )
+                })}
+                  <DataTable.Row
+                    style={[
+                      stylesHasil.tableJumlah,
+                      {borderBottomLeftRadius: 6, borderBottomRightRadius: 6},
+                    ]}>
+                    <DataTable.Cell textStyle={stylesHasil.tableJumlahText}>
+                      Jumlah :
+                    </DataTable.Cell>
+                    <DataTable.Cell
+                      style={stylesHasil.centerBorder}
+                      textStyle={stylesHasil.tableJumlahText}>
+                      Rp {jumlah}
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                </DataTable>
+              </View>
         <Text
           style={stylesHasil.pemberitahuan}
           onPress={() => navigation.navigate('ConfirmPembayaran')}>
           Untuk bisa melihat hasil ini lagi kamu bisa tangkap layar ini atau
           kamu bisa melihatnya di riwayat di menu diatas
         </Text>
-        {keterangan === 'Riwayat' ? (
+        {confirmBayar ? (
           <Button
             mode="contained"
             buttonColor="#56A447"

@@ -17,7 +17,7 @@ import {makeContext} from '../../UseContext';
 import {API_URL} from '../../../App';
 import DoubleTapToClose from '../../CloseApp';
 import {Icon} from '@rneui/themed';
-import {Button} from 'react-native-paper';
+import {Button} from 'react-native-paper'
 
 export const Dashboard = ({navigation, isInitialScreen}) => {
   const route = useRoute();
@@ -49,13 +49,12 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
   };
 
   useEffect(() => {
-    fetch(`${API_URL}/users`, {
+    fetch(`${API_URL}/data/users`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: '',
     }).then(async res => {
       try {
         const jsonRes = await res.json();
@@ -72,13 +71,12 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
-    fetch(`${API_URL}/users`, {
+    fetch(`${API_URL}/data/users`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: '',
     }).then(async res => {
       try {
         const jsonRes = await res.json();

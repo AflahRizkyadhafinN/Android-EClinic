@@ -34,7 +34,7 @@ import {KlinikNama} from './components/KlinikContext';
 import DeviceInfo from 'react-native-device-info';
 import { Linking } from 'react-native';
 
-export const API_URL = 'http://10.10.10.91:5000';
+export const API_URL = 'http://10.10.10.102:5000';
 const Stack = createNativeStackNavigator();
 
 const isCurrentScreenInitialOne = state => {
@@ -124,7 +124,7 @@ export async function insert(email, sPassword, sNik, sNamaLengkap, navigation) {
     sNik,
   };
 
-  fetch(`${API_URL}/signup`, {
+  fetch(`${API_URL}/data/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -160,7 +160,7 @@ export function setpass(email, sNik, sNamaLengkap, navigation) {
 }
 
 export async function remembermelogin(token, navigation) {
-  const res = await fetch(`${API_URL}/rememberauth`, {
+  const res = await fetch(`${API_URL}/login/rememberauth`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ export function logout(navigation, id) {
     {
       text: 'Logout',
       onPress: () => {
-        fetch(`${API_URL}/logout`, {
+        fetch(`${API_URL}/login/logout`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -213,7 +213,7 @@ export function exitLogout(id) {
   const payload = {
     id,
   };
-  fetch(`${API_URL}/logout`, {
+  fetch(`${API_URL}/login/logout`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -239,7 +239,7 @@ export function getListDokter(nama, namaKlinik, navigation) {
     keahlian: `Dokter ${nama}`,
     namaKlinik,
   };
-  fetch(`${API_URL}/ambil`, {
+  fetch(`${API_URL}/klinik/ambil`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -264,7 +264,7 @@ export function getListDokter(nama, namaKlinik, navigation) {
 export async function getUpdateToken() {
   const jwt = await Keychain.getGenericPassword();
 
-  const res = await fetch(`${API_URL}/updatetoken`, {
+  const res = await fetch(`${API_URL}/profile/updatetoken`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -294,7 +294,7 @@ export async function daftar(pasien_id, dokter_id, klinik, hari, navigation){
     klinik,
     hari
   };
-  fetch(`${API_URL}/daftar`, {
+  fetch(`${API_URL}/daftar/daftar`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -353,7 +353,7 @@ export async function update(
     keyToken,
   };
 
-  const res = fetch(`${API_URL}/update`, {
+  const res = fetch(`${API_URL}/profile/update`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

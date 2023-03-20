@@ -15,9 +15,10 @@ import 'moment/locale/id'
 import { makeContext } from '../../UseContext';
 import { API_URL, daftar } from '../../../App';
 import { klinikContext } from '../../KlinikContext';
+import EventSource from "react-native-sse";
 const numberOfItemsPerPageList = [5];
 export const AmbilNomor = ({navigation}) => {
-  
+
   const [namaDokter, setNamaDokter] = useState([])
   const [keahlian, setKeahlian] = useState('..')
   const route = useRoute()
@@ -34,10 +35,13 @@ export const AmbilNomor = ({navigation}) => {
     numberOfItemsPerPageList[0],
   );
   const [cachedList, setCachedList] = useState([]);
+  const [antrianId, setAntrianId] = useState('')
+  const [isNameInList, setIsNameInList] = useState(false);
 
+  const confirmation = route.params?.confirm
   const getNamaDokter = useCallback(async () => {
     let list;
-    if (cachedList.length > 0) {
+    if (cachedList?.length > 0) {
       list = cachedList;
     } else {
       list = route.params?.jsonRes;
@@ -50,21 +54,20 @@ export const AmbilNomor = ({navigation}) => {
     const namaKlinik = list.map(item => {
       return item.keahlian;
     });
-    setKeahlian(namaKlinik[0].nama_keahlian);
+    setKeahlian(namaKlinik[0].nama_keahlian)
     setNamaDokter(dokterArray);
-  }, [cachedList, route.params?.jsonRes]);
+  }, [cachedList, route.params?.jsonRes])
   
   useEffect(() => {
-    getNamaDokter();
+    getNamaDokter()
   }, [getNamaDokter])
   
   const payload = useMemo(() => ({ dokter, klinik, hari }), [dokter, klinik, hari]);
 
   useFocusEffect(
     useCallback(() => {
-      if (!dokter) return;
-
-      fetch(`${API_URL}/antrian`, {
+      if (!dokter) return
+      fetch(`${API_URL}/daftar/antrian`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -78,16 +81,67 @@ export const AmbilNomor = ({navigation}) => {
             nama: item.namaPasien,
             key: index + 1,
           }));
-          setNamaPasien(namaPasien);
+          const antrian = list.filter(item => {
+            return item.namaPasien.includes(userdata.namalengkap)
+          })
+          setAntrianId(antrian[0]?.Antrian_id)
+          
+          setNamaPasien(namaPasien)
+          setIsNameInList(list.some((item) => item.namaPasien === userdata.namalengkap));
+
         })
         .catch(error => {
           console.error(error)
         });
+
     }, [dokter, klinik, hari]),
-  );
+  )
 
+  useFocusEffect(
+    useCallback(() => {
+      const socket = new WebSocket(`ws://10.10.10.102:8080`)
 
-  const from = page * numberOfItemsPerPage;
+      socket.onopen = () => {
+        if(!antrianId) return
+        socket.send(JSON.stringify({
+          data: antrianId,
+          channel: 'antrian'
+        }))
+      }
+      socket.onmessage = event => {
+        const data = JSON.parse(event.data)
+        if(data.type === 'Diagnosa'){
+          console.log(data.data);
+          navigation.navigate('Hasil', {
+            diagnosaId: data.data
+          })
+          socket.close()
+        }
+      }
+    },[antrianId])
+  )
+
+  useFocusEffect(
+    useCallback(() => {
+      if(!dokter) return
+      const source = new EventSource(`${API_URL}/dokter/events/${klinik}/${hari}/${dokter}`);
+      source.addEventListener("message", (event) => {
+        const datas = JSON.parse(event.data);
+        const namaPasien = datas.map((item, index) => ({
+          nama: item.namaPasien,
+          key: index + 1,
+        }));
+        setNamaPasien(namaPasien)
+        setIsNameInList(datas.some((item) => item.namaPasien === userdata.namalengkap));
+      });
+  
+      return () => {
+        source.close();
+      };
+    },[dokter, hari])
+  )
+
+  const from = page * numberOfItemsPerPage
   const to = Math.min((page + 1) * numberOfItemsPerPage, namaPasien?.length);
 
   const tableRow = useCallback((namaPasien) => (
@@ -95,11 +149,11 @@ export const AmbilNomor = ({navigation}) => {
       <DataTable.Cell>{namaPasien.key}</DataTable.Cell>
       <DataTable.Cell>{namaPasien.nama}</DataTable.Cell>
     </DataTable.Row>
-  ), []);
+  ), [])
 
   useEffect(() => {
-    setPage(0);
-  }, [numberOfItemsPerPage]);
+    setPage(0)
+  }, [numberOfItemsPerPage])
 
   return (
     <ScrollView>
@@ -174,12 +228,12 @@ export const AmbilNomor = ({navigation}) => {
         <Button
           mode="contained"
           onPress={() => daftar(userdata.id, dokter, klinik, hari, navigation)}
-          disabled={pressNomor}
+          disabled={pressNomor || isNameInList}
           style={{borderRadius: 6, klinik, hari, marginTop: 6}}
           buttonColor={pressNomor ? 'grey' : '#00096E'}
           textColor={'white'}
           labelStyle={stylesAmbilNomor.nomorTitle}>
-          Ambil Nomor
+          {!isNameInList ? 'Ambil Nomor' : 'Anda sudah mendaftar'}
         </Button>
         <View style={stylesAmbilNomor.ketPasienContainer}>
           <Text style={stylesAmbilNomor.ketPasienJumlah}>Pasien Terdaftar</Text>

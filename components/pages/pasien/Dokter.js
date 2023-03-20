@@ -25,7 +25,7 @@ export const Dokter = ({navigation}) => {
       const payload = {
         klinik,
       };
-      fetch(`${API_URL}/dokter`, {
+      fetch(`${API_URL}/dokter/dokter`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export const Dokter = ({navigation}) => {
       });
     }
     function getListKeahlian() {
-      fetch(`${API_URL}/keahlian`, {
+      fetch(`${API_URL}/dokter/keahlian`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
