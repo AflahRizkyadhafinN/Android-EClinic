@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -8,61 +8,184 @@ import {
 } from 'react-native';
 import {Provider, DataTable} from 'react-native-paper';
 import {stylesGeneral, stylesHasil} from '../../Style';
+import {diagnosaStyles} from '../../DokterStyle';
 import {Icon} from '@rneui/themed';
 import Modal from 'react-native-modal';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Button} from 'react-native-paper';
 import {MainNavbar} from '../../MainNavbar';
-import {diagnosaStyles} from '../../DokterStyle';
+import {makeContext} from '../../UseContext';
+import {API_URL} from '../../../App';
+import {klinikContext} from '../../KlinikContext';
+import moment from 'moment';
+import 'moment/locale/id';
 
 export const Diagnosa = ({navigation}) => {
   const {width} = 100 % +10;
-  const [catatan, setCatatan] = useState();
+  const [catatan, setCatatan] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [openObat, setOPenObat] = useState();
   const [valueObat, setValueObat] = useState();
-
+  const [openPenyakit, setOPenPenyakit] = useState();
+  const [valuePenyakit, setValuePenyakit] = useState();
+  const [banyak, setBanyak] = useState();
+  const {userdata} = useContext(makeContext);
+  const {klinik} = useContext(klinikContext);
+  const [dataPasien, setDataPasien] = useState({
+    namaPasien: 'Tidak ada pasien saat ini',
+  });
+  const hari = moment().locale('id').format('dddd, DD MMMM YYYY');
   const [obat, setObat] = useState([
-    {label: 'Parasetamol', value: 'paracetamol'},
-    {label: 'Promag', value: 'promag'},
+    {label: 'Paracetamol', value: 'paracetamol', harga: 4000},
+    {label: 'Promag', value: 'promag', harga: 5000},
+    {label: 'Ibu Profen', value: 'ibuprofen', harga: 1000},
   ]);
+  const [penyakit, setPenyakit] = useState([
+    {label: 'Maag', value: 'maag'},
+    {label: 'Diare', value: 'diare'},
+    {label: 'Infeksi Pencernaan', value: 'ibuprofen'},
+  ]);
+  const [pilihObat, setPilihObat] = useState([]);
 
-  const pilihObat = [
-    {nama: 'Promag', jumlah: 1, harga: 10000},
-    {nama: 'Parasetamol', jumlah: 3, harga: 13000},
-    {nama: 'Ibu Profen', jumlah: 5, harga: 5000},
-  ];
-
+  useEffect(() => {
+    const payload = {
+      klinik,
+      hari,
+      dokter: userdata.namalengkap,
+    };
+    function getPasien() {
+      setDataPasien('Loading...');
+      fetch(`${API_URL}/pasien`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(payload),
+      })
+        .then(res => res.json())
+        .then(list => {
+          setDataPasien(list[0]);
+        });
+    }
+    getPasien();
+  }, []);
   let jumlah = 0;
   pilihObat.map(data => {
     return (jumlah += data.jumlah * data.harga);
   });
+  function addToArr() {
+    filterData.map(item => {
+      const existingItem = pilihObat.find(obj => obj.nama === item.label);
+      if (existingItem) {
+        existingItem.jumlah += parseInt(banyak, 10);
+      } else {
+        pilihObat.push({
+          nama: item.label,
+          jumlah: parseInt(banyak, 10) || 1,
+          harga: item.harga,
+        });
+      }
+    });
+  }
+
+  function sendDiagnosa() {
+    const payload = {
+      pilihObat,
+      pasien_id: dataPasien.pasien_id,
+      catatan,
+    };
+
+    fetch(`${API_URL}/diagnosa`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+  }
+
+  const remove = nama => {
+    const filter = pilihObat.filter(e => e.nama != nama);
+    setPilihObat(filter);
+  };
+
+  let filterData = obat.filter(item => item.value.includes(valueObat));
 
   return (
     <ScrollView>
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
         <MainNavbar navigation={navigation} />
         <Text style={stylesHasil.title}>Diagnosa</Text>
-        <View style={stylesHasil.identitasContainer}>
-          <Text style={stylesHasil.identitasText}>Dr. Faisal Muslim</Text>
-        </View>
-        <View style={stylesHasil.identitasContainer}>
-          <Text style={stylesHasil.identitasText}>
-            Nama pasien : Zeke Yeager
-          </Text>
-        </View>
-        <View style={stylesHasil.identitasContainer}>
+        {dataPasien.namaPasien ? (
+          <View style={stylesHasil.identitasContainer}>
+            <Text style={stylesHasil.identitasText}>
+              {`Nama pasien : ${dataPasien.namaPasien}`}
+            </Text>
+          </View>
+        ) : (
+          <View style={stylesHasil.identitasContainer}>
+            <Text style={stylesHasil.identitasText}>{`Loading...`}</Text>
+          </View>
+        )}
+        {/* <View style={stylesHasil.identitasContainer}>
           <TextInput
             placeholder="Penyakit pasien"
-            style={diagnosaStyles.input}
+            style={{
+              padding: 0,
+              fontSize: 20,
+              fontWeight: '700',
+              color: 'black',
+            }}
           />
-        </View>
+        </View> */}
+        <DropDownPicker
+          listMode="SCROLLVIEW"
+          items={penyakit}
+          setItems={setPenyakit}
+          open={openPenyakit}
+          setOpen={setOPenPenyakit}
+          value={valuePenyakit}
+          setValue={setValuePenyakit}
+          placeholder={'Penyakit Pasien'}
+          style={{backgroundColor: '#f2f2f2'}}
+          labelStyle={{
+            fontSize: 15,
+            fontWeight: '600',
+            color: 'black',
+            textAlign: 'center',
+          }}
+          placeholderStyle={{
+            fontSize: 15,
+            fontWeight: '600',
+            color: 'black',
+          }}
+          containerStyle={{
+            height: openPenyakit ? 150 : 50,
+            marginVertical: 10,
+            backgroundColor: '#f2f2f2',
+          }}
+          listItemLabelStyle={{fontSize: 15, fontWeight: '600', color: 'black'}}
+          listItemContainerStyle={{
+            backgroundColor: '#f2f2f2',
+          }}
+        />
+
         <Icon
           name="plus"
           type="foundation"
           color={'white'}
           size={35}
-          style={diagnosaStyles.addIcon}
+          style={{
+            backgroundColor: '#00096E',
+            marginTop: 20,
+            width: 55,
+            borderTopLeftRadius: 6,
+            borderTopRightRadius: 6,
+            alignSelf: 'flex-end',
+            paddingVertical: 5,
+          }}
           onPress={() => setOpenModal(true)}
         />
         <Modal
@@ -72,17 +195,17 @@ export const Diagnosa = ({navigation}) => {
           animationOut={'fadeOut'}>
           <View style={diagnosaStyles.modalContainer}>
             <View style={diagnosaStyles.modalTitleContainer}>
-              <Text style={diagnosaStyles.modalTitle}>Tambah Obat</Text>
+              <Text style={diagnosaStyles.modalTitle}>Tambah Dokter</Text>
               <Icon
                 name="x"
                 type="octicon"
                 color={'black'}
                 size={40}
-                style={diagnosaStyles.xIcon}
                 onPress={() => setOpenModal(false)}
               />
             </View>
-            <Text style={diagnosaStyles.modalSubtitle}>Nama Obat</Text>
+
+            <Text style={diagnosaStyles.modalKonten}>Nama Obat</Text>
             <View style={{zIndex: 1}}>
               <DropDownPicker
                 items={obat}
@@ -95,25 +218,31 @@ export const Diagnosa = ({navigation}) => {
                 containerStyle={{height: openObat ? 150 : 50}}
               />
             </View>
-            <Text style={diagnosaStyles.modalSubtitle}>Jumlah</Text>
+
+            <Text style={diagnosaStyles.modalKonten}>Jumlah</Text>
             <TextInput
+              onChangeText={text => setBanyak(text)}
               placeholder="Jumlah"
               keyboardType="numeric"
               style={diagnosaStyles.inputJumlah}
             />
             <View style={diagnosaStyles.modalButtonContainer}>
               <TouchableOpacity
-                style={[
-                  diagnosaStyles.modalButton,
-                  {backgroundColor: '#767676'},
-                ]}
-                onPress>
+                style={diagnosaStyles.modalButton}
+                onPress={() => setOpenModal(false)}>
                 <Text style={diagnosaStyles.modalButtonText}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
+                onPress={() => {
+                  addToArr();
+                  console.log(pilihObat);
+                  setOpenModal(false);
+                }}
                 style={[
                   diagnosaStyles.modalButton,
-                  {backgroundColor: '#00096E'},
+                  {
+                    backgroundColor: '#00096E',
+                  },
                 ]}>
                 <Text style={diagnosaStyles.modalButtonText}>Submit</Text>
               </TouchableOpacity>
@@ -125,7 +254,7 @@ export const Diagnosa = ({navigation}) => {
             stylesHasil.obatContainer,
             {borderTopWidth: 1, borderTopLeftRadius: 6},
           ]}>
-          <Text style={stylesHasil.obatTanggal}>30 Januari 2023</Text>
+          <Text style={stylesHasil.obatTanggal}>{hari}</Text>
           <DataTable
             style={{
               marginHorizontal: -10,
@@ -143,7 +272,9 @@ export const Diagnosa = ({navigation}) => {
                 style={{
                   justifyContent: 'center',
                   flex: 2,
-                  paddingHorizontal: 1,
+                  borderLeftWidth: 1,
+                  borderRightWidth: 1,
+                  borderColor: 'white',
                 }}>
                 Jumlah
               </DataTable.Title>
@@ -160,7 +291,7 @@ export const Diagnosa = ({navigation}) => {
             </DataTable.Header>
             {pilihObat.map((data, index) => {
               return (
-                <DataTable.Row key={index} style={{marginTop: -1}}>
+                <DataTable.Row key={index}>
                   <DataTable.Cell style={{flex: 3}}>{data.nama}</DataTable.Cell>
                   <DataTable.Cell
                     style={[
@@ -194,7 +325,7 @@ export const Diagnosa = ({navigation}) => {
                         borderRadius: 6,
                         margin: 0,
                       }}
-                      onPress={() => {}}
+                      onPress={() => remove(data.nama)}
                     />
                   </DataTable.Cell>
                 </DataTable.Row>
@@ -229,14 +360,11 @@ export const Diagnosa = ({navigation}) => {
           </DataTable>
         </View>
         <View style={diagnosaStyles.catatanContainer}>
-          <Text style={[diagnosaStyles.modalSubtitle, {marginTop: 0}]}>
-            Catatan Dokter
-          </Text>
+          <Text style={diagnosaStyles.modalKonten}>Catatan Dokter</Text>
           <TextInput
             placeholder="Catatan Dokter"
             multiline={true}
-            value={catatan}
-            onChangeText={e => setCatatan(e)}
+            onChangeText={text => setCatatan(text)}
             style={diagnosaStyles.inputCatatan}
           />
         </View>
@@ -245,8 +373,12 @@ export const Diagnosa = ({navigation}) => {
           style={diagnosaStyles.button}
           buttonColor="#00096E"
           textColor="white"
-          labelStyle={diagnosaStyles.buttonLabel}
-          onPress={() => navigation.navigate('ConfirmDiagnosa')}>
+          labelStyle={{
+            fontSize: 15,
+            fontWeight: '600',
+            textAlign: 'center',
+          }}
+          onPress={() => sendDiagnosa()}>
           Berikan hasil diagnosis
         </Button>
       </View>
