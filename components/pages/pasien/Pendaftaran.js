@@ -10,8 +10,11 @@ import { klinikContext } from '../../KlinikContext';
 export const Pendaftaran = ({navigation}) => {
   const [poliklinik, setPoliklinik] = useState([])
   const {klinik} = useContext(klinikContext)
-
  useEffect(() => {
+
+  let subscribe = false
+  if (subscribe) return
+
   function getPoliklinik() { 
     fetch(`${API_URL}/klinik/poliklinik/${klinik}`)
       .then(async (res) => {
@@ -23,12 +26,16 @@ export const Pendaftaran = ({navigation}) => {
            setPoliklinik(poliklinikArray)
         }
         catch(err){
-          console.error(err);
+          console.error(err)
         }
       })
       .catch(error => console.error(error))
   }
   getPoliklinik()
+
+    return () => {
+      subscribe = true
+    }
  }, [])
 
   return (

@@ -16,7 +16,6 @@ export const MainNavbar = props => {
   const {userdata} = useContext(makeContext);
   const [open, setOpen] = useState(false);
   const {navigation, type} = props;
-  const [profilePic, setProfilePic] = useState(userdata.profilePic);
 
   return (
     <View style={stylesDashboard.header}>
@@ -56,7 +55,7 @@ export const MainNavbar = props => {
                 {userdata.namalengkap}
               </Text>
               <Image
-                source={profilePic ? {uri: profilePic} : require('./image/PhotoProfile.png') }
+                source={userdata.profilePic ? {uri: userdata.profilePic} : require('./image/PhotoProfile.png') }
                 style={stylesDashboard.accountImage}
               />
             </View>

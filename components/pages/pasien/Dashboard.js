@@ -1,4 +1,4 @@
-import React, {Component, useContext, useEffect, useState} from 'react';
+import React, {Component, useCallback, useContext, useEffect, useState} from 'react';
 import ProgressBar from 'react-native-animated-progress';
 import {
   Text,
@@ -18,81 +18,16 @@ import {API_URL} from '../../../App';
 import DoubleTapToClose from '../../CloseApp';
 import {Icon} from '@rneui/themed';
 import {Button} from 'react-native-paper'
+import moment from 'moment';
 
 export const Dashboard = ({navigation, isInitialScreen}) => {
   const route = useRoute();
   const [refreshing, setRefreshing] = React.useState(false);
-  const [member, setMember] = useState('0');
-  const StatistikArrow = () => {
-    return (
-      <View style={stylesDashboard.statistikArrowContainer}>
-        <TouchableWithoutFeedback>
-          <Icon
-            name="keyboard-arrow-left"
-            type="material"
-            color={'#000'}
-            size={40}
-            style={{margin: -10}}
-          />
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback>
-          <Icon
-            name="keyboard-arrow-right"
-            type="material"
-            color={'#000'}
-            size={40}
-            style={{margin: -10}}
-          />
-        </TouchableWithoutFeedback>
-      </View>
-    );
-  };
-
-  useEffect(() => {
-    fetch(`${API_URL}/data/users`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    }).then(async res => {
-      try {
-        const jsonRes = await res.json();
-        if (res.status === 200) {
-          setMember(jsonRes.id);
-        } else {
-          Alert.alert(jsonRes.alert);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    });
-  }, []);
-
-  const onRefresh = React.useCallback(async () => {
-    setRefreshing(true);
-    fetch(`${API_URL}/data/users`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    }).then(async res => {
-      try {
-        const jsonRes = await res.json();
-        if (res.status === 200) {
-          setMember(jsonRes.id);
-        } else {
-          Alert.alert(jsonRes.alert);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    });
-    setRefreshing(false);
-  }, [refreshing]);
-
-  const jumlahPasien = member;
+  const [member, setMember] = useState(0);
+  const [hasilActive, setHasilActive] = useState(false)
+  const {userdata} = useContext(makeContext)
+  const [hasilDokter, setHasilDokter] = useState('')
+  const [diagnosId, setDiagnosId] = useState('')
   const penyakit = [
     {
       nama: 'Covid',
@@ -132,28 +67,201 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       warna: '#6665DD',
     },
   ];
-  const pekerjaan = [
+  const [pekerjaan, setPekerjaan] = useState([
     {
-      nama: 'Guru',
-      jumlah: 260,
       warna: '#E15692',
     },
     {
-      nama: 'Tentara',
-      jumlah: 150,
       warna: '#CD3B29',
     },
     {
-      nama: 'Pedagang',
-      jumlah: 68,
       warna: '#3D9091',
     },
     {
-      nama: 'Pelajar',
-      jumlah: 80,
       warna: '#D9A7A7',
     },
-  ];
+  ]);
+  const StatistikArrow = () => {
+    return (
+      <View style={stylesDashboard.statistikArrowContainer}>
+        <TouchableWithoutFeedback>
+          <Icon
+            name="keyboard-arrow-left"
+            type="material"
+            color={'#000'}
+            size={40}
+            style={{margin: -10}}
+          />
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback>
+          <Icon
+            name="keyboard-arrow-right"
+            type="material"
+            color={'#000'}
+            size={40}
+            style={{margin: -10}}
+          />
+        </TouchableWithoutFeedback>
+      </View>
+    );
+  };
+
+
+  useEffect(() => {
+
+    let subscribe = false
+    if (subscribe) return
+    fetch(`${API_URL}/data/users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }).then(async res => {
+      try {
+        const jsonRes = await res.json();
+        if (res.status === 200) {
+          setMember(jsonRes.id);
+          const mergedData = jsonRes.data.map(({ pekerjaan: nama, count: jumlah }, index) => {
+            return { nama, jumlah, warna: pekerjaan[index].warna };
+          });
+          
+
+          setPekerjaan(mergedData);
+          console.log(pekerjaan);
+        } else {
+          Alert.alert(jsonRes.alert);
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    });
+
+    function getHasilDiagnosa(){
+      fetch(`${API_URL}/pasien/hasil/${userdata.id}/${moment().locale('id').format('YYYY-MM-DD')}/false`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userdata.token}`,
+      }
+      }).then(res => res.json())
+      .then(list => {
+        if(list.found === true){
+          setHasilActive(true)
+          setHasilDokter(list.namaDok)
+          setDiagnosId(list.id)
+        }
+        else{
+          setHasilActive(false)
+        }
+      })
+    }
+    getHasilDiagnosa()
+
+    return () => {
+      subscribe = true
+    }
+
+  }, [userdata]);
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true)
+    fetch(`${API_URL}/data/users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }).then(async res => {
+      try {
+        const jsonRes = await res.json();
+        if (res.status === 200) {
+          setMember(jsonRes.id);
+        } else {
+          Alert.alert(jsonRes.alert);
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }).finally(() => {
+      setRefreshing(false)
+    });
+  }, [refreshing]);
+
+  const jumlahPasien = member;
+
+  const ListPekerjaan = useCallback(function ListPekerjaan() {
+   return pekerjaan.map((pek, index) => {
+      const progress = (parseInt(pek.jumlah) / jumlahPasien) * 100;
+      return (
+        <View key={index}>
+          <View style={stylesDashboard.statistikDescriptionContainer}>
+            <Text style={stylesDashboard.statistikDescription}>
+              {pek.jumlah} of {jumlahPasien}
+            </Text>
+            <Text style={stylesDashboard.statistikDescription}>
+              {pek.nama}
+            </Text>
+          </View>
+          <ProgressBar
+            progress={progress || 0}
+            height={10}
+            trackColor="#000000"
+            backgroundColor={pek.warna}
+          />
+        </View>
+      );
+    })
+  }, [pekerjaan])
+
+  const ListGolonganDarah = useCallback(function ListGolonganDarah() {
+    return Gdarah.map((gd, index) => {
+      const progress = (parseInt(gd.jumlah) / jumlahPasien) * 100;
+
+      
+      return (
+      <View key={index}>
+        <View style={stylesDashboard.statistikDescriptionContainer}>
+          <Text style={stylesDashboard.statistikDescription}>
+            {gd.jumlah} of {jumlahPasien}
+          </Text>
+          <Text style={stylesDashboard.statistikDescription}>
+            {gd.nama}
+          </Text>
+        </View>
+        <ProgressBar
+          progress={progress || 0}
+          height={10}
+          trackColor="#000000"
+          backgroundColor={gd.warna}
+        />
+      </View>
+    )})
+   }, [Gdarah])
+
+   const ListPenyakit = useCallback(function ListPenyakit() {
+    return penyakit.map((pen, index) => {
+      const progress = (parseInt(pen.jumlah) / jumlahPasien) * 100;
+
+      
+      return (
+      <View key={index}>
+        <View style={stylesDashboard.statistikDescriptionContainer}>
+          <Text style={stylesDashboard.statistikDescription}>
+            {pen.jumlah} of {jumlahPasien}
+          </Text>
+          <Text style={stylesDashboard.statistikDescription}>
+            {pen.nama}
+          </Text>
+        </View>
+        <ProgressBar
+          progress={progress || 0}
+          height={10}
+          trackColor="#000000"
+          backgroundColor={pen.warna}
+        />
+      </View>
+    )})
+   }, [penyakit])
 
   return (
     <ScrollView
@@ -190,6 +298,41 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
           </Text>
         </View>
       </View>
+      {hasilActive === true ? (
+        <View
+          style={{
+            borderWidth: 1,
+            flexDirection: 'row',
+            marginTop: 10,
+          }}>
+          <Icon
+            name="check"
+            type="entypo"
+            backgroundColor={'#229930'}
+            color="white"
+            style={{flex: 1, justifyContent: 'center', padding: 10}}
+          />
+          <TouchableOpacity
+            style={{flex: 1, padding: 10, backgroundColor: '#2ECC40'}}>
+            <Text
+              style={{
+                fontSize: 17,
+                fontWeight: '600',
+                color: 'white',
+                textAlign: 'center',
+              }}
+              onPress={() =>
+                navigation.navigate('Hasil', {
+                  diagnosaId: diagnosId,
+                })
+              }>
+              {`Pemeriksaan telah selesai, klik disini untuk melihat hasil diagnosa tanggal ${moment()
+                .locale('id')
+                .format('YYYY-MM-DD')}, dengan ${hasilDokter}`}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      ) : undefined}
       <Button
         mode="contained"
         buttonColor="black"
@@ -204,70 +347,19 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       </View>
       <View style={stylesDashboard.statistikContainer2}>
         <Text style={stylesDashboard.statistikSubtitle}>Penyakit pasien</Text>
-        {penyakit.map((pen, index) => (
-          <View key={index}>
-            <View style={stylesDashboard.statistikDescriptionContainer}>
-              <Text style={stylesDashboard.statistikDescription}>
-                {pen.jumlah} of {jumlahPasien}
-              </Text>
-              <Text style={stylesDashboard.statistikDescription}>
-                {pen.nama}
-              </Text>
-            </View>
-            <ProgressBar
-              progress={(pen.jumlah / jumlahPasien) * 100}
-              height={10}
-              trackColor="#000000"
-              backgroundColor={pen.warna}
-            />
-          </View>
-        ))}
+        <ListPenyakit />
         <StatistikArrow />
       </View>
       <View style={stylesDashboard.statistikContainer2}>
         <Text style={stylesDashboard.statistikSubtitle}>
           Golongan darah pasien
         </Text>
-        {Gdarah.map((gd, index) => (
-          <View key={index}>
-            <View style={stylesDashboard.statistikDescriptionContainer}>
-              <Text style={stylesDashboard.statistikDescription}>
-                {gd.jumlah} of {jumlahPasien}
-              </Text>
-              <Text style={stylesDashboard.statistikDescription}>
-                {gd.nama}
-              </Text>
-            </View>
-            <ProgressBar
-              progress={(gd.jumlah / jumlahPasien) * 100}
-              height={10}
-              trackColor="#000000"
-              backgroundColor={gd.warna}
-            />
-          </View>
-        ))}
+        <ListGolonganDarah />
         <StatistikArrow />
       </View>
       <View style={stylesDashboard.statistikContainer2}>
         <Text style={stylesDashboard.statistikSubtitle}>Pekerjaan pasien</Text>
-        {pekerjaan.map((pek, index) => (
-          <View key={index}>
-            <View style={stylesDashboard.statistikDescriptionContainer}>
-              <Text style={stylesDashboard.statistikDescription}>
-                {pek.jumlah} of {jumlahPasien}
-              </Text>
-              <Text style={stylesDashboard.statistikDescription}>
-                {pek.nama}
-              </Text>
-            </View>
-            <ProgressBar
-              progress={(pek.jumlah / jumlahPasien) * 100}
-              height={10}
-              trackColor="#000000"
-              backgroundColor={pek.warna}
-            />
-          </View>
-        ))}
+          <ListPekerjaan />
         <StatistikArrow />
       </View>
     </ScrollView>

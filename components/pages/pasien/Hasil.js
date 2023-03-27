@@ -9,7 +9,7 @@ import { makeContext } from '../../UseContext';
 
 export const Hasil = ({route, navigation}) => {
   const {width} = 100 % +10;
-  const [confirmBayar, setConfirmBayar] = useState(false)
+  const [confirmBayar, setConfirmBayar] = useState(true)
   const diagnosaId = route.params.diagnosaId
   const [dataDiagnosa, setDataDiagnosa] = useState({})
   const [dataObat, setDataObat] = useState([])
@@ -26,7 +26,6 @@ export const Hasil = ({route, navigation}) => {
       .then(res => res.json())
       .then(list => {
         setDataObat(list[0].obat_pasien);
-        console.log(list);
         const diagnosa = list.map(item => {
           return {
             namaPasien: item.userdatum.namalengkap,
@@ -34,9 +33,9 @@ export const Hasil = ({route, navigation}) => {
             tanggal: item.tanggal_diagnosis,
           };
         });
-        setDataDiagnosa(diagnosa[0]);
+        setDataDiagnosa(diagnosa[0])
       });
-  }, []);
+  }, [])
 
   let jumlah = 0
   dataObat?.map(data => {
@@ -121,7 +120,7 @@ export const Hasil = ({route, navigation}) => {
             textColor="white"
             style={stylesHasil.button}
             labelStyle={{width: '100%'}}
-            onPress={() => navigation.navigate('BuktiPembayaran')}>
+            onPress={() => navigation.navigate('BuktiPembayaran', {diagnosaId})}>
             Bukti Pembayaran
           </Button>
         ) : undefined}

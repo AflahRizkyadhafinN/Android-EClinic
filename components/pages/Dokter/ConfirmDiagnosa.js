@@ -4,8 +4,11 @@ import {stylesGeneral} from '../../Style';
 import {cDiagnosaStyles} from '../../DokterStyle';
 import {Button} from 'react-native-paper';
 import {MainNavbar} from '../../MainNavbar';
+import { useRoute } from '@react-navigation/native';
 
 export const ConfirmDiagnosa = ({navigation}) => {
+  const route = useRoute()
+  const namaPasien = route.params.namaPasien
   return (
     <ScrollView>
       <View style={stylesGeneral.container}>
@@ -13,7 +16,7 @@ export const ConfirmDiagnosa = ({navigation}) => {
         <View style={{marginTop: '60%'}}>
           <View style={cDiagnosaStyles.firstContainer}>
             <Text style={cDiagnosaStyles.fcText}>
-              Proses diagnosa pasien atas nama Zeke Yeager sudah selesai
+              {`Proses diagnosa pasien atas nama ${namaPasien} sudah selesai`}
             </Text>
             <Text style={cDiagnosaStyles.fcText}>
               Tekan tombol dibawah untuk mediagnosis pasien selanjutnya
@@ -24,13 +27,8 @@ export const ConfirmDiagnosa = ({navigation}) => {
               mode="contained"
               buttonColor="#00096E"
               textColor="white"
-              style={{
-                borderRadius: 6,
-                marginVertical: 10,
-                width: '50%',
-                alignSelf: 'center',
-              }}
-              labelStyle={{fontSize: 15, fontWeight: '600'}}
+              style={cDiagnosaStyles.button}
+              labelStyle={cDiagnosaStyles.buttonLabel}
               onPress={() => navigation.navigate('Diagnosa')}>
               Kembali
             </Button>

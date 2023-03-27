@@ -56,7 +56,7 @@ export const Login = ({navigation}) => {
           setUserData(jsonRes);
           ToastAndroid.show(jsonRes.alert, ToastAndroid.SHORT);
           if (jsonRes.level === 2) {
-            navigation.navigate('PilihDokter');
+            navigation.navigate('Diagnosa');
           }else {
             navigation.navigate('Dashboard');
           }
@@ -68,7 +68,6 @@ export const Login = ({navigation}) => {
       }
     });
   }
-
   const retrieveJwt = async () => {
     try {
       const jwt = await Keychain.getGenericPassword();

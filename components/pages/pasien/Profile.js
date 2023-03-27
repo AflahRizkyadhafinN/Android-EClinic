@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   ScrollView,
   View,
@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Alert,
 } from 'react-native';
 import {stylesGeneral, stylesProfile, stylesDashboard} from '../../Style';
 import RadioForm from 'react-native-simple-radio-button';
@@ -17,6 +18,9 @@ import {makeContext} from '../../UseContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Button} from 'react-native-paper';
 import {MainNavbar} from '../../MainNavbar';
+import ImagePicker from 'react-native-image-crop-picker';
+import Modal from 'react-native-modal';
+import {white} from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 export const Profile = ({navigation}) => {
   const {userdata, setUserData} = useContext(makeContext);
@@ -25,11 +29,10 @@ export const Profile = ({navigation}) => {
   const [openP, setOpenP] = useState(false);
   const [openGD, setOpenGD] = useState(false);
   const [valueP, setValueP] = useState(null);
-  const [valueGD, setValueGD] = useState(null);
 
   const [listpekerjaan, setListPekerjaan] = useState([
     {label: 'Guru', value: 'guru'},
-    {label: 'Tentara', value: 'tentara'},
+    {label: 'Tentara', value: 'Tentara'},
     {label: 'Pedagang', value: 'pedagang'},
     {label: 'Polisi', value: 'polisi'},
     {label: 'Penyanyi', value: 'penyanyi'},
@@ -69,9 +72,14 @@ export const Profile = ({navigation}) => {
   const [token, setToken] = useState('');
   const [kodepos, setKodePos] = useState(userdata.kodepos);
   const [kodewilayah, setKodeWilayah] = useState(userdata.kodewilayah);
+  const [wilayah, setWilayah] = useState([]);
   const [tanggal, setTanggal] = useState(userdata.tanggalLahir);
+  const [open, setOpen] = React.useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [openSelectedImage, setOpenSelectedImage] = useState(false);
   const [profilePic, setProfilePic] = useState(userdata.profilePic);
-  console.log(profilePic);
+  const [debouncer, setDebouncer] = useState('');
+  console.log(userdata);
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     if (event.type == 'set') {
@@ -112,35 +120,194 @@ export const Profile = ({navigation}) => {
     }
   }
 
-  async function profilerefresh(id) {
-    fetch(`${API_URL}/profilerefresh`, {
-      method: 'PATCH',
+  async function profilerefresh() {
+    const payload = {
+      id
+    }
+    fetch(`${API_URL}/profile/profilerefresh`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
-      body: id,
+      body: JSON.stringify(payload),
     }).then(async res => {
-      try {
+      console.log(res);
         const jsonRes = await res.json();
         console.log(jsonRes);
         if (res.status == 200) {
           setUserData(jsonRes);
+          setProfilePic(jsonRes.profilePic)
         }
-      } catch (err) {
-        console.log(err);
-      }
+
     });
   }
+
+  const handleOpenGallery = () => {
+    ImagePicker.openPicker({
+      mediaType: 'photo',
+      cropping: true,
+      width: 150,
+      height: 150,
+      showCropFrame: false,
+    }).then(data => {
+      setSelectedImage(data.path);
+    });
+  };
+
+  const handleOpenCamera = () => {
+    ImagePicker.openCamera({
+      mediaType: 'photo',
+      cropping: true,
+      width: 150,
+      height: 150,
+      showCropFrame: false,
+    }).then(data => {
+      setSelectedImage(data.path);
+    });
+  };
+
+  function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  }
+
+  const changeTextDebouncer = debounce(text => {
+    setDebouncer(text);
+  }, 1000);
+
+  useEffect(() => {
+    if (debouncer.length > 0) {
+      console.log(debouncer);
+      fetch(`${API_URL}/data/wilayah?query=${debouncer}`)
+        .then(async res => {
+            const wilayahRes = await res.json();
+            const wilayahArray = wilayahRes.map(item => {
+              return {
+                label: `${item.Kelurahan},  ${item.Kecamatan}, ${item.KabupatenKota}, ${item.Provinsi}`,
+                value: item.kodeWilayah,
+              };
+            });
+            setWilayah(wilayahArray);
+
+        })
+        .catch(error => console.error(error));
+    }
+  }, [debouncer]);
+
+   async function update() {
+     let data = new FormData();
+     data.append('id', id);
+     data.append('email', email);
+     data.append('namalengkap', namalengkap);
+     data.append('nik', nik);
+     data.append('pekerjaan', pekerjaan);
+     data.append('alamat', alamat);
+     data.append('rw', rw);
+     data.append('rt', rt);
+     data.append('kodepos', kodepos);
+     data.append('kodewilayah', kodewilayah);
+     data.append('jeniskelamin', jeniskelamin);
+     data.append('golongandarah', golongandarah);
+     data.append('tempatLahir', tempatLahir);
+     data.append('tanggalLahir', tanggal);
+     data.append('token', token);
+     if (selectedImage){
+      data.append('image', {
+        uri: selectedImage,
+        name: 'image.jpg',
+        type: 'image/jpeg',
+      });
+     }
+
+
+     fetch(`${API_URL}/profile/update`, {
+       method: 'PATCH',
+       headers: {
+         'Content-Type': 'multipart/form-data',
+         Authorization: `Bearer ${token}`,
+       },
+       body: data,
+     }).then(async res => {
+
+        const jsonRes = await res.json();
+        if(res.status !== 200){
+          return Alert.alert(jsonRes.alert)
+        }
+
+         profilerefresh(id);
+         setEdit(false);
+       }).catch(err => console.log(err));
+   }
+
+
   return (
     <ScrollView nestedScrollEnabled={true}>
       <View style={stylesGeneral.container}>
         <MainNavbar navigation={navigation} menuType={'default'} />
-        <TouchableOpacity disabled={!edit}>
+        <Modal
+          isVisible={openSelectedImage}
+          onBackdropPress={() => setOpenSelectedImage(false)}
+          style={stylesProfile.photoProfileModal}
+          animationIn={'slideInUp'}
+          animationOut={'slideOutDown'}
+          animationInTiming={500}
+          animationOutTiming={500}>
+          <View style={{backgroundColor: 'white'}}>
+            <Text style={stylesProfile.photoProfileModalTitle}>
+              Ubah foto profile
+            </Text>
+            <TouchableOpacity style={stylesProfile.photoProfileButtonContainer}>
+              <Text
+                style={stylesProfile.photoProfileButtonText}
+                onPress={() => {
+                  handleOpenGallery();
+                  setOpenSelectedImage(false);
+                }}>
+                Pilih dari galeri
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={stylesProfile.photoProfileButtonContainer}>
+              <Text
+                style={stylesProfile.photoProfileButtonText}
+                onPress={() => {
+                  handleOpenCamera();
+                  setOpenSelectedImage(false);
+                }}>
+                Buka kamera
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={stylesProfile.photoProfileButtonContainer}>
+              <Text
+                style={stylesProfile.photoProfileButtonText}
+                onPress={() => setOpenSelectedImage(false)}>
+                Cancel
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+        <TouchableOpacity
+          disabled={!edit}
+          onPress={() => setOpenSelectedImage(true)}
+          style={{
+            width: 150,
+            height: 150,
+            marginTop: 20,
+            alignSelf: 'center',
+          }}>
           <Image
-            source={{
-              uri: profilePic
-            }}
+            source={
+              !profilePic
+                ? require('../../image/PhotoProfile.png')
+                : {uri: profilePic}
+            }
             style={stylesProfile.photoProfile}
             defaultSource={require('../../image/PhotoProfile.png')}
           />
@@ -180,9 +347,9 @@ export const Profile = ({navigation}) => {
           <DropDownPicker
             items={listpekerjaan}
             open={openP}
-            value={valueP}
+            value={pekerjaan}
             setOpen={setOpenP}
-            setValue={setValueP}
+            setValue={setPekerjaan}
             setItems={setListPekerjaan}
             listMode="SCROLLVIEW"
             disabled={!edit}
@@ -228,13 +395,13 @@ export const Profile = ({navigation}) => {
           </TextInput>
         </TouchableOpacity>
         <Text style={stylesProfile.profileTitle}>Golongan Darah</Text>
-        <View style={{zIndex: 1}}>
+        <View style={{zIndex: 1000}}>
           <DropDownPicker
             items={GDarah}
             open={openGD}
-            value={valueGD}
+            value={golongandarah}
             setOpen={setOpenGD}
-            setValue={setValueGD}
+            setValue={setGolonganDarah}
             setItems={setListPekerjaan}
             listMode="SCROLLVIEW"
             disabled={!edit}
@@ -247,7 +414,7 @@ export const Profile = ({navigation}) => {
                 ? stylesProfile.dropdownLabelActive
                 : stylesProfile.dropdownLabel
             }
-            containerStyle={{height: openP ? 250 : 50}}
+            containerStyle={{height: openGD ? 250 : 50}}
             iconContainerStyle={stylesProfile.dropdownIconContainer}
             dropDownContainerStyle={stylesProfile.dropdownContainer}
             listItemLabelStyle={stylesProfile.dropdownListLabel}
@@ -258,6 +425,14 @@ export const Profile = ({navigation}) => {
             }
           />
         </View>
+        <Text style={stylesProfile.profileTitle}>Alamat</Text>
+        <TextInput
+          style={stylesProfile.textInput}
+          value={alamat}
+          onChangeText={text => setAlamat(text)}
+          placeholder="Alamat"
+          editable={edit}
+        />
         <View style={{flexDirection: 'row'}}>
           <View style={{width: '50%'}}>
             <Text style={stylesProfile.profileTitle}>RW</Text>
@@ -289,13 +464,35 @@ export const Profile = ({navigation}) => {
           editable={edit}
         />
         <Text style={stylesProfile.profileTitle}>Kode wilayah</Text>
-        <TextInput
-          style={stylesProfile.textInput}
-          value={kodewilayah}
-          onChangeText={text => setKodeWilayah(text)}
-          placeholder="Kode wilayah"
-          editable={edit}
-        />
+        <View>
+          <DropDownPicker
+            open={open}
+            value={kodewilayah}
+            items={wilayah}
+            setOpen={setOpen}
+            setValue={setKodeWilayah}
+            searchable={true}
+            listMode="MODAL"
+            modalAnimationType="slide"
+            disableLocalSearch={true}
+            searchPlaceholder="Cari kelurahan anda"
+            placeholder="Isi Kode Wilayah"
+            textStyle={
+              edit
+                ? stylesProfile.dropdownTextActive
+                : stylesProfile.dropdownText
+            }
+            labelStyle={
+              edit
+                ? stylesProfile.dropdownLabelActive
+                : stylesProfile.dropdownLabel
+            }
+            style={stylesProfile.dropdown}
+            placeholderStyle={stylesProfile.dropdownPlaceholder}
+            disabled={!edit}
+            onChangeSearchText={changeTextDebouncer}
+          />
+        </View>
         <Text style={stylesProfile.profileTitle}>Gender</Text>
         <RadioForm
           formHorizontal={true}
@@ -349,27 +546,7 @@ export const Profile = ({navigation}) => {
           buttonColor="black"
           textColor="white"
           onPress={() => {
-            update(
-              id,
-              email,
-              namalengkap,
-              nik,
-              pekerjaan,
-              alamat,
-              rw,
-              rt,
-              kodepos,
-              kodewilayah,
-              jeniskelamin,
-              golongandarah,
-              tempatLahir,
-              tanggal,
-              token,
-              navigation,
-            ).then(() => {
-              profilerefresh(id);
-              setEdit(false);
-            });
+            update();
           }}>
           Simpan
         </Button>

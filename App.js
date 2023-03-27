@@ -23,9 +23,8 @@ import {ConfirmPembayaran} from './components/pages/pasien/ConfirmPembayaran';
 import {BuktiPembayaran} from './components/pages/pasien/BuktiPembayaran';
 
 // Import Page Dokter
-import {ConfirmDiagnosa} from './components/pages/Dokter/ConfirmDiagnosa';
-import {PilihDokter} from './components/pages/Dokter/PilihDokter';
-import {Diagnosa} from './components/pages/Dokter/Diagnosa';
+import {ConfirmDiagnosa} from './components/pages/dokter/ConfirmDiagnosa';
+import {Diagnosa} from './components/pages/dokter/Diagnosa';
 
 import {Alert} from 'react-native';
 import {UserData} from './components/UseContext';
@@ -34,7 +33,7 @@ import {KlinikNama} from './components/KlinikContext';
 import DeviceInfo from 'react-native-device-info';
 import { Linking } from 'react-native';
 
-export const API_URL = 'http://10.10.10.102:5000';
+export const API_URL = 'http://10.10.10.162:5000';
 const Stack = createNativeStackNavigator();
 
 const isCurrentScreenInitialOne = state => {
@@ -101,7 +100,6 @@ function App() {
             <Stack.Screen name="Hasil" component={Hasil} />
             <Stack.Screen name="NomorAntrian" component={NomorAntrian} />
             <Stack.Screen name="Riwayat" component={Riwayat} />
-            <Stack.Screen name="PilihDokter" component={PilihDokter} />
             <Stack.Screen name="ConfirmDiagnosa" component={ConfirmDiagnosa} />
             <Stack.Screen name="Diagnosa" component={Diagnosa} />
             <Stack.Screen
@@ -316,54 +314,6 @@ export async function daftar(pasien_id, dokter_id, klinik, hari, navigation){
     });
 }
 
-export async function update(
-  id,
-  email,
-  namalengkap,
-  nik,
-  pekerjaan,
-  alamat,
-  rw,
-  rt,
-  kodepos,
-  kodewilayah,
-  jeniskelamin,
-  golongandarah,
-  tempatLahir,
-  tanggalLahir,
-  token,
-) {
-  const jwt = await Keychain.getGenericPassword();
-  const keyToken = jwt.password;
-  const payload = {
-    alamat,
-    id,
-    email,
-    namalengkap,
-    nik,
-    pekerjaan,
-    rw,
-    rt,
-    kodepos,
-    kodewilayah,
-    jeniskelamin,
-    golongandarah,
-    tempatLahir,
-    tanggalLahir,
-    keyToken,
-  };
 
-  const res = fetch(`${API_URL}/profile/update`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(payload),
-  });
-
-  return res;
-}
 
 export default App;

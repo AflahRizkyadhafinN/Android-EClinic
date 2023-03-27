@@ -1,27 +1,41 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import {stylesBPembayaran, stylesGeneral} from '../../Style';
 import {MainNavbar} from '../../MainNavbar';
 import {Icon} from '@rneui/themed';
+import { useRoute } from '@react-navigation/native';
+import { makeContext } from '../../UseContext';
+import { API_URL } from '../../../App';
 
 export const BuktiPembayaran = ({navigation}) => {
-  const listObat = [
-    {
-      nama: 'Cendo Xitrol Eye Drop',
-      jumlah: 5,
-      harga: 10000,
-    },
-    {
-      nama: 'DeNature',
-      jumlah: 1,
-      harga: 10000,
-    },
-    {
-      nama: 'Wallatra Limatta Softgel',
-      jumlah: 1,
-      harga: 10000,
-    },
-  ];
+  const route = useRoute()
+  const diagnosaId = route.params.diagnosaId
+  const [dataDiagnosa, setDataDiagnosa] = useState({})
+  const [dataObat, setDataObat] = useState([])
+  const {userdata} = useContext(makeContext)
+  useEffect(() => {
+    fetch(`${API_URL}/pasien/diagnosa/${diagnosaId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${userdata.token}` 
+      },
+    })
+      .then(res => res.json())
+      .then(list => {
+        setDataObat(list[0].obat_pasien);
+        const diagnosa = list.map(item => {
+          return {
+            namaPasien: item.userdatum.namalengkap,
+            namaDokter: item.dokter.nama_dokter,
+            tanggal: item.tanggal_diagnosis,
+          };
+        });
+        setDataDiagnosa(diagnosa[0])
+      });
+  }, []);
+
   return (
     <ScrollView>
       <View style={stylesGeneral.container}>
@@ -46,10 +60,10 @@ export const BuktiPembayaran = ({navigation}) => {
               <Text style={stylesBPembayaran.text}>Sakit Mata</Text>
             </View>
           </View>
-          {listObat.map((item, index) => {
+          {dataObat.map((item, index) => {
             return (
               <View key={index}>
-                <Text style={stylesBPembayaran.text}>{item.nama}</Text>
+                <Text style={stylesBPembayaran.text}>{item.obat_nama}</Text>
                 <View
                   style={{
                     flexDirection: 'row',

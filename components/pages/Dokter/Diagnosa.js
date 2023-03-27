@@ -20,6 +20,7 @@ import { klinikContext } from '../../KlinikContext';
 import moment from 'moment';
 import 'moment/locale/id'
 import { useFocusEffect } from '@react-navigation/native';
+import {diagnosaStyles} from '../../DokterStyle';
 
 export const Diagnosa = ({navigation}) => {
   const {width} = 100 % +10;
@@ -107,7 +108,10 @@ export const Diagnosa = ({navigation}) => {
   }).then(async res => {
    const list = await res.json()
    if(res.status === 200){
-    navigation.navigate('ConfirmDiagnosa')
+    navigation.navigate('ConfirmDiagnosa', {
+      namaLengkap: dataPasien.namaPasien,
+      
+    })
     return ToastAndroid.show(list.alert, ToastAndroid.SHORT);
    }
    return ToastAndroid.show(list.alert, ToastAndroid.SHORT);
@@ -123,7 +127,7 @@ export const Diagnosa = ({navigation}) => {
     <ScrollView>
 
       <View style={[stylesGeneral.container, {justifyContent: 'flex-start'}]}>
-        <MainNavbar navigation={navigation} menuType={'dokterPage'} />
+        <MainNavbar navigation={navigation} />
         <Text style={stylesHasil.title}>Diagnosa</Text>
         {dataPasien?.namaPasien ? (
           <View style={stylesHasil.identitasContainer}>
@@ -139,12 +143,7 @@ export const Diagnosa = ({navigation}) => {
         <View style={stylesHasil.identitasContainer}>
           <TextInput
             placeholder="Penyakit pasien"
-            style={{
-              padding: 0,
-              fontSize: 20,
-              fontWeight: '700',
-              color: 'black',
-            }}
+            style={diagnosaStyles.input}
           />
         </View>
 
@@ -153,15 +152,7 @@ export const Diagnosa = ({navigation}) => {
           type="foundation"
           color={'white'}
           size={35}
-          style={{
-            backgroundColor: '#00096E',
-            marginTop: 20,
-            width: 55,
-            borderTopLeftRadius: 6,
-            borderTopRightRadius: 6,
-            alignSelf: 'flex-end',
-            paddingVertical: 5,
-          }}
+          style={diagnosaStyles.addIcon}
           onPress={() => setOpenModal(true)}
         />
         <Modal
@@ -169,38 +160,19 @@ export const Diagnosa = ({navigation}) => {
           onBackdropPress={() => setOpenModal(false)}
           animationIn={'fadeIn'}
           animationOut={'fadeOut'}>
-          <View
-            style={{
-              backgroundColor: 'white',
-              borderRadius: 6,
-              padding: 10,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                borderBottomWidth: 1,
-                marginHorizontal: -10,
-                paddingHorizontal: 10,
-                paddingBottom: 5,
-                marginBottom: 5,
-              }}>
-              <Text style={{fontSize: 25, fontWeight: '600', color: 'black'}}>
-                Tambah Dokter
-              </Text>
+          <View style={diagnosaStyles.modalContainer}>
+            <View style={diagnosaStyles.modalTitleContainer}>
+              <Text style={diagnosaStyles.modalTitle}>Tambah Obat</Text>
               <Icon
                 name="x"
                 type="octicon"
                 color={'black'}
                 size={40}
+                style={diagnosaStyles.xIcon}
                 onPress={() => setOpenModal(false)}
               />
             </View>
-            
-            <Text style={{fontSize: 20, fontWeight: '700', color: 'black'}}>
-              Nama Obat
-            </Text>
+            <Text style={diagnosaStyles.modalSubtitle}>Nama Obat</Text>
             <View style={{zIndex: 1}}>
               <DropDownPicker
                 items={obat}
@@ -213,44 +185,21 @@ export const Diagnosa = ({navigation}) => {
                 containerStyle={{height: openObat ? 150 : 50}}
               />
             </View>
-            
-            <Text style={{fontSize: 20, fontWeight: '700', color: 'black'}}>
-              Jumlah
-            </Text>
+            <Text style={diagnosaStyles.modalSubtitle}>Jumlah</Text>
             <TextInput
               onChangeText={text => setBanyak(text)}
               placeholder="Jumlah"
               keyboardType="numeric"
-              style={{
-                borderWidth: 1,
-                borderColor: 'black',
-                borderRadius: 6,
-                paddingHorizontal: 10,
-              }}
+              style={diagnosaStyles.inputJumlah}
             />
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                marginTop: 10,
-              }}>
+            <View style={diagnosaStyles.modalButtonContainer}>
               <TouchableOpacity
-                style={{
-                  backgroundColor: '#767676',
-                  width: '45%',
-                  paddingVertical: 5,
-                  borderRadius: 6,
-                }}
+                style={[
+                  diagnosaStyles.modalButton,
+                  {backgroundColor: '#767676'},
+                ]}
                 onPress={() => setOpenModal(false)}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: '700',
-                    color: 'white',
-                    textAlign: 'center',
-                  }}>
-                  Cancel
-                </Text>
+                <Text style={diagnosaStyles.modalButtonText}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
@@ -258,21 +207,11 @@ export const Diagnosa = ({navigation}) => {
                   console.log(pilihObat);
                   setOpenModal(false);
                 }}
-                style={{
-                  backgroundColor: '#00096E',
-                  width: '45%',
-                  paddingVertical: 5,
-                  borderRadius: 6,
-                }}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: '700',
-                    color: 'white',
-                    textAlign: 'center',
-                  }}>
-                  Submit
-                </Text>
+                style={[
+                  diagnosaStyles.modalButton,
+                  {backgroundColor: '#00096E'},
+                ]}>
+                <Text style={diagnosaStyles.modalButtonText}>Submit</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -300,21 +239,24 @@ export const Diagnosa = ({navigation}) => {
                 style={{
                   justifyContent: 'center',
                   flex: 2,
-                  borderLeftWidth: 1,
-                  borderRightWidth: 1,
-                  borderColor: 'white',
+                  paddingHorizontal: 1,
                 }}>
                 Jumlah
               </DataTable.Title>
               <DataTable.Title
                 textStyle={[stylesHasil.tableHeaderText]}
-                style={{justifyContent: 'center', flex: 1}}>
+                style={{
+                  justifyContent: 'center',
+                  flex: 1,
+                  marginRight: -10,
+                  marginLeft: 10,
+                }}>
                 Action
               </DataTable.Title>
             </DataTable.Header>
             {pilihObat.map((data, index) => {
               return (
-                <DataTable.Row key={index}>
+                <DataTable.Row key={index} style={{marginTop: -1}}>
                   <DataTable.Cell style={{flex: 3}}>{data.nama}</DataTable.Cell>
                   <DataTable.Cell
                     style={[
@@ -329,10 +271,11 @@ export const Diagnosa = ({navigation}) => {
                   </DataTable.Cell>
                   <DataTable.Cell
                     style={[
-                      stylesHasil.centerBorder,
                       {
                         flex: 1,
                         justifyContent: 'center',
+                        marginRight: -10,
+                        paddingLeft: 10,
                       },
                     ]}>
                     <Icon
@@ -381,45 +324,24 @@ export const Diagnosa = ({navigation}) => {
             </DataTable.Row>
           </DataTable>
         </View>
-        <View
-          style={{
-            marginTop: 10,
-            borderWidth: 1,
-            borderColor: 'black',
-            borderRadius: 6,
-            padding: 10,
-          }}>
-          <Text style={{fontSize: 20, fontWeight: '700', color: 'black'}}>
+        <View style={diagnosaStyles.catatanContainer}>
+          <Text style={[diagnosaStyles.modalSubtitle, {marginTop: 0}]}>
             Catatan Dokter
           </Text>
           <TextInput
             placeholder="Catatan Dokter"
             multiline={true}
             onChangeText={text => setCatatan(text)}
-            style={{
-              padding: 0,
-              fontSize: 15,
-              fontWeight: '700',
-              color: 'black',
-            }}
+            style={diagnosaStyles.inputCatatan}
           />
         </View>
         <Button
           mode="contained"
-          style={{
-            borderRadius: 6,
-            marginTop: 10,
-            width: '80%',
-            alignSelf: 'center',
-          }}
+          style={diagnosaStyles.button}
           disabled={!dataPasien?.Antrian_id ? true : false}
           buttonColor="#00096E"
           textColor="white"
-          labelStyle={{
-            fontSize: 15,
-            fontWeight: '600',
-            textAlign: 'center',
-          }}
+          labelStyle={diagnosaStyles.buttonLabel}
           onPress={() => sendDiagnosa()}>
           Berikan hasil diagnosis
         </Button>

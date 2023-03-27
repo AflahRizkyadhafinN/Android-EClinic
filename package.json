@@ -28,6 +28,7 @@
     "react-native-dropdown-picker": "^5.4.4",
     "react-native-dropdown-select-list": "^2.0.4",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-image-crop-picker": "^0.39.0",
     "react-native-keychain": "^8.1.1",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-material-design": "^0.3.7",
