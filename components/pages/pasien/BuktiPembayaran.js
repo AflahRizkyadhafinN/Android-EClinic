@@ -35,7 +35,6 @@ export const BuktiPembayaran = ({navigation}) => {
         setDataDiagnosa(diagnosa[0])
       });
   }, []);
-
   return (
     <ScrollView>
       <View style={stylesGeneral.container}>
@@ -49,11 +48,11 @@ export const BuktiPembayaran = ({navigation}) => {
           <View style={stylesBPembayaran.secondContainer}>
             <View style={stylesBPembayaran.ketContainer}>
               <Text style={stylesBPembayaran.text}>Nama Pasien</Text>
-              <Text style={stylesBPembayaran.text}>Zeke Yeager</Text>
+              <Text style={stylesBPembayaran.text}>{dataDiagnosa.namaPasien}</Text>
             </View>
             <View style={stylesBPembayaran.ketContainer}>
               <Text style={stylesBPembayaran.text}>Nama Dokter</Text>
-              <Text style={stylesBPembayaran.text}>Grisha Yeager</Text>
+              <Text style={stylesBPembayaran.text}>{dataDiagnosa.namaDokter}</Text>
             </View>
             <View style={stylesBPembayaran.ketContainer}>
               <Text style={stylesBPembayaran.text}>Penyakit</Text>

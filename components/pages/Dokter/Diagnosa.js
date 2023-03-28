@@ -21,6 +21,7 @@ import moment from 'moment';
 import 'moment/locale/id'
 import { useFocusEffect } from '@react-navigation/native';
 import {diagnosaStyles} from '../../DokterStyle';
+import EventSource from 'react-native-sse';
 
 export const Diagnosa = ({navigation}) => {
   const {width} = 100 % +10;
@@ -66,6 +67,26 @@ export const Diagnosa = ({navigation}) => {
       }
       getPasien()
     },[])
+  )
+
+  useFocusEffect(
+    useCallback(() => {
+      const source = new EventSource(`${API_URL}/dokter/events/${klinik}/${hari}/${userdata.id}`);
+      source.addEventListener("message", (event) => {
+        const datas = JSON.parse(event.data);
+        const namaPasien = datas.map((item, index) => ({
+          Antrian_id: item.antrian_id,
+          Pendaftaran_id: item.pendaftaran_id,
+          namaPasien: item.namalengkap,
+          pasien_id: item.pasien_id,
+        }));
+        setDataPasien(namaPasien)
+      });
+  
+      return () => {
+        source.close();
+      };
+    },[hari])
   )
 
 

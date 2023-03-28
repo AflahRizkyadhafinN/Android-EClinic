@@ -9,32 +9,57 @@ import { makeContext } from '../../UseContext';
 
 export const Hasil = ({route, navigation}) => {
   const {width} = 100 % +10;
-  const [confirmBayar, setConfirmBayar] = useState(true)
+  const [confirmBayar, setConfirmBayar] = useState(false)
   const diagnosaId = route.params.diagnosaId
   const [dataDiagnosa, setDataDiagnosa] = useState({})
   const [dataObat, setDataObat] = useState([])
   const {userdata} = useContext(makeContext)
   useEffect(() => {
-    fetch(`${API_URL}/pasien/diagnosa/${diagnosaId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${userdata.token}` 
-      },
-    })
-      .then(res => res.json())
-      .then(list => {
-        setDataObat(list[0].obat_pasien);
-        const diagnosa = list.map(item => {
-          return {
-            namaPasien: item.userdatum.namalengkap,
-            namaDokter: item.dokter.nama_dokter,
-            tanggal: item.tanggal_diagnosis,
-          };
+    let subs = true
+    if(!subs) return
+    function getDiagnosaData(){
+      fetch(`${API_URL}/pasien/diagnosa/${diagnosaId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${userdata.token}` 
+        },
+      })
+        .then(res => res.json())
+        .then(list => {
+          setDataObat(list[0].obat_pasien);
+          const diagnosa = list.map(item => {
+            return {
+              namaPasien: item.userdatum.namalengkap,
+              namaDokter: item.dokter.nama_dokter,
+              tanggal: item.tanggal_diagnosis,
+            };
+          });
+          setDataDiagnosa(diagnosa[0])
         });
-        setDataDiagnosa(diagnosa[0])
-      });
+    }
+    function checkBayar(){
+      fetch(`${API_URL}/pembayaran/findBayar/${diagnosaId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        }
+      }).then(res =>{ 
+        if(res.status === 200){
+          return setConfirmBayar(true)
+        }
+      })
+
+    }
+    getDiagnosaData()
+    checkBayar()
+
+    return () => {
+      subs = false;
+    }
+
   }, [])
 
   let jumlah = 0
