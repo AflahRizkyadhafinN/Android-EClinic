@@ -65,15 +65,15 @@ export const About = ({navigation}) => {
                 color={'#000'}
                 size={43}
               />
-              <View style={stylesAbout.sosmedNameContainer}>
-                <Text style={stylesAbout.sosmedName}>Eclinic</Text>
-                <Icon
-                  name="arrow-right"
-                  type="simple-line-icon"
-                  color={'#000'}
-                  size={25}
-                />
-              </View>
+              {/* <View style={stylesAbout.sosmedNameContainer}> */}
+              <Text style={stylesAbout.sosmedName}>Eclinic</Text>
+              <Icon
+                name="arrow-right"
+                type="simple-line-icon"
+                color={'#000'}
+                size={25}
+              />
+              {/* </View> */}
             </TouchableOpacity>
             <TouchableOpacity
               style={[stylesAbout.sosmedContainer, {paddingTop: 0}]}>
@@ -83,15 +83,15 @@ export const About = ({navigation}) => {
                 color={'#000'}
                 size={43}
               />
-              <View style={stylesAbout.sosmedNameContainer}>
-                <Text style={stylesAbout.sosmedName}>Eclinic</Text>
-                <Icon
-                  name="arrow-right"
-                  type="simple-line-icon"
-                  color={'#000'}
-                  size={25}
-                />
-              </View>
+              {/* <View style={stylesAbout.sosmedNameContainer}> */}
+              <Text style={stylesAbout.sosmedName}>Eclinic</Text>
+              <Icon
+                name="arrow-right"
+                type="simple-line-icon"
+                color={'#000'}
+                size={25}
+              />
+              {/* </View> */}
             </TouchableOpacity>
             <TouchableOpacity
               style={[stylesAbout.sosmedContainer, {paddingTop: 0}]}>
@@ -101,19 +101,19 @@ export const About = ({navigation}) => {
                 color={'#000'}
                 size={43}
               />
-              <View
+              {/* <View
                 style={[
                   stylesAbout.sosmedNameContainer,
                   {paddingBottom: 0, borderBottomWidth: 0},
-                ]}>
-                <Text style={stylesAbout.sosmedName}>Eclinic</Text>
-                <Icon
-                  name="arrow-right"
-                  type="simple-line-icon"
-                  color={'#000'}
-                  size={25}
-                />
-              </View>
+                ]}> */}
+              <Text style={stylesAbout.sosmedName}>Eclinic</Text>
+              <Icon
+                name="arrow-right"
+                type="simple-line-icon"
+                color={'#000'}
+                size={25}
+              />
+              {/* </View> */}
             </TouchableOpacity>
           </View>
         </View>

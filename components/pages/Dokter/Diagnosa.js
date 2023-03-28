@@ -195,7 +195,7 @@ export const Diagnosa = ({navigation}) => {
           animationOut={'fadeOut'}>
           <View style={diagnosaStyles.modalContainer}>
             <View style={diagnosaStyles.modalTitleContainer}>
-              <Text style={diagnosaStyles.modalTitle}>Tambah Dokter</Text>
+              <Text style={diagnosaStyles.modalTitle}>Tambah Obat</Text>
               <Icon
                 name="x"
                 type="octicon"
@@ -215,7 +215,7 @@ export const Diagnosa = ({navigation}) => {
                 value={valueObat}
                 setValue={setValueObat}
                 style={{marginBottom: 15}}
-                containerStyle={{height: openObat ? 150 : 50}}
+                containerStyle={{height: openObat ? 180 : 50}}
               />
             </View>
 
@@ -264,7 +264,11 @@ export const Diagnosa = ({navigation}) => {
             <DataTable.Header style={stylesHasil.tableHeader}>
               <DataTable.Title
                 textStyle={stylesHasil.tableHeaderText}
-                style={{justifyContent: 'center', flex: 3}}>
+                style={{
+                  justifyContent: 'center',
+                  flex: 3,
+                  marginLeft: -15,
+                }}>
                 Nama Obat
               </DataTable.Title>
               <DataTable.Title
@@ -285,9 +289,7 @@ export const Diagnosa = ({navigation}) => {
                   flex: 1,
                   marginRight: -10,
                   marginLeft: 10,
-                }}>
-                Action
-              </DataTable.Title>
+                }}></DataTable.Title>
             </DataTable.Header>
             {pilihObat.map((data, index) => {
               return (
@@ -378,7 +380,10 @@ export const Diagnosa = ({navigation}) => {
             fontWeight: '600',
             textAlign: 'center',
           }}
-          onPress={() => sendDiagnosa()}>
+          onPress={() => [
+            sendDiagnosa(),
+            navigation.navigate('ConfirmDiagnosa'),
+          ]}>
           Berikan hasil diagnosis
         </Button>
       </View>

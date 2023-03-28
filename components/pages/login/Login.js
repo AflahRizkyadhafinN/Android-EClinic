@@ -156,7 +156,11 @@ export const Login = ({navigation}) => {
         style={[
           stylesGeneral.input,
           stylesLogin.inputPassword,
-          {flexDirection: 'row', alignItems: 'center'},
+          {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          },
         ]}>
         <TextInput
           style={{width: '80%'}}

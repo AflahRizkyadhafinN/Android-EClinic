@@ -49,7 +49,12 @@ export const ResetPassword = ({navigation}) => {
         style={[
           stylesGeneral.input,
           stylesRPassword.inputPassword,
-          {flexDirection: 'row', alignItems: 'center', marginTop: 15},
+          {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: 15,
+            justifyContent: 'space-between',
+          },
         ]}>
         <TextInput
           style={[stylesRPassword.input, stylesRPassword.inputPassword]}
@@ -69,7 +74,11 @@ export const ResetPassword = ({navigation}) => {
         style={[
           stylesGeneral.input,
           stylesRPassword.inputCPassword,
-          {flexDirection: 'row', alignItems: 'center'},
+          {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          },
         ]}>
         <TextInput
           style={[stylesRPassword.input, stylesRPassword.inputCPassword]}

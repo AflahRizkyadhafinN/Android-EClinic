@@ -126,7 +126,7 @@ export const stylesRPassword = StyleSheet.create({
   },
 
   input: {
-    width: '80%',
+    width: '85%',
   },
 
   inputPassword: {
@@ -659,20 +659,9 @@ export const stylesAbout = StyleSheet.create({
     fontWeight: '600',
   },
 
-  sosmedBorder: {
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: 'black',
-    marginHorizontal: -20,
-  },
+  sosmedBorder: {},
 
-  sosmedContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-    justifyContent: 'space-between',
-    marginRight: -10,
-  },
+  sosmedContainer: {},
 
   sosmedTitle: {
     marginTop: 20,
@@ -681,19 +670,9 @@ export const stylesAbout = StyleSheet.create({
     color: 'black',
   },
 
-  sosmedNameContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-  },
+  sosmedNameContainer: {},
 
-  sosmedName: {
-    fontSize: 25,
-    fontWeight: '700',
-    color: 'black',
-    paddingRight: '60%',
-  },
+  sosmedName: {},
 });
 
 export const stylesLoading = StyleSheet.create({
