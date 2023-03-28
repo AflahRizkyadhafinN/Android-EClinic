@@ -74,6 +74,7 @@ export const stylesLogin = StyleSheet.create({
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
     width: '90%',
+    paddingLeft: 5,
   },
 
   rememberFPasswordContainer: {
@@ -125,18 +126,22 @@ export const stylesRPassword = StyleSheet.create({
   },
 
   input: {
-    width: '100%',
+    width: '80%',
   },
 
   inputPassword: {
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-    marginTop: 15,
   },
 
   inputCPassword: {
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
+  },
+
+  showPassIcon: {
+    paddingHorizontal: '5%',
+    paddingVertical: 8,
   },
 });
 
@@ -1045,6 +1050,7 @@ export const stylesHasil = StyleSheet.create({
     color: 'white',
     fontSize: 15,
     fontWeight: '700',
+    paddingLeft: 10,
   },
 
   centerBorder: {

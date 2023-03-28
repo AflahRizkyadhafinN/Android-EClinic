@@ -37,13 +37,16 @@ export const Hasil = ({route, navigation}) => {
               <DataTable.Title textStyle={stylesHasil.tableHeaderText}>
                 Nama Obat
               </DataTable.Title>
-              <DataTable.Title textStyle={stylesHasil.tableHeaderText}>
+              <DataTable.Title
+                textStyle={[stylesHasil.tableHeaderText, {paddingLeft: 10}]}>
                 Jumlah
               </DataTable.Title>
             </DataTable.Header>
             <DataTable.Row>
               <DataTable.Cell>Metformin (biguanid)</DataTable.Cell>
-              <DataTable.Cell style={stylesHasil.centerBorder}>
+              <DataTable.Cell
+                style={stylesHasil.centerBorder}
+                textStyle={[stylesHasil.tableJumlahText, {color: 'black'}]}>
                 1
               </DataTable.Cell>
             </DataTable.Row>
@@ -52,7 +55,7 @@ export const Hasil = ({route, navigation}) => {
                 stylesHasil.tableJumlah,
                 {borderBottomLeftRadius: 6, borderBottomRightRadius: 6},
               ]}>
-              <DataTable.Cell textStyle={stylesHasil.tableJumlahText}>
+              <DataTable.Cell textStyle={stylesHasil.tableHeaderText}>
                 Jumlah :
               </DataTable.Cell>
               <DataTable.Cell
