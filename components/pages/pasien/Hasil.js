@@ -8,6 +8,30 @@ import {Button} from 'react-native-paper';
 export const Hasil = ({route, navigation}) => {
   const keterangan = route.params === undefined ? undefined : route.params.ket;
   const {width} = 100 % +10;
+  const obat = [
+    {
+      nama: 'Metformin (biguanid)',
+      jumlah: 1,
+      harga: 5000,
+    },
+    {
+      nama: 'Paracetamol',
+      jumlah: 5,
+      harga: 3000,
+    },
+    {
+      nama: 'Promag',
+      jumlah: 2,
+      harga: 2500,
+    },
+  ];
+
+  let jumlah = 0;
+  let harga;
+  obat.map(item => {
+    harga = item.harga * item.jumlah;
+    jumlah += harga;
+  });
 
   return (
     <ScrollView>
@@ -42,14 +66,22 @@ export const Hasil = ({route, navigation}) => {
                 Jumlah
               </DataTable.Title>
             </DataTable.Header>
-            <DataTable.Row>
-              <DataTable.Cell>Metformin (biguanid)</DataTable.Cell>
-              <DataTable.Cell
-                style={stylesHasil.centerBorder}
-                textStyle={[stylesHasil.tableJumlahText, {color: 'black'}]}>
-                1
-              </DataTable.Cell>
-            </DataTable.Row>
+            {obat.map((item, index) => {
+              return (
+                <DataTable.Row
+                  key={index}
+                  style={
+                    index % 2 != 0 ? {backgroundColor: '#CDCDCD'} : undefined
+                  }>
+                  <DataTable.Cell>{item.nama}</DataTable.Cell>
+                  <DataTable.Cell
+                    style={stylesHasil.centerBorder}
+                    textStyle={[stylesHasil.tableJumlahText, {color: 'black'}]}>
+                    {item.jumlah}
+                  </DataTable.Cell>
+                </DataTable.Row>
+              );
+            })}
             <DataTable.Row
               style={[
                 stylesHasil.tableJumlah,
@@ -61,7 +93,7 @@ export const Hasil = ({route, navigation}) => {
               <DataTable.Cell
                 style={stylesHasil.centerBorder}
                 textStyle={stylesHasil.tableJumlahText}>
-                Rp 99.000
+                Rp {jumlah}
               </DataTable.Cell>
             </DataTable.Row>
           </DataTable>
@@ -79,7 +111,9 @@ export const Hasil = ({route, navigation}) => {
             textColor="white"
             style={stylesHasil.button}
             labelStyle={{width: '100%'}}
-            onPress={() => navigation.navigate('BuktiPembayaran')}>
+            onPress={() =>
+              navigation.navigate('BuktiPembayaran', {listObat: obat})
+            }>
             Bukti Pembayaran
           </Button>
         ) : undefined}

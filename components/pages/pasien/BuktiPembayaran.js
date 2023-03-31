@@ -8,38 +8,12 @@ import {NumericFormat} from 'react-number-format';
 import {useState} from 'react';
 import FileViewer from 'react-native-file-viewer';
 
-export const BuktiPembayaran = ({navigation}) => {
+export const BuktiPembayaran = ({navigation, route}) => {
   const nama = 'Zeke yeager';
   const penyakit = 'Batu ginjal';
   const tanggal = '29 Maret 2023';
   const antrian = 1;
-  const listObat = [
-    {
-      nama: 'Cendo Xitrol Eye Drop',
-      jumlah: 5,
-      harga: 10000,
-    },
-    {
-      nama: 'DeNature',
-      jumlah: 1,
-      harga: 10000,
-    },
-    {
-      nama: 'Wallatra Limatta Softgel',
-      jumlah: 1,
-      harga: 10000,
-    },
-    {
-      nama: 'DeNature',
-      jumlah: 1,
-      harga: 10000,
-    },
-    {
-      nama: 'Wallatra Limatta Softgel',
-      jumlah: 1,
-      harga: 10000,
-    },
-  ];
+  const listObat = route.params.listObat;
 
   const dataInvoice = listObat.map((item, index) => {
     return `<tr>
