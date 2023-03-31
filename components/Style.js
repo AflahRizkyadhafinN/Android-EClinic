@@ -83,13 +83,20 @@ export const stylesLogin = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 20,
     paddingHorizontal: 20,
+    // width: '90%',
+    marginHorizontal: '2.5%',
   },
 
   flexButtonContainer: {
     flex: 0,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingHorizontal: 20,
+  },
+
+  button: {
+    borderRadius: 6,
+    marginHorizontal: 5,
   },
 });
 
@@ -1122,7 +1129,7 @@ export const stylesBPembayaran = StyleSheet.create({
     borderRadius: 6,
     borderWidth: 1,
     padding: 10,
-    marginTop: '50%',
+    marginTop: 20,
   },
 
   title: {

@@ -205,7 +205,7 @@ export const Login = ({navigation}) => {
       <View style={stylesLogin.flexButtonContainer}>
         <Button
           mode="contained"
-          style={{borderRadius: 6}}
+          style={stylesLogin.button}
           contentStyle={{paddingHorizontal: 30}}
           buttonColor={'black'}
           textColor={'#dfdfdf'}
@@ -218,7 +218,7 @@ export const Login = ({navigation}) => {
         </Button>
         <Button
           mode="contained"
-          style={{borderRadius: 6}}
+          style={stylesLogin.button}
           contentStyle={{paddingHorizontal: 30}}
           buttonColor={'#dfdfdf'}
           textColor={'black'}
