@@ -10,7 +10,7 @@ export const NomorAntrian = ({navigation}) => {
   const {userdata} = useContext(makeContext);
   const [noAntrian, setNoAntrian] = useState(0)
   const [tanggalDaftar, setTanggalDaftar] = useState('')
-  const socket = new WebSocket(`ws://10.10.10.124:8080`)
+  const socket = new WebSocket(`ws://10.10.10.168:8080`)
   const [confirm, setConfirm] = useState()
   const daftar = useCallback(async () => {
     const jwt = await Keychain.getGenericPassword();

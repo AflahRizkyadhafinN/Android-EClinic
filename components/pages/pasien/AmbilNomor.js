@@ -99,7 +99,7 @@ export const AmbilNomor = ({navigation}) => {
 
   useFocusEffect(
     useCallback(() => {
-      const socket = new WebSocket(`ws://10.10.10.124:8080`)
+      const socket = new WebSocket(`ws://10.10.10.168:8080`)
 
       socket.onopen = () => {
         if(!antrianId) return
