@@ -33,7 +33,7 @@ import {KlinikNama} from './components/KlinikContext';
 import DeviceInfo from 'react-native-device-info';
 import { Linking } from 'react-native';
 
-export const API_URL = 'http://10.10.10.238:5000';
+export const API_URL = 'http://10.10.10.124:5000';
 const Stack = createNativeStackNavigator();
 
 const isCurrentScreenInitialOne = state => {

@@ -45,28 +45,20 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
       warna: '#3D9091',
     },
   ];
-  const Gdarah = [
+  const [Gdarah, setGdarah] = useState([
     {
-      nama: 'A',
-      jumlah: 30,
       warna: '#EF6D59',
     },
     {
-      nama: 'B',
-      jumlah: 60,
       warna: '#7ED321',
     },
     {
-      nama: 'AB',
-      jumlah: 120,
       warna: '#0C95FB',
     },
     {
-      nama: 'O',
-      jumlah: 80,
       warna: '#6665DD',
     },
-  ];
+  ]);
   const [pekerjaan, setPekerjaan] = useState([
     {
       warna: '#E15692',
@@ -118,24 +110,25 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
         Accept: 'application/json',
       },
     }).then(async res => {
-      try {
+
         const jsonRes = await res.json();
         if (res.status === 200) {
           setMember(jsonRes.id);
           const mergedData = jsonRes.data.map(({ pekerjaan: nama, count: jumlah }, index) => {
             return { nama, jumlah, warna: pekerjaan[index].warna };
           });
-          
-
           setPekerjaan(mergedData);
-          console.log(pekerjaan);
+
         } else {
           Alert.alert(jsonRes.alert);
         }
-      } catch (err) {
-        console.log(err)
-      }
     });
+
+    fetch(`${API_URL}/data/count/gDarah`)
+    .then(res => res.json())
+    .then(data => {
+      setGdarah(data);
+    })
 
     function getHasilDiagnosa(){
       fetch(`${API_URL}/pasien/hasil/${userdata.id}/${moment().locale('id').format('YYYY-MM-DD')}/false`, {
@@ -321,10 +314,13 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
                 color: 'white',
                 textAlign: 'center',
               }}
-              onPress={() =>
+              onPress={() =>{
                 navigation.navigate('Hasil', {
                   diagnosaId: diagnosId,
                 })
+              setHasilActive(false)
+              }
+
               }>
               {`Pemeriksaan telah selesai, klik disini untuk melihat hasil diagnosa tanggal ${moment()
                 .locale('id')

@@ -149,7 +149,7 @@ export const diagnosaStyles = StyleSheet.create({
     color: 'black',
   },
 
-  modalSubtitle: {
+  modalKonten: {
     fontSize: 20,
     fontWeight: '700',
     color: 'black',

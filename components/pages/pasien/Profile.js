@@ -41,16 +41,7 @@ export const Profile = ({navigation}) => {
     {label: 'Pegawai Swasta', value: 'pegawaiswasta'},
     {label: 'Pegawai Negeri', value: 'pegawainegeri'},
   ]);
-  const GDarah = [
-    {label: 'A', value: 'A'},
-    {label: 'A-', value: 'A-'},
-    {label: 'B', value: 'B'},
-    {label: 'B-', value: 'B-'},
-    {label: 'AB', value: 'AB'},
-    {label: 'AB-', value: 'AB-'},
-    {label: 'O', value: 'O'},
-    {label: 'O-', value: 'O-'},
-  ];
+  const [GDarah, setGDarah] = useState([])
 
   const Gender = [
     {label: 'Laki-laki', value: 'Laki-laki'},
@@ -79,7 +70,6 @@ export const Profile = ({navigation}) => {
   const [openSelectedImage, setOpenSelectedImage] = useState(false);
   const [profilePic, setProfilePic] = useState(userdata.profilePic);
   const [debouncer, setDebouncer] = useState('');
-  console.log(userdata);
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     if (event.type == 'set') {
@@ -109,7 +99,19 @@ export const Profile = ({navigation}) => {
   const showDatepicker = () => {
     showMode('date');
   };
-
+  useEffect(() => {
+    function getGDarah(){
+      fetch(`${API_URL}/data/darah`)
+      .then(res => res.json())
+      .then(list => {
+        const darah = list.map(item => {
+          return {label: item.nama, value: item.golongan_darah_id}
+        })
+        setGDarah(darah)
+      })
+    }
+    getGDarah()
+  },[])
   function isigender() {
     if (jeniskelamin === 'L') {
       return 0;
@@ -132,9 +134,7 @@ export const Profile = ({navigation}) => {
       },
       body: JSON.stringify(payload),
     }).then(async res => {
-      console.log(res);
         const jsonRes = await res.json();
-        console.log(jsonRes);
         if (res.status == 200) {
           setUserData(jsonRes);
           setProfilePic(jsonRes.profilePic)
@@ -185,7 +185,6 @@ export const Profile = ({navigation}) => {
 
   useEffect(() => {
     if (debouncer.length > 0) {
-      console.log(debouncer);
       fetch(`${API_URL}/data/wilayah?query=${debouncer}`)
         .then(async res => {
             const wilayahRes = await res.json();
@@ -402,7 +401,7 @@ export const Profile = ({navigation}) => {
             value={golongandarah}
             setOpen={setOpenGD}
             setValue={setGolonganDarah}
-            setItems={setListPekerjaan}
+            setItems={setGDarah}
             listMode="SCROLLVIEW"
             disabled={!edit}
             placeholder="Isi Golongan Darah"
