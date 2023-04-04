@@ -18,6 +18,7 @@ import {useContext} from 'react';
 import {makeContext} from '../../UseContext';
 import {Button} from 'react-native-paper';
 import DeviceInfo from 'react-native-device-info';
+import {Icon as Simbol} from '@rneui/themed';
 
 export const Login = ({navigation}) => {
   const [token, setToken] = useState('');
@@ -28,6 +29,7 @@ export const Login = ({navigation}) => {
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(true);
   const {setUserData} = useContext(makeContext);
+  const [showPass, setShowPass] = useState(true);
 
   async function login() {
     let deviceName = await DeviceInfo.getUserAgent();
@@ -123,6 +125,14 @@ export const Login = ({navigation}) => {
     return <Loading />;
   }
 
+  const handleShowPass = () => {
+    if (showPass) {
+      setShowPass(false);
+    } else {
+      setShowPass(true);
+    }
+  };
+
   return (
     <View style={[stylesGeneral.container]}>
       <Icon />
@@ -139,17 +149,39 @@ export const Login = ({navigation}) => {
         placeholder={'Nik'}
         keyboardType={'numeric'}
       />
-      <TextInput
-        style={[stylesGeneral.input, stylesLogin.inputPassword]}
-        editable
-        numberOfLines={1}
-        onChangeText={text => setPass(text)}
-        value={pass}
-        placeholder={'Password'}
-        returnKeyType="go"
-        secureTextEntry
-        autoCorrect={false}
-      />
+      <View
+        style={[
+          stylesGeneral.input,
+          stylesLogin.inputPassword,
+          {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          },
+        ]}>
+        <TextInput
+          style={{width: '80%'}}
+          editable
+          numberOfLines={1}
+          onChangeText={text => setPass(text)}
+          value={pass}
+          placeholder={'Password'}
+          returnKeyType="go"
+          secureTextEntry={showPass}
+          autoCorrect={false}
+        />
+        <TouchableWithoutFeedback onPress={handleShowPass}>
+          <Simbol
+            name={showPass ? 'eye' : 'eye-off'}
+            type="ionicon"
+            size={30}
+            style={{
+              paddingHorizontal: '5%',
+              fontSize: 14,
+            }}
+          />
+        </TouchableWithoutFeedback>
+      </View>
       <View style={stylesLogin.rememberFPasswordContainer}>
         <BouncyCheckbox
           text="Remember Me"
@@ -170,7 +202,7 @@ export const Login = ({navigation}) => {
       <View style={stylesLogin.flexButtonContainer}>
         <Button
           mode="contained"
-          style={{borderRadius: 6}}
+          style={stylesLogin.button}
           contentStyle={{paddingHorizontal: 30}}
           buttonColor={'black'}
           textColor={'#dfdfdf'}
@@ -183,7 +215,7 @@ export const Login = ({navigation}) => {
         </Button>
         <Button
           mode="contained"
-          style={{borderRadius: 6}}
+          style={stylesLogin.button}
           contentStyle={{paddingHorizontal: 30}}
           buttonColor={'#dfdfdf'}
           textColor={'black'}

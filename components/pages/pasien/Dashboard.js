@@ -207,7 +207,7 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
   }, [pekerjaan])
 
   const ListGolonganDarah = useCallback(function ListGolonganDarah() {
-    return Gdarah.map((gd, index) => {
+    return Gdarah.slice(0, 4).map((gd, index) => {
       const progress = (parseInt(gd.jumlah) / jumlahPasien) * 100;
 
       

@@ -74,6 +74,7 @@ export const stylesLogin = StyleSheet.create({
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
     width: '90%',
+    paddingLeft: 5,
   },
 
   rememberFPasswordContainer: {
@@ -82,13 +83,20 @@ export const stylesLogin = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 20,
     paddingHorizontal: 20,
+    // width: '90%',
+    marginHorizontal: '2.5%',
   },
 
   flexButtonContainer: {
     flex: 0,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingHorizontal: 20,
+  },
+
+  button: {
+    borderRadius: 6,
+    marginHorizontal: 5,
   },
 });
 
@@ -125,18 +133,22 @@ export const stylesRPassword = StyleSheet.create({
   },
 
   input: {
-    width: '100%',
+    width: '85%',
   },
 
   inputPassword: {
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-    marginTop: 15,
   },
 
   inputCPassword: {
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
+  },
+
+  showPassIcon: {
+    paddingHorizontal: '5%',
+    paddingVertical: 8,
   },
 });
 
@@ -654,20 +666,9 @@ export const stylesAbout = StyleSheet.create({
     fontWeight: '600',
   },
 
-  sosmedBorder: {
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: 'black',
-    marginHorizontal: -20,
-  },
+  sosmedBorder: {},
 
-  sosmedContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-    justifyContent: 'space-between',
-    marginRight: -10,
-  },
+  sosmedContainer: {},
 
   sosmedTitle: {
     marginTop: 20,
@@ -676,19 +677,9 @@ export const stylesAbout = StyleSheet.create({
     color: 'black',
   },
 
-  sosmedNameContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-  },
+  sosmedNameContainer: {},
 
-  sosmedName: {
-    fontSize: 25,
-    fontWeight: '700',
-    color: 'black',
-    paddingRight: '60%',
-  },
+  sosmedName: {},
 });
 
 export const stylesLoading = StyleSheet.create({
@@ -1045,6 +1036,7 @@ export const stylesHasil = StyleSheet.create({
     color: 'white',
     fontSize: 15,
     fontWeight: '700',
+    paddingLeft: 10,
   },
 
   centerBorder: {
@@ -1137,7 +1129,7 @@ export const stylesBPembayaran = StyleSheet.create({
     borderRadius: 6,
     borderWidth: 1,
     padding: 10,
-    marginTop: '50%',
+    marginTop: 20,
   },
 
   title: {

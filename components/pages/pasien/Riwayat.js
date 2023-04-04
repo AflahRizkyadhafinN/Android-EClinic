@@ -71,7 +71,11 @@ export const Riwayat = ({navigation}) => {
                       diagnosaId: riwayat.diagnosa_id,
                     })
                   }>
-                  <View style={stylesRiwayat.ketContainer}>
+                                <View
+                style={[
+                  stylesRiwayat.ketContainer,
+                  index % 2 != 0 ? {backgroundColor: '#cdcdcd'} : undefined,
+                ]}>
                     <Text style={stylesRiwayat.ketTanggal}>
                       {moment(riwayat.tanggal_diagnosis).locale('id').format('DD MMMM YYYY')}
                     </Text>
