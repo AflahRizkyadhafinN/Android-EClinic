@@ -7,10 +7,7 @@ export const stylesGeneral = StyleSheet.create({
     padding: 20,
   },
 
-  buttonContainer: {
-    paddingVertical: 12,
-    paddingHorizontal: 60,
-    marginHorizontal: 0,
+  button: {
     borderRadius: 6,
   },
 
@@ -77,35 +74,29 @@ export const stylesLogin = StyleSheet.create({
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
     width: '90%',
-  },
-
-  loginButton: {
-    backgroundColor: 'black',
-    marginRight: 10,
-  },
-
-  loginTitle: {
-    color: '#dfdfdf',
+    paddingLeft: 5,
   },
 
   rememberFPasswordContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     paddingVertical: 20,
+    paddingHorizontal: 20,
+    // width: '90%',
+    marginHorizontal: '2.5%',
   },
 
   flexButtonContainer: {
+    flex: 0,
     flexDirection: 'row',
-    alignSelf: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
   },
 
-  registerButton: {
-    backgroundColor: '#dfdfdf',
-  },
-
-  registerTitle: {
-    color: 'black',
+  button: {
+    borderRadius: 6,
+    marginHorizontal: 5,
   },
 });
 
@@ -117,16 +108,10 @@ export const stylesFPassword = StyleSheet.create({
     color: '#000b8d',
   },
 
-  button: {
-    backgroundColor: 'black',
-    marginTop: 0,
-  },
-
   buttonLogin: {
     textAlign: 'center',
-    fontWeight: '700',
+    fontWeight: '600',
     fontSize: 18,
-    color: '#dfdfdf',
   },
 
   input: {
@@ -141,31 +126,29 @@ export const stylesRPassword = StyleSheet.create({
     textAlign: 'left',
   },
 
-  button: {
-    backgroundColor: 'black',
-    marginTop: 30,
-  },
-
   buttonLogin: {
     textAlign: 'center',
-    fontWeight: '700',
+    fontWeight: '600',
     fontSize: 18,
-    color: '#dfdfdf',
   },
 
   input: {
-    width: '100%',
+    width: '85%',
   },
 
   inputPassword: {
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-    marginTop: 15,
   },
 
   inputCPassword: {
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
+  },
+
+  showPassIcon: {
+    paddingHorizontal: '5%',
+    paddingVertical: 8,
   },
 });
 
@@ -194,13 +177,7 @@ export const stylesRegister = {
     borderBottomRightRadius: 6,
   },
 
-  button: {
-    marginTop: 10,
-    backgroundColor: 'black',
-  },
-
   buttonTitle: {
-    color: '#dfdfdf',
     textAlign: 'center',
     fontWeight: '600',
     fontSize: 15,
@@ -219,23 +196,17 @@ export const stylesDashboard = StyleSheet.create({
     alignItems: 'center',
   },
 
-  buttonBurger: {
-    width: 25,
-    height: 25,
-  },
-
   menuContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
   },
 
   menu: {
-    fontWeight: '600',
+    fontWeight: '700',
     fontSize: 20,
-    marginLeft: 10,
-    alignSelf: 'center',
-    justifyContent: 'center',
+    marginLeft: 5,
     color: '#000000',
+    alignSelf: 'center',
   },
 
   menuLoginButton: {
@@ -310,15 +281,7 @@ export const stylesDashboard = StyleSheet.create({
     color: 'black',
   },
 
-  buttonPendaftaran: {
-    backgroundColor: 'black',
-    padding: 10,
-    marginTop: 15,
-    borderRadius: 7,
-  },
-
   buttonTitlePendaftaran: {
-    color: 'white',
     textAlign: 'center',
     fontSize: 20,
     fontWeight: '600',
@@ -420,30 +383,16 @@ export const stylesDNavbar = StyleSheet.create({
     marginLeft: 15,
   },
 
-  buttonContainer: {
-    backgroundColor: '#00096E',
-    width: '80%',
-    paddingHorizontal: 10,
-    paddingVertical: 7,
-    borderRadius: 8,
-    marginTop: 20,
-  },
-
   buttonTitle: {
     fontSize: 20,
-    fontWeight: '700',
-    color: 'white',
+    fontWeight: '600',
     textAlign: 'center',
   },
 
   menuContainer: {
-    marginTop: 20,
+    marginTop: 15,
     flexDirection: 'row',
-  },
-
-  menuIcon: {
-    height: 25,
-    width: 25,
+    alignItems: 'center',
   },
 
   menuTitle: {
@@ -451,7 +400,6 @@ export const stylesDNavbar = StyleSheet.create({
     fontWeight: '700',
     fontSize: 25,
     marginLeft: 15,
-    marginTop: -5,
   },
 });
 
@@ -461,6 +409,7 @@ export const stylesProfile = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: 'black',
+    zIndex: -2,
   },
   textInput: {
     marginTop: 5,
@@ -470,22 +419,52 @@ export const stylesProfile = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     paddingHorizontal: 10,
-  },
-
-  selectList: {
-    fontSize: 15,
-    fontWeight: '700',
+    width: '100%',
   },
 
   dropdown: {
     borderWidth: 2,
-    borderColor: 'black',
+    backgroundColor: '#f2f2f2',
+  },
+
+  dropdownPlaceholder: {
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  dropdownLabelActive: {
+    color: 'black',
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  dropdownLabel: {
+    color: '#969696',
+    borderWidth: 0,
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  dropdownIconContainer: {
+    borderWidth: 2,
+  },
+
+  dropdownContainer: {
+    borderWidth: 2,
+    backgroundColor: '#f2f2f2',
+  },
+
+  dropdownListLabel: {
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  dropdownTextActive: {
+    color: 'black',
   },
 
   dropdownText: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: 'black',
+    color: '#969696',
   },
 
   photoProfile: {
@@ -516,17 +495,31 @@ export const stylesProfile = StyleSheet.create({
     borderRightWidth: 0,
   },
 
-  submitButton: {
-    backgroundColor: 'black',
-    paddingVertical: 15,
-    width: '95%',
-    alignSelf: 'center',
-    marginTop: 20,
-    borderRadius: 10,
+  photoProfileModal: {
+    margin: 0,
+    flex: 1,
+    justifyContent: 'flex-end',
   },
 
-  submitTitle: {
-    color: 'white',
+  photoProfileModalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+
+  photoProfileButtonContainer: {
+    borderBottomWidth: 1,
+    borderColor: 'grey',
+    paddingVertical: 10,
+  },
+
+  photoProfileButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#00096E',
     textAlign: 'center',
   },
 });
@@ -548,23 +541,6 @@ export const stylesDokter = StyleSheet.create({
     paddingHorizontal: 10,
     fontSize: 15,
     fontWeight: '700',
-  },
-
-  searchButtonContainer: {
-    backgroundColor: 'black',
-    paddingVertical: 10,
-    borderBottomRightRadius: 6,
-    borderBottomLeftRadius: 6,
-    borderTopWidth: 3,
-    marginBottom: 20,
-  },
-
-  searchButtonTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: 'white',
-    textAlign: 'center',
-    borderTopColor: 'black',
   },
 
   cardContainer: {
@@ -594,6 +570,40 @@ export const stylesDokter = StyleSheet.create({
 
   cardDescription: {
     color: 'grey',
+  },
+
+  dropdownBox: {
+    borderColor: 'black',
+    borderRadius: 0,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
+    borderWidth: 2,
+    borderTopWidth: 0,
+    paddingLeft: 10,
+  },
+
+  dropdownInput: {
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  dropdownInputActive: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  dropdownContainer: {
+    borderColor: 'black',
+    borderRadius: 6,
+    borderWidth: 2,
+    marginTop: 5,
+  },
+
+  dropdownList: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: 'black',
   },
 });
 
@@ -656,20 +666,9 @@ export const stylesAbout = StyleSheet.create({
     fontWeight: '600',
   },
 
-  sosmedBorder: {
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: 'black',
-    marginHorizontal: -20,
-  },
+  sosmedBorder: {},
 
-  sosmedContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-    justifyContent: 'space-between',
-    marginRight: -10,
-  },
+  sosmedContainer: {},
 
   sosmedTitle: {
     marginTop: 20,
@@ -678,29 +677,9 @@ export const stylesAbout = StyleSheet.create({
     color: 'black',
   },
 
-  sosmedNameContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-  },
+  sosmedNameContainer: {},
 
-  sosmedIcon: {
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-  },
-
-  sosmedName: {
-    fontSize: 25,
-    fontWeight: '700',
-    color: 'black',
-    paddingRight: '60%',
-  },
-
-  sosmedArrow: {
-    marginRight: 10,
-  },
+  sosmedName: {},
 });
 
 export const stylesLoading = StyleSheet.create({
@@ -732,6 +711,7 @@ export const stylesPendaftaran = StyleSheet.create({
     fontSize: 35,
     fontWeight: '700',
     color: 'black',
+    marginTop: 20,
   },
 
   subTitle: {
@@ -790,6 +770,7 @@ export const stylesAmbilNomor = StyleSheet.create({
     fontSize: 30,
     fontWeight: '700',
     color: 'black',
+    marginTop: 20,
   },
 
   buttonHBContainer: {
@@ -867,22 +848,7 @@ export const stylesAmbilNomor = StyleSheet.create({
     backgroundColor: '#CDCDCD',
   },
 
-  nomorButtonContainer: {
-    backgroundColor: '#CDCDCD',
-    marginTop: 5,
-    borderRadius: 6,
-    paddingVertical: 10,
-  },
-
-  nomorButtonContainerActive: {
-    backgroundColor: '#00096E',
-    marginTop: 5,
-    borderRadius: 6,
-    paddingVertical: 10,
-  },
-
   nomorTitle: {
-    color: 'white',
     fontSize: 20,
     fontWeight: '600',
     textAlign: 'center',
@@ -913,6 +879,12 @@ export const stylesAmbilNomor = StyleSheet.create({
     fontSize: 15,
     fontWeight: '500',
   },
+
+  selectListTextActive: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: 'black',
+  },
 });
 
 export const stylesNomorAntrian = StyleSheet.create({
@@ -920,6 +892,7 @@ export const stylesNomorAntrian = StyleSheet.create({
     fontSize: 30,
     fontWeight: '700',
     color: 'black',
+    marginTop: 20,
   },
 
   antrianContainer: {
@@ -942,7 +915,7 @@ export const stylesNomorAntrian = StyleSheet.create({
   antrianNomor: {
     textAlign: 'center',
     fontWeight: '800',
-    fontSize: 60,
+    fontSize: 40,
     color: 'white',
   },
 
@@ -985,6 +958,7 @@ export const stylesHasil = StyleSheet.create({
     fontSize: 30,
     fontWeight: '600',
     color: 'black',
+    marginTop: 20,
   },
 
   identitasContainer: {
@@ -1006,7 +980,8 @@ export const stylesHasil = StyleSheet.create({
   diagnosa: {
     borderWidth: 1,
     borderColor: 'black',
-    borderRadius: 6,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
     marginTop: 20,
     padding: 10,
     fontSize: 17,
@@ -1017,10 +992,11 @@ export const stylesHasil = StyleSheet.create({
 
   obatContainer: {
     borderWidth: 1,
+    borderTopWidth: 0,
     borderColor: 'black',
-    borderRadius: 6,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
     padding: 10,
-    marginTop: 20,
   },
 
   obatTanggal: {
@@ -1044,7 +1020,6 @@ export const stylesHasil = StyleSheet.create({
 
   tableHeader: {
     backgroundColor: 'black',
-    borderWidth: 1,
   },
 
   tableHeaderText: {
@@ -1054,17 +1029,147 @@ export const stylesHasil = StyleSheet.create({
   },
 
   tableJumlah: {
-    backgroundColor: '#00069E',
+    backgroundColor: '#00096E',
   },
 
   tableJumlahText: {
     color: 'white',
     fontSize: 15,
     fontWeight: '700',
+    paddingLeft: 10,
   },
 
   centerBorder: {
     borderLeftWidth: 1,
-    paddingLeft: 10,
+  },
+
+  button: {
+    borderRadius: 6,
+    marginTop: 10,
+    width: '40%',
+  },
+});
+
+export const stylesRiwayat = StyleSheet.create({
+  title: {
+    fontSize: 40,
+    fontWeight: '700',
+    color: 'black',
+    marginTop: 20,
+  },
+
+  bulan: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: 'black',
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
+    marginTop: 10,
+  },
+
+  ketContainer: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 6,
+    padding: 10,
+    marginTop: 15,
+  },
+
+  ketTanggal: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  ketPenyakit: {
+    fontSize: 15,
+    fontWeight: '400',
+    color: 'black',
+  },
+});
+
+export const stylesCPembayaran = StyleSheet.create({
+  textContainer: {
+    borderWidth: 1,
+    borderRadius: 6,
+    padding: 10,
+    marginTop: '50%',
+  },
+
+  title: {
+    fontSize: 35,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  descTop: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: 'black',
+    textAlign: 'center',
+    borderBottomWidth: 1,
+    marginHorizontal: -10,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+  },
+
+  descBottom: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#2A2A2A',
+    textAlign: 'center',
+    marginHorizontal: -10,
+    paddingHorizontal: 10,
+    paddingTop: 10,
+  },
+});
+
+export const stylesBPembayaran = StyleSheet.create({
+  mainContainer: {
+    borderRadius: 6,
+    borderWidth: 1,
+    padding: 10,
+    marginTop: 20,
+  },
+
+  title: {
+    fontSize: 25,
+    fontWeight: '700',
+    color: 'black',
+    paddingBottom: 10,
+    marginHorizontal: -10,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    textAlign: 'center',
+  },
+
+  secondContainer: {
+    borderBottomWidth: 1,
+    marginHorizontal: -10,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    marginBottom: 10,
+  },
+
+  ketContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+
+  text: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: 'black',
+  },
+
+  thirdContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+
+  button: {
+    paddingHorizontal: 20,
+    borderRadius: 6,
   },
 });

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useContext, useState} from 'react';
 import {stylesDashboard} from './Style';
 import {
   View,
@@ -9,12 +9,13 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {SideNavbar} from './SideNavbar';
-import { makeContext } from './UseContext';
+import {makeContext} from './UseContext';
+import {Icon} from '@rneui/themed';
 
 export const MainNavbar = props => {
-  const {userdata} = useContext(makeContext)
-  const [open, setOpen] = React.useState(false);
-  const {navigation} = props;
+  const {userdata} = useContext(makeContext);
+  const [open, setOpen] = useState(false);
+  const {navigation, type} = props;
 
   return (
     <View style={stylesDashboard.header}>
@@ -26,13 +27,16 @@ export const MainNavbar = props => {
         animationOut={'slideOutLeft'}
         animationInTiming={1200}
         animationOutTiming={1200}>
-        <SideNavbar navigation={navigation} />
+        <SideNavbar navigation={navigation} type={props.menuType} />
       </Modal>
       <TouchableWithoutFeedback onPress={() => setOpen(true)}>
         <View style={stylesDashboard.menuContainer}>
-          <Image
-            style={stylesDashboard.buttonBurger}
-            source={require('./image/BurgerBar.png')}
+          <Icon
+            name="menu"
+            type="entypo"
+            color={'#00096E'}
+            size={40}
+            style={{alignContent: 'center'}}
           />
           <Text style={stylesDashboard.menu}>Menu</Text>
         </View>
@@ -43,19 +47,20 @@ export const MainNavbar = props => {
           onPress={() => <SideNavbar />}>
           <Text style={stylesDashboard.menuLoginButtonTitle}>Login</Text>
         </TouchableOpacity> */}
-
-        <TouchableWithoutFeedback
-          onPress={() => navigation.navigate('Profile')}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={stylesDashboard.accountName}>
-              {userdata.namalengkap}
-            </Text>
-            <Image
-              style={stylesDashboard.accountImage}
-              source={require('./image/PhotoProfile.png')}
-            />
-          </View>
-        </TouchableWithoutFeedback>
+        {type === 'default' ? (
+          <TouchableWithoutFeedback
+            onPress={() => navigation.navigate('Profile')}>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={stylesDashboard.accountName}>
+                {userdata.namalengkap}
+              </Text>
+              <Image
+                source={userdata.profilePic ? {uri: userdata.profilePic} : require('./image/PhotoProfile.png') }
+                style={stylesDashboard.accountImage}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        ) : undefined}
       </View>
     </View>
   );
