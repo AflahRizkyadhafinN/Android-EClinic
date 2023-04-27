@@ -194,7 +194,7 @@ export const Dashboard = ({navigation, isInitialScreen}) => {
           </Text>
         </View>
       </View>
-      {hasilActive === true ? (
+      {hasilActive ? (
         <View
           style={{
             borderWidth: 1,

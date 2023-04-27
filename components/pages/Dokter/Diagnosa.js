@@ -267,7 +267,6 @@ export const Diagnosa = ({navigation}) => {
                 style={{
                   justifyContent: 'center',
                   flex: 3,
-                  marginLeft: -15,
                 }}>
                 Nama Obat
               </DataTable.Title>
